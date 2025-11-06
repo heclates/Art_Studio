@@ -75,12 +75,8 @@ export async function submitToGoogleSheets(values) {
   } catch (err) {
     console.error('Secure error:', err);
     alert('Ошибка отправки. Попробуйте позже.');
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     console.log(err)
-=======
->>>>>>> form-fix
-=======
->>>>>>> e45d372 (Make submit form)
+
   }
 }
