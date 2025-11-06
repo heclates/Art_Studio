@@ -3,11 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="description" content="Art-Studio: Онлайн резервация для арт-занятий. Запишитесь на удобное время и день.">
     <meta name="keywords" content="арт-студия, резервация, запись на занятия, онлайн форма">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://your-site.com/">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com https://accounts.google.com; connect-src 'self' https://sheets.googleapis.com https://www.googleapis.com;">
+   <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' https://apis.google.com https://accounts.google.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  connect-src 'self' https://sheets.googleapis.com https://www.googleapis.com;
+  frame-src https://content-sheets.googleapis.com https://accounts.google.com;
+">
+
+
     <title>Art-Studio</title>
     <script type="module" src="/src/main.js"></script>
   </head>
