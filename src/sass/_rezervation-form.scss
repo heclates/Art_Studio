@@ -1,0 +1,108 @@
+@use "sass:color";
+@use "animation";
+
+
+.reservation-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+  animation: fade-in 0.3s ease-out;
+
+  &__title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #222;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    font-size: 1rem;
+    color: #222;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
+  &__button {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      transform 0.15s ease,
+      box-shadow 0.2s ease;
+
+    &:hover {
+      background-color: color.adjust(#007bff, $lightness: -10%);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__error {
+    font-size: 0.9rem;
+    color: #d9534f;
+    text-align: center;
+    margin-top: 0.5rem;
+    animation: fade-in 0.2s ease-in;
+  }
+}
+
+// adaptive styles
+@media (max-width: 600px) {
+  .reservation-form {
+    padding: 1.5rem 1rem;
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__input,
+    &__button {
+      font-size: 0.95rem;
+      padding: 0.65rem 0.9rem;
+    }
+  }
+}
