@@ -22,11 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.env
-<<<<<<< HEAD
 .vite
+schemas/*
+schemas
+
 credentials.json
-=======
-credentials.json
->>>>>>> form-fix
-credentials.json
+.env
