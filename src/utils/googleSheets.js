@@ -1,8 +1,7 @@
-const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
-const API_KEY = import.meta.env.VITE_API_KEY;
+const { VITE_CLIENT_ID: CLIENT_ID, VITE_API_KEY: API_KEY, VITE_SPREADSHEET_ID: SPREADSHEET_ID } = import.meta.env;
+
 const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
-const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID;
 
 let tokenClient;
 let gapiInited = false;

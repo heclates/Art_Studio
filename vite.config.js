@@ -16,10 +16,7 @@ import { defineConfig } from 'vite';
 import { configDefaults } from 'vitest/config';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import tailwindcss from '@tailwindcss/postcss';
 import autoprefixer from 'autoprefixer';
-import tailwindConfig from './tailwind.config.js';
-
 import { assetFileNamer, chunkSplitter } from './conf';
 
 // derive __dirname in ESM
@@ -40,7 +37,6 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        tailwindcss({ config: tailwindConfig }), // tailwind CSS
         autoprefixer(), // vendor prefixing
       ],
     },
@@ -58,9 +54,9 @@ export default defineConfig({
   },
 
   server: {
-    port: 9999, // dev server port
+    port: 5173, // dev server port
     fs: {
-      allow: ['src', 'public', 'node_modules'], // allow serving files from parent directory
+      allow: ['.', 'src', 'public', 'node_modules'], // allow serving files from parent directory
     },
   },
 
