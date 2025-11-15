@@ -1,0 +1,22 @@
+export const galleryData = [
+    {src: '/asset/img/image1.jpg',
+     alt: 'Текст описывающий картинку',
+     caption: 'То, что изоброжено на фото',
+    },                                              // Possible to add in new row ` author: 'Name whos made it', `
+    {src: '/asset/img/image1.jpg',
+     alt: 'Текст описывающий картинку',
+     caption: 'То, что изоброжено на фото',
+    },
+    {src: '/asset/img/image1.jpg',
+     alt: 'Текст описывающий картинку',
+     caption: 'То, что изоброжено на фото',
+    },
+    {src: '/asset/img/image1.jpg',
+     alt: 'Текст описывающий картинку',
+     caption: 'То, что изоброжено на фото',
+    },
+    {src: '/asset/img/image1.jpg',
+     alt: 'Текст описывающий картинку',
+     caption: 'То, что изоброжено на фото',
+    },
+];
