@@ -1,6 +1,7 @@
 import { createIntroduction } from './Introduction.js';
 import { createCourses } from './Courses.js';
 import { createReservationForm } from './ReservationForm.js';
+import { createShiftLesson } from './ShiftLesson.js';
 
 export const createMainContent = (submitHandler) => {
   const main = document.createElement('main');
@@ -12,6 +13,7 @@ export const createMainContent = (submitHandler) => {
 
   // Courses in middle
   main.appendChild(createCourses());
+  main.appendChild(createShiftLesson());
 
   // Form at bottom
   main.appendChild(createReservationForm(submitHandler));

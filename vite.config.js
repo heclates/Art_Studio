@@ -54,7 +54,7 @@ export default defineConfig({
   },
 
   server: {
-    port: 5173, // dev server port
+    port: 5174, // dev server port
     fs: {
       allow: ['.', 'src', 'public', 'node_modules'], // allow serving files from parent directory
     },

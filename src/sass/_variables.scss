@@ -127,7 +127,17 @@
   --spacing-20: 5rem;     // 80px
   --spacing-24: 6rem;     // 96px
   --spacing-32: 8rem;     // 128px
-  
+  $primary-color: #007bff;
+$secondary-color: #6c757d;
+$font-family: 'Arial', sans-serif;
+$breakpoint-xs: 480px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$spacing-small: 10px;
+$spacing-medium: 20px;
+$spacing-large: 40px;
   // --------------------------------------------
   // TYPOGRAPHY
   // --------------------------------------------
@@ -357,19 +367,7 @@ $breakpoints: (
   }
 }
 
-@mixin respond-max($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (max-width: map-get($breakpoints, $breakpoint) - 1px) {
-      @content;
-    }
-  }
-}
 
-@mixin respond-between($min, $max) {
-  @media (min-width: map-get($breakpoints, $min)) and (max-width: map-get($breakpoints, $max) - 1px) {
-    @content;
-  }
-}
 
 // --------------------------------------------
 // 2. FLEXBOX УТИЛИТЫ

@@ -47,3 +47,14 @@
     opacity: 1;
   }
 }
+// Light zoom out effect
+@keyframes fade-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
