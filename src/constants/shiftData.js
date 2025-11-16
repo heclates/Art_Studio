@@ -12,7 +12,7 @@ export const listShift = [
   {
     day: 'Понедельник',
     time: '16:00–17:30',
-    category: 'Младшая группа',
+    category: 'Рисование. Младшая группа',
     class: 'shift__card-child',
     age: '4–6 лет',
     btnText: 'Записаться',
@@ -30,7 +30,7 @@ export const listShift = [
   {
     day: 'Вторник',
     time: '15:30–17:00',
-    category: 'Младшая группа',
+    category: 'Рисование. Младшая группа',
     class: 'shift__card-child',
     age: '4–6 лет',
     btnText: 'Записаться',
@@ -39,7 +39,7 @@ export const listShift = [
   {
     day: 'Вторник',
     time: '17:00–19:30',
-    category: 'Старшая + Подготовка',
+    category: 'Рисование. Старшая + Подготовка',
     class: 'shift__card-junior',
     age: '12+ лет',
     btnText: 'Записаться',
@@ -48,20 +48,20 @@ export const listShift = [
   {
     day: 'Среда',
     time: '15:00–16:30',
-    category: 'Младшая группа',
+    category: 'РИсование. Младшая группа',
     class: 'shift__card-child',
     age: '4–6 лет',
     btnText: 'Записаться',
-    teacher: 'Катя'
+    teacher: 'Екатерина'
   },
   {
     day: 'Среда',
     time: '16:30–18:30',
-    category: 'Средняя группа +старшая',
+    category: 'Рисование. Средняя группа +старшая',
     class: 'shift__card-middle',
     age: '7–12 лет',
     btnText: 'Записаться',
-    teacher: 'Катя'
+    teacher: 'Екатерина'
   },
   {
     day: 'Четверг',
@@ -75,7 +75,7 @@ export const listShift = [
   {
     day: 'Четверг',
     time: '15:00–17:00',
-    category: 'Средняя группа',
+    category: 'Рисование. Средняя группа',
     class: 'shift__card-middle',
     age: '7–11 лет',
     btnText: 'Записаться',
@@ -84,7 +84,7 @@ export const listShift = [
   {
     day: 'Четверг',
     time: '17:00–19:30',
-    category: 'Старшая + Подготовка',
+    category: 'Рисование. Старшая + Подготовка',
     class: 'shift__card-junior',
     age: '12+ лет',
     btnText: 'Записаться',
@@ -102,7 +102,7 @@ export const listShift = [
   {
     day: 'Пятница',
     time: '15:00–16:30',
-    category: 'Младшая группа',
+    category: 'Рисование. Младшая группа',
     class: 'shift__card-child',
     age: 'Все возраста',
     btnText: 'Записаться',
@@ -129,7 +129,7 @@ export const listShift = [
   {
     day: 'Суббота',
     time: '11:00–13:00',
-    category: 'Средняя + Старшая (смешанная)',
+    category: 'Рисование. Средняя + Старшая',
     class: 'shift__card-mixed',
     age: 'Все возрасты',
     btnText: 'Записаться',
@@ -147,7 +147,7 @@ export const listShift = [
   {
     day: 'Суббота',
     time: '14:00–15:30',
-    category: 'Доп. занятия для всех 5-11 лет (смешанная)',
+    category: 'Доп. занятия для всех',
     class: 'shift__card-mixed',
     age: '5-11 лет',
     btnText: 'Записаться',
@@ -156,7 +156,7 @@ export const listShift = [
   {
     day: 'Воскресенье',
     time: '12:00–13:30',
-    category: 'Младшая группа',
+    category: 'Рисование. Младшая группа',
     class: 'shift__card-child',
     age: 'Все возрасты',
     btnText: 'Записаться',
@@ -174,7 +174,7 @@ export const listShift = [
   {
     day: 'Воскресенье',
     time: '14:30–16:00',
-    category: 'Младшая группа',
+    category: 'Рисование. Младшая группа',
     class: 'shift__card-child',
     age: 'Все возрасты',
     btnText: 'Записаться',

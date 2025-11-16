@@ -1,6 +1,45 @@
 export const fields = [
-    { label: 'Имя:', name: 'name', type: 'text', pattern: '[A-Za-zА-Яа-яЁё]{2,}', title: 'Только буквы, минимум 2 символа' },
-    { label: 'Фамилия:', name: 'surname', type: 'text', pattern: '[A-Za-zА-Яа-яЁё]{2,}', title: 'Только буквы, минимум 2 символа' },
-    { label: 'Время:', name: 'time', type: 'time' },
-    { label: 'День:', name: 'day', type: 'date', min: new Date().toISOString().split('T')[0] }
-  ];
+    { 
+        label: 'Имя, Фамилия родителя:', 
+        name: 'surname', 
+        type: 'text', 
+        pattern: '[A-Za-z\\s]{2,}',
+        title: 'Только буквы латиницей, минимум 2 символа',
+        placeholder: 'Ivanov Ivan (только латиница)' 
+    },
+    { 
+        label: 'Имя, Фамилия ребенка:', 
+        name: 'name',
+        type: 'text', 
+        pattern: '[A-Za-z\\s]{2,}',
+        title: 'Только буквы латиницей, минимум 2 символа',
+        placeholder: 'Anna Ivanova (только латиница)' 
+    },
+    { 
+        label: 'Контактный телефон:', 
+        name: 'phone',
+        type: 'tel', 
+        title: 'Введите ваш контактный телефон'
+    },
+    { 
+        label: 'Дата рождения ребенка:', 
+        name: 'birthdate', 
+        type: 'date',
+        min: '2000-01-01', 
+        max: new Date().toISOString().split('T')[0],
+        title: 'Выберите дату рождения'
+    },
+    { 
+        label: 'Время занятия:', 
+        name: 'time',
+        type: 'time',
+        title: 'Выберите время'
+    },
+    { 
+        label: 'День занятия:', 
+        name: 'day', 
+        type: 'date', 
+        min: new Date().toISOString().split('T')[0],
+        title: 'Выберите день'
+    }
+];
