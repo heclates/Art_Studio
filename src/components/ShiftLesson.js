@@ -1,54 +1,100 @@
-// src/components/ShiftLesson.js
 import { listShift } from '@/constants/shiftData';
 import { shiftFilters } from '@/constants/shiftFilters';
 import { createReservationForm } from './ReservationForm';
 import { openModal } from './Modal';
 import { submitToGoogleSheets } from '@/utils/googleSheets';
 
-// Factory for shift card (scalable: add props for customization)
-const createShiftCard = (type, submitHandler) => {
-  const section = document.createElement('section');
-  section.className = `shift-lesson__card shift-lesson__card--${type.class.toLowerCase()}`;
+// Group data by day for one card per day
+const groupByDay = (data) => data.reduce((acc, item) => {
+  if (!acc[item.day]) acc[item.day] = [];
+  acc[item.day].push(item);
+  return acc;
+}, {});
 
-  const ul = document.createElement('ul');
-  ul.className = 'shift-lesson__list';
+// Factory for lesson block (order: CATEGORY, AGE, TIME, TEACHER)
+const createLessonBlock = (lesson, submitHandler) => {
+  const lessonDiv = document.createElement('div');
+  lessonDiv.className = 'shift-lesson__lesson';
 
-  // Universal loop over fields (day, time, category, age) — scalable: add new keys easily
-  ['day', 'time', 'category', 'age'].forEach(key => {
-    const items = Array.isArray(type[key]) ? type[key] : [type[key]];  // Обработка строк как массивов
-    items.forEach(t => {
-      const li = document.createElement('li');
-      li.className = 'shift-lesson__item';
-      li.textContent = t;
-      ul.appendChild(li);
-    });
-  });
+  const categoryP = document.createElement('p');
+  categoryP.className = 'shift-lesson__lesson-category';
+  categoryP.textContent = lesson.category;
+  lessonDiv.appendChild(categoryP);
 
-  section.appendChild(ul);
+  const ageP = document.createElement('p');
+  ageP.className = 'shift-lesson__lesson-age';
+  ageP.textContent = lesson.age;
+  lessonDiv.appendChild(ageP);
 
+  const timeP = document.createElement('p');
+  timeP.className = 'shift-lesson__lesson-time';
+  timeP.textContent = lesson.time;
+  lessonDiv.appendChild(timeP);
+
+  const teacherP = document.createElement('p');
+  teacherP.className = 'shift-lesson__lesson-teacher';
+  teacherP.textContent = lesson.teacher;
+  lessonDiv.appendChild(teacherP);
+
+  // Enroll button per lesson
   const btn = document.createElement('button');
   btn.className = 'shift-lesson__enroll';
-  btn.textContent = type.btnText || 'Записаться';
-  btn.setAttribute('aria-label', `Записаться на урок ${type.name}`);
+  btn.textContent = lesson.btnText || 'Записаться';
+  btn.setAttribute('aria-label', `Записаться на ${lesson.category}`);
 
   btn.addEventListener('click', () => {
     const formNode = createReservationForm(async (formData) => {
-      const values = [...formData, type.name, type.class];
+      const values = [...formData, lesson.day, lesson.category];
       await submitHandler(values);
       alert('Резервация отправлена!');
     });
     openModal(formNode);
   });
 
-  section.appendChild(btn);
+  lessonDiv.appendChild(btn);
+
+  return lessonDiv;
+};
+
+// Factory for day card (one per day, with list of lessons)
+const createDayCard = (day, lessons, submitHandler) => {
+  const section = document.createElement('article');
+  section.className = 'shift-lesson__day-card';
+  section.setAttribute('data-day', day);  // For SEO and filtering
+
+  const h4 = document.createElement('h4');
+  h4.className = 'shift-lesson__day-title';
+  h4.textContent = day;
+  section.appendChild(h4);
+
+  const lessonsContainer = document.createElement('div');
+  lessonsContainer.className = 'shift-lesson__lessons-container';
+
+  lessons.forEach(lesson => lessonsContainer.appendChild(createLessonBlock(lesson, submitHandler)));
+
+  section.appendChild(lessonsContainer);
 
   return section;
 };
 
-// Render cards (scalable: separate for re-render)
-const renderCards = (container, filteredData, submitHandler) => {
-  container.innerHTML = '';
-  filteredData.forEach(type => container.appendChild(createShiftCard(type, submitHandler)));
+// Apply filter to hide non-matching lessons (scalable: per filter type)
+const applyFilter = (cardsContainer, selectedFilter, shiftData) => {
+  const grouped = groupByDay(shiftData);
+  Object.entries(grouped).forEach(([day, lessons]) => {
+    const dayCard = cardsContainer.querySelector(`[data-day="${day}"]`) || createDayCard(day, [], submitToGoogleSheets);
+    const lessonsContainer = dayCard.querySelector('.shift-lesson__lessons-container');
+    lessonsContainer.innerHTML = '';  // Clear for re-filter
+
+    const filteredLessons = lessons.filter(selectedFilter.filterFn);
+    filteredLessons.forEach(lesson => lessonsContainer.appendChild(createLessonBlock(lesson, submitToGoogleSheets)));
+
+    if (filteredLessons.length > 0) {
+      if (!cardsContainer.contains(dayCard)) cardsContainer.appendChild(dayCard);
+      dayCard.style.display = 'block';
+    } else {
+      dayCard.style.display = 'none';  // Hide day if no matching lessons
+    }
+  });
 };
 
 // Main function (universal: props for data/handler, event delegation for filters)
@@ -82,20 +128,19 @@ export const createShiftLesson = ({ shiftData = listShift, filters = shiftFilter
   cardsContainer.className = 'shift-lesson__cards-container';
   article.appendChild(cardsContainer);
 
-  // Event delegation: one listener on filterContainer (performance)
+  // Initial render all
+  applyFilter(cardsContainer, { filterFn: () => true }, shiftData);
+
+  // Event delegation for filters
   filterContainer.addEventListener('click', (e) => {
     if (e.target.classList.contains('shift-lesson__filter-btn')) {
-      const filterName = e.target.classList[1].split('--')[1];  // Extract name
+      const filterName = e.target.classList[1].split('--')[1];
       const selectedFilter = filters.find(f => f.name === filterName);
       if (selectedFilter) {
-        const filtered = shiftData.filter(selectedFilter.filterFn);
-        renderCards(cardsContainer, filtered, submitHandler);
+        applyFilter(cardsContainer, selectedFilter, shiftData);
       }
     }
   });
-
-  // Initial render all
-  renderCards(cardsContainer, shiftData, submitHandler);
 
   return article;
 };

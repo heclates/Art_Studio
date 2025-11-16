@@ -25,7 +25,7 @@ const __dirname = dirname(__filename);
 
 export default defineConfig({
   root: '.', // project root directory
-  base: '/', // base public path
+  base: './', // base public path
   publicDir: 'public', // directory for static assets
 
   define: {
@@ -55,6 +55,8 @@ export default defineConfig({
 
   server: {
     port: 5174, // dev server port
+    host: '0.0.0.0', 
+    allowedHosts: ['*.ngrok-free.dev'],
     fs: {
       allow: ['.', 'src', 'public', 'node_modules'], // allow serving files from parent directory
     },
@@ -62,6 +64,8 @@ export default defineConfig({
 
   preview: {
     port: 8888, // preview port
+    host: '0.0.0.0', 
+    allowedHosts: ['*.ngrok-free.dev'],
   },
 
   build: {

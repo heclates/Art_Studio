@@ -1,66 +1,183 @@
+// src/constants/shiftData.js
 export const listShift = [
   {
-    day: ['Понедельник'],
-    time: ['15:00 - 16:30'],
-    category: ['Младшие дети (7-9 лет)'],
+    day: 'Понедельник',
+    time: '15:00–16:00',
+    category: 'Керамика',
+    class: 'shift__card-ceramics',
+    age: 'Все возраста',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Понедельник',
+    time: '16:00–17:30',
+    category: 'Младшая группа',
     class: 'shift__card-child',
-    age: ['7-9 лет'],
-    btnText: 'Записаться'
+    age: '4–6 лет',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
   },
   {
-    day: ['Вторник'],
-    time: ['16:00 - 17:30'],
-    category: ['Средние дети (10-12 лет)'],
-    class: 'shift__card-middle',
-    age: ['10-12 лет'],
-    btnText: 'Записаться'
+    day: 'Понедельник',
+    time: '17:30–19:00',
+    category: 'Творческая мастерская',
+    class: 'shift__card-creative',
+    age: 'Все возраста',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
   },
   {
-    day: ['Среда'],
-    time: ['17:00 - 18:30'],
-    category: ['Керамика (все возрасты)'],
-    class: 'shift__card-all',
-    age: ['все возрасты'],
-    btnText: 'Записаться'
+    day: 'Вторник',
+    time: '15:30–17:00',
+    category: 'Младшая группа',
+    class: 'shift__card-child',
+    age: '4–6 лет',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
   },
   {
-    day: ['Четверг'],
-    time: ['19:00 - 21:00'],
-    category: ['Творческая мастерская для взрослых'],
-    class: 'shift__card-adult',
-    age: ['18+ лет'],
-    btnText: 'Записаться'
-  },
-  {
-    day: ['Пятница'],
-    time: ['15:00 - 17:00'],
-    category: ['Старшие дети (13-16 лет)'],
+    day: 'Вторник',
+    time: '17:00–19:30',
+    category: 'Старшая + Подготовка',
     class: 'shift__card-junior',
-    age: ['13-16 лет'],
-    btnText: 'Записаться'
+    age: '12+ лет',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
   },
   {
-    day: ['Суббота'],
-    time: ['11:00 - 12:30'],
-    category: ['Комбо: Рисование + Керамика'],
+    day: 'Среда',
+    time: '15:00–16:30',
+    category: 'Младшая группа',
+    class: 'shift__card-child',
+    age: '4–6 лет',
+    btnText: 'Записаться',
+    teacher: 'Катя'
+  },
+  {
+    day: 'Среда',
+    time: '16:30–18:30',
+    category: 'Средняя группа +старшая',
     class: 'shift__card-middle',
-    age: ['8-12 лет'],
-    btnText: 'Записаться'
+    age: '7–12 лет',
+    btnText: 'Записаться',
+    teacher: 'Катя'
   },
   {
-    day: ['Суббота'],
-    time: ['13:00 - 14:30'],
-    category: ['Мастер-класс (тематический)'],
-    class: 'shift__card-all',
-    age: ['Все возрасты'],
-    btnText: 'Записаться'
+    day: 'Четверг',
+    time: '14:00–15:00',
+    category: 'Керамика',
+    class: 'shift__card-ceramics',
+    age: 'Все возраста',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
   },
   {
-    day: ['Воскресенье'],
-    time: ['11:00 - 13:30'],
-    category: ['Живопись для взрослых'],
-    class: 'shift__card-adult',
-    age: ['18+ лет'],
-    btnText: 'Записаться'
+    day: 'Четверг',
+    time: '15:00–17:00',
+    category: 'Средняя группа',
+    class: 'shift__card-middle',
+    age: '7–11 лет',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
   },
+  {
+    day: 'Четверг',
+    time: '17:00–19:30',
+    category: 'Старшая + Подготовка',
+    class: 'shift__card-junior',
+    age: '12+ лет',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
+  },
+  {
+    day: 'Пятница',
+    time: '14:00-15:00',
+    category: 'Керамика',
+    class: 'shift__card-ceramics',
+    age: 'Все возраста',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Пятница',
+    time: '15:00–16:30',
+    category: 'Младшая группа',
+    class: 'shift__card-child',
+    age: 'Все возраста',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Пятница',
+    time: '16:30–17:30',
+    category: 'Керамика',
+    class: 'shift__card-ceramics',
+    age: 'Все возрасты',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Пятница',
+    time: '17:30–19:00',
+    category: 'Творческая мастерская',
+    class: 'shift__card-creative',
+    age: 'Все возраста',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Суббота',
+    time: '11:00–13:00',
+    category: 'Средняя + Старшая (смешанная)',
+    class: 'shift__card-mixed',
+    age: 'Все возрасты',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
+  },
+  {
+    day: 'Суббота',
+    time: '13:00–14:00',
+    category: 'Керамика',
+    class: 'shift__card-ceramics',
+    age: 'Все возрасты',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
+  },
+  {
+    day: 'Суббота',
+    time: '14:00–15:30',
+    category: 'Доп. занятия для всех 5-11 лет (смешанная)',
+    class: 'shift__card-mixed',
+    age: '5-11 лет',
+    btnText: 'Записаться',
+    teacher: 'Екатерина'
+  },
+  {
+    day: 'Воскресенье',
+    time: '12:00–13:30',
+    category: 'Младшая группа',
+    class: 'shift__card-child',
+    age: 'Все возрасты',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Воскресенье',
+    time: '13:30–14:30',
+    category: 'Керамика',
+    class: 'shift__card-ceramics',
+    age: 'Все возрасты',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  },
+  {
+    day: 'Воскресенье',
+    time: '14:30–16:00',
+    category: 'Младшая группа',
+    class: 'shift__card-child',
+    age: 'Все возрасты',
+    btnText: 'Записаться',
+    teacher: 'Кристина'
+  }
 ];

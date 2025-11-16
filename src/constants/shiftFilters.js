@@ -1,7 +1,32 @@
 export const shiftFilters = [
-  { name: 'all', label: 'Все', filterFn: () => true },
-  { name: 'weekday', label: 'Будни', filterFn: (type) => ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'].includes(type.day[0]) },
-  { name: 'weekend', label: 'Выходные', filterFn: (type) => ['Суббота', 'Воскресенье'].includes(type.day[0]) },
-  { name: 'childs', label: 'Дети', filterFn: (type) => type.class.includes('-child') || type.class.includes('-middle') || type.class.includes('-junior') },
-  { name: 'adults', label: 'Взрослые', filterFn: (type) => type.age[0].includes('взросл') || type.age[0].includes('18+') },
+  {
+    name: 'all',
+    label: 'Все',
+    filterType: 'all',
+    filterFn: () => true  // Показывает все lessonDiv
+  },
+  {
+    name: 'weekday',
+    label: 'Будни',
+    filterType: 'day',
+    filterFn: (lesson) => ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'].includes(lesson.day)
+  },
+  {
+    name: 'weekend',
+    label: 'Выходные',
+    filterType: 'day',
+    filterFn: (lesson) => ['Суббота', 'Воскресенье'].includes(lesson.day)
+  },
+  {
+    name: 'childs',
+    label: 'Дети',
+    filterType: 'age',
+    filterFn: (lesson) => lesson.class.includes('-child') || lesson.class.includes('-middle') || lesson.class.includes('-junior') || lesson.age.includes('дет')
+  },
+  {
+    name: 'adults',
+    label: 'Взрослые',
+    filterType: 'age',
+    filterFn: (lesson) => lesson.age.includes('взросл') || lesson.age.includes('18+') || lesson.age.includes('Все возраста')  // Включает "Все возраста"
+  },
 ];
