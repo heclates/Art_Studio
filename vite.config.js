@@ -54,20 +54,19 @@ export default defineConfig({
   },
 
   server: {
-    port: 5174, // dev server port
+    port: 5174,
     host: '0.0.0.0', 
-    allowedHosts: ['*.ngrok-free.dev'],
+    allowedHosts: ['.ngrok-free.dev'], 
     fs: {
-      allow: ['.', 'src', 'public', 'node_modules'], // allow serving files from parent directory
+      allow: ['.', 'src', 'public', 'node_modules'],
     },
   },
 
   preview: {
-    port: 8888, // preview port
+    port: 8888,
     host: '0.0.0.0', 
-    allowedHosts: ['*.ngrok-free.dev'],
+    allowedHosts: ['.ngrok-free.dev'],
   },
-
   build: {
     outDir: 'dist', // build output folder
     emptyOutDir: true, // clean outDir before building

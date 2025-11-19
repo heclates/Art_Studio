@@ -4,39 +4,38 @@ import { createReservationForm } from './ReservationForm';
 import { openModal } from './Modal';
 import { submitToGoogleSheets } from '@/utils/googleSheets';
 
-// Group data by day for one card per day
-const groupByDay = (data) => data.reduce((acc, item) => {
-  if (!acc[item.day]) acc[item.day] = [];
-  acc[item.day].push(item);
-  return acc;
-}, {});
-
-// Factory for lesson block (order: CATEGORY, AGE, TIME, TEACHER)
 const createLessonBlock = (lesson, submitHandler) => {
-  const lessonDiv = document.createElement('div');
-  lessonDiv.className = 'shift-lesson__lesson';
+  const lessonCard = document.createElement('div');
+  lessonCard.className = 'shift-lesson__lesson-card';
+
+  const lessonDetails = document.createElement('div');
+  lessonDetails.className = 'shift-lesson__lesson-details';
 
   const categoryP = document.createElement('p');
   categoryP.className = 'shift-lesson__lesson-category';
   categoryP.textContent = lesson.category;
-  lessonDiv.appendChild(categoryP);
+  lessonDetails.appendChild(categoryP);
 
   const ageP = document.createElement('p');
   ageP.className = 'shift-lesson__lesson-age';
   ageP.textContent = lesson.age;
-  lessonDiv.appendChild(ageP);
+  lessonDetails.appendChild(ageP);
 
-  const timeP = document.createElement('p');
+  const timeTeacherDiv = document.createElement('div');
+  timeTeacherDiv.className = 'shift-lesson__lesson-time-teacher';
+
+  const timeP = document.createElement('span');
   timeP.className = 'shift-lesson__lesson-time';
   timeP.textContent = lesson.time;
-  lessonDiv.appendChild(timeP);
+  timeTeacherDiv.appendChild(timeP);
 
-  const teacherP = document.createElement('p');
+  const teacherP = document.createElement('span');
   teacherP.className = 'shift-lesson__lesson-teacher';
-  teacherP.textContent = lesson.teacher;
-  lessonDiv.appendChild(teacherP);
+  teacherP.textContent = `, ${lesson.teacher}`;
+  timeTeacherDiv.appendChild(teacherP);
 
-  // Enroll button per lesson
+  lessonDetails.appendChild(timeTeacherDiv);
+
   const btn = document.createElement('button');
   btn.className = 'shift-lesson__enroll';
   btn.textContent = lesson.btnText || 'Записаться';
@@ -44,23 +43,27 @@ const createLessonBlock = (lesson, submitHandler) => {
 
   btn.addEventListener('click', () => {
     const formNode = createReservationForm(async (formData) => {
-      const values = [...formData, lesson.day, lesson.category];
-      await submitHandler(values);
-      alert('Резервация отправлена!');
+      await submitHandler(formData, lesson.day, lesson.category);
     });
     openModal(formNode);
   });
 
-  lessonDiv.appendChild(btn);
+  lessonCard.appendChild(lessonDetails);
+  lessonCard.appendChild(btn);
 
-  return lessonDiv;
+  return lessonCard;
 };
 
-// Factory for day card (one per day, with list of lessons)
+const groupByDay = (data) => data.reduce((acc, item) => {
+  if (!acc[item.day]) acc[item.day] = [];
+  acc[item.day].push(item);
+  return acc;
+}, {});
+
 const createDayCard = (day, lessons, submitHandler) => {
   const section = document.createElement('article');
-  section.className = 'shift-lesson__day-card';
-  section.setAttribute('data-day', day);  // For SEO and filtering
+  section.className = 'shift-lesson__day-card swiper-slide'; 
+  section.setAttribute('data-day', day);
 
   const h4 = document.createElement('h4');
   h4.className = 'shift-lesson__day-title';
@@ -77,27 +80,63 @@ const createDayCard = (day, lessons, submitHandler) => {
   return section;
 };
 
-// Apply filter to hide non-matching lessons (scalable: per filter type)
-const applyFilter = (cardsContainer, selectedFilter, shiftData) => {
+let swiperInstance = null;
+
+const applyFilter = (swiperWrapper, selectedFilter, shiftData, submitHandler) => {
+  if (swiperInstance) {
+    swiperInstance.destroy(true, true);
+    swiperInstance = null;
+  }
+
+  swiperWrapper.innerHTML = '';
+
   const grouped = groupByDay(shiftData);
+  let hasSlides = false;
+
   Object.entries(grouped).forEach(([day, lessons]) => {
-    const dayCard = cardsContainer.querySelector(`[data-day="${day}"]`) || createDayCard(day, [], submitToGoogleSheets);
-    const lessonsContainer = dayCard.querySelector('.shift-lesson__lessons-container');
-    lessonsContainer.innerHTML = '';  // Clear for re-filter
-
     const filteredLessons = lessons.filter(selectedFilter.filterFn);
-    filteredLessons.forEach(lesson => lessonsContainer.appendChild(createLessonBlock(lesson, submitToGoogleSheets)));
-
+    
     if (filteredLessons.length > 0) {
-      if (!cardsContainer.contains(dayCard)) cardsContainer.appendChild(dayCard);
-      dayCard.style.display = 'block';
-    } else {
-      dayCard.style.display = 'none';  // Hide day if no matching lessons
+      const dayCard = createDayCard(day, filteredLessons, submitHandler);
+      swiperWrapper.appendChild(dayCard);
+      hasSlides = true;
     }
   });
+
+  if (hasSlides) {
+    swiperInstance = new Swiper('.shift-lesson__swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 30,
+      grabCursor: true,
+      
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 20
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 30
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30
+        }
+      }
+    });
+  }
 };
 
-// Main function (universal: props for data/handler, event delegation for filters)
 export const createShiftLesson = ({ shiftData = listShift, filters = shiftFilters, submitHandler = submitToGoogleSheets } = {}) => {
   const article = document.createElement('article');
   article.className = 'shift-lesson';
@@ -114,30 +153,48 @@ export const createShiftLesson = ({ shiftData = listShift, filters = shiftFilter
 
   const filterContainer = document.createElement('div');
   filterContainer.className = 'shift-lesson__filters';
-
   filters.forEach(filter => {
     const btn = document.createElement('button');
     btn.className = `shift-lesson__filter-btn shift-lesson__filter-btn--${filter.name}`;
     btn.textContent = filter.label;
     filterContainer.appendChild(btn);
   });
-
   article.appendChild(filterContainer);
 
-  const cardsContainer = document.createElement('div');
-  cardsContainer.className = 'shift-lesson__cards-container';
-  article.appendChild(cardsContainer);
+  const swiperContainer = document.createElement('div');
+  swiperContainer.className = 'shift-lesson__swiper-container swiper-container';
 
-  // Initial render all
-  applyFilter(cardsContainer, { filterFn: () => true }, shiftData);
+  const swiperWrapper = document.createElement('div');
+  swiperWrapper.className = 'swiper-wrapper';
+  swiperContainer.appendChild(swiperWrapper);
 
-  // Event delegation for filters
+  const pagination = document.createElement('div');
+  pagination.className = 'swiper-pagination';
+  swiperContainer.appendChild(pagination);
+
+  const navPrev = document.createElement('div');
+  navPrev.className = 'swiper-button-prev';
+  swiperContainer.appendChild(navPrev);
+
+  const navNext = document.createElement('div');
+  navNext.className = 'swiper-button-next';
+  swiperContainer.appendChild(navNext);
+
+  article.appendChild(swiperContainer);
+
+  applyFilter(swiperWrapper, { filterFn: () => true }, shiftData, submitHandler);
+
   filterContainer.addEventListener('click', (e) => {
     if (e.target.classList.contains('shift-lesson__filter-btn')) {
+      filterContainer.querySelectorAll('.shift-lesson__filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      e.target.classList.add('active');
+
       const filterName = e.target.classList[1].split('--')[1];
       const selectedFilter = filters.find(f => f.name === filterName);
       if (selectedFilter) {
-        applyFilter(cardsContainer, selectedFilter, shiftData);
+        applyFilter(swiperWrapper, selectedFilter, shiftData, submitHandler);
       }
     }
   });
