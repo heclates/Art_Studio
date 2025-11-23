@@ -1,6 +1,7 @@
 import { createIntroduction } from './Introduction.js';
 import { createCourses } from './Courses.js';
 import { createReservationForm } from './ReservationForm.js';
+import { createReservationFormFree } from './freeRezervationForm.js'; 
 import { createShiftLesson } from './ShiftLesson.js';
 
 export const createMainContent = (submitHandler) => {
@@ -8,15 +9,11 @@ export const createMainContent = (submitHandler) => {
   main.setAttribute('role', 'main');
   main.className = 'main-content';
 
-  // Introduction at top
   main.appendChild(createIntroduction());
 
-  // Courses in middle
   main.appendChild(createCourses());
   main.appendChild(createShiftLesson());
-
-  // Form at bottom
-  main.appendChild(createReservationForm(submitHandler));
+  main.appendChild(createReservationFormFree(submitHandler));
 
   return main;
 };

@@ -8,15 +8,14 @@
   background-color: #f8f9fa;
   text-align: center;
   font-family: 'Inter', sans-serif;
-  overflow: hidden; 
+  overflow: hidden;
 
   &__title {
     font-size: 2.5rem;
     font-weight: 700;
     color: #2c3e50;
     margin-bottom: 1rem;
-    
-    // Адаптация заголовка для малых экранов
+
     @media (max-width: 600px) {
       font-size: 2rem;
     }
@@ -26,8 +25,7 @@
     font-size: 1.25rem;
     color: #7f8c8d;
     margin-bottom: 3rem;
-    
-    // Адаптация текста для малых экранов
+
     @media (max-width: 600px) {
       font-size: 1rem;
     }
@@ -49,10 +47,7 @@
     background-color: #e0e6ed;
     color: #34495e;
     cursor: pointer;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease,
-      box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
     outline: none;
 
     &.active {
@@ -65,43 +60,57 @@
       background-color: #c9d2de;
       color: #2c3e50;
     }
-    
+
     &:focus-visible {
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); 
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
     }
   }
+
+  &__swiper-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-bottom: 3rem;
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: #3498db;
+      
+      @media (max-width: 1024px) {
+        display: none !important;
+      }
+
+      &:after {
+        font-size: 2rem;
+      }
+    }
+
+    .swiper-pagination-bullet {
+      background: #c9d2de;
+      opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: #3498db;
+    }
+  }
+
+  .swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
   
-  // &__swiper-container {
-  //   width: 100%;
-  //   max-width: 1400px;
-  //   margin: 0 auto;
-  //   padding: 1rem 0 3rem;
-    
-  //   .swiper-button-prev,
-  //   .swiper-button-next {
-  //     color: #3498db;
-      
-  //     &:after {
-  //       font-size: 2rem;
-  //     }
-      
-  //     // Скрытие стрелок на очень маленьких экранах, где они могут мешать
-  //     @media (max-width: 600px) {
-  //       display: none;
-  //     }
-  //   }
-    
-  //   .swiper-pagination-bullet {
-  //     background: #c9d2de;
-  //     opacity: 1;
-  //   }
-  //   .swiper-pagination-bullet-active {
-  //     background: #3498db;
-  //   }
-  // }
+  .swiper-slide {
+    width: max-content;
+    flex-shrink: 0;
+    display: flex;
+  }
 
   &__day-card {
-    height: auto; 
+    width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
@@ -109,13 +118,15 @@
     padding: 2rem;
     text-align: left;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
     &:hover {
       transform: translateY(-8px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    @media (min-width: 769px) { 
+       max-width: 360px;
     }
   }
 
@@ -194,13 +205,10 @@
     font-weight: 600;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition:
-      background-color 0.2s ease,
-      transform 0.15s ease,
-      box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     border: none;
     outline: none;
-    
+
     &:hover {
       background-color: #2980b9;
       transform: translateY(-2px);
@@ -212,8 +220,9 @@
       background-color: #2c7bb6;
       box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
     }
-     &:focus-visible {
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); 
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
     }
   }
 

@@ -22,7 +22,7 @@ export async function initGoogleApi() {
         }
       });
     };
-    gapiScript.onerror = () => reject(new Error('Failed to load gapi'));
+    gapiScript.onerror = () => reject(new Error('gapi load error'));
     document.body.appendChild(gapiScript);
 
     const gisScript = document.createElement('script');
@@ -36,7 +36,7 @@ export async function initGoogleApi() {
       gisInited = true;
       checkInit(resolve);
     };
-    gisScript.onerror = () => reject(new Error('Failed to load gis'));
+    gisScript.onerror = () => reject(new Error('gis load error'));
     document.body.appendChild(gisScript);
   });
 }
@@ -48,34 +48,30 @@ function checkInit(resolve) {
 async function getAuthToken() {
   return new Promise((resolve, reject) => {
     tokenClient.callback = (resp) => {
-      if (resp.error) return reject(new Error('Auth error'));
+      if (resp.error) return reject(new Error(resp.error));
       if (!resp.access_token) return reject(new Error('No access token'));
       resolve(resp.access_token);
     };
-    if (gapi.client.getToken() === null) {
-      tokenClient.requestAccessToken({ prompt: 'consent' });
-    } else {
-      tokenClient.requestAccessToken({ prompt: '' });
-    }
+
+    const token = gapi.client.getToken();
+    tokenClient.requestAccessToken({ prompt: token ? '' : 'consent' });
   });
 }
 
 export async function submitToGoogleSheets(values) {
   try {
     await getAuthToken();
-    await gapi.client.sheets.spreadsheets.values.append({
+
+    const response = await gapi.client.sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
       range: 'Sheet1',
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
-      resource: { values: [values] }
+      resource: { values: [values] },
     });
-    alert('Резервация отправлена успешно!');
+
+    return { success: true, result: response };
   } catch (err) {
-    console.error('Secure error:', err);
-    alert('Ошибка отправки. Попробуйте позже.');
-
-    console.log(err)
-
+    return { success: false, error: err };
   }
 }

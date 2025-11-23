@@ -24,22 +24,21 @@ export const fields = [
     { 
         label: 'Дата рождения ребенка:', 
         name: 'birthdate', 
-        type: 'date',
+       type: 'date',
         min: '2000-01-01', 
         max: new Date().toISOString().split('T')[0],
         title: 'Выберите дату рождения'
     },
-    { 
-        label: 'Время занятия:', 
-        name: 'time',
-        type: 'time',
-        title: 'Выберите время'
+    {
+        name: 'day',
+        type: 'hidden'
     },
-    { 
-        label: 'День занятия:', 
-        name: 'day', 
-        type: 'date', 
-        min: new Date().toISOString().split('T')[0],
-        title: 'Выберите день'
+    {
+        name: 'time',
+        type: 'hidden'
+    },
+    {
+        name: 'category',
+        type: 'hidden'
     }
 ];

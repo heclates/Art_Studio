@@ -1,65 +1,44 @@
 import DOMPurify from 'dompurify';
-import { fields } from '@/constants/fields.js';
+import { fieldsFree, courses } from '@/constants/fields_free.js';
 
-export const createReservationForm = (lessonInfo, submitHandler) => {
+export const createReservationFormFree = (submitHandler) => {
   const section = document.createElement('section');
-  section.className = 'reservation-form';
-  section.id = 'reservation-form';
-  section.setAttribute('aria-labelledby', 'reservation-form__title');
+  section.className = 'reservation-form-free';
+  section.id = 'reservation-form-free';
+  section.setAttribute('aria-labelledby', 'reservation-form-free__title');
 
   const h2 = document.createElement('h2');
-  h2.className = 'reservation-form__title';
-  h2.id = 'reservation-form__title';
+  h2.className = 'reservation-form-free__title';
+  h2.id = 'reservation-form-free__title';
   h2.textContent = 'Форма резервации';
   section.appendChild(h2);
 
   const successMessage = document.createElement('p');
-  successMessage.className = 'reservation-form__success';
+  successMessage.className = 'reservation-form-free__success';
   successMessage.style.color = 'green';
   successMessage.style.display = 'none';
   successMessage.textContent = 'Благодарим! Ваша резервация была успешно отправлена.';
   section.appendChild(successMessage);
 
   const form = document.createElement('form');
-  form.className = 'reservation-form__form';
-  form.id = 'reservationForm';
+  form.className = 'reservation-form-free__form';
+  form.id = 'reservationFormFree';
   form.noValidate = true;
 
   let phoneInput = null;
   let iti = null;
 
-  const hiddenDay = document.createElement('input');
-  hiddenDay.type = 'hidden';
-  hiddenDay.name = 'day';
-  hiddenDay.value = lessonInfo.day;
-
-  const hiddenTime = document.createElement('input');
-  hiddenTime.type = 'hidden';
-  hiddenTime.name = 'time';
-  hiddenTime.value = lessonInfo.time;
-
-  const hiddenCategory = document.createElement('input');
-  hiddenCategory.type = 'hidden';
-  hiddenCategory.name = 'category';
-  hiddenCategory.value = lessonInfo.category;
-
-  form.appendChild(hiddenDay);
-  form.appendChild(hiddenTime);
-  form.appendChild(hiddenCategory);
-
-  fields.forEach(field => {
-    if (field.type === 'hidden') return;
-
+  fieldsFree.forEach(field => {
     const fieldGroup = document.createElement('div');
-    fieldGroup.className = 'reservation-form__field-group';
+    fieldGroup.className = 'reservation-form-free__field-group';
 
     const label = document.createElement('label');
-    label.className = 'reservation-form__label';
+    label.className = 'reservation-form-free__label';
     label.htmlFor = field.name;
     label.textContent = field.label;
 
     const input = document.createElement('input');
-    input.className = 'reservation-form__input';
+    input.className = 'reservation-form-free__input';
     input.type = field.type;
     input.id = field.name;
     input.name = field.name;
@@ -80,6 +59,38 @@ export const createReservationForm = (lessonInfo, submitHandler) => {
     form.appendChild(fieldGroup);
   });
 
+  const courseGroup = document.createElement('div');
+  courseGroup.className = 'reservation-form-free__field-group';
+
+  const courseLabel = document.createElement('label');
+  courseLabel.className = 'reservation-form-free__label';
+  courseLabel.htmlFor = 'course';
+  courseLabel.textContent = 'Выберите курс:';
+  courseGroup.appendChild(courseLabel);
+
+  const courseSelect = document.createElement('select');
+  courseSelect.className = 'reservation-form-free__select';
+  courseSelect.id = 'course';
+  courseSelect.name = 'course';
+  courseSelect.required = true;
+
+  const emptyOption = document.createElement('option');
+  emptyOption.value = '';
+  emptyOption.textContent = 'Выберите курс';
+  emptyOption.disabled = true;
+  emptyOption.selected = true;
+  courseSelect.appendChild(emptyOption);
+
+  courses.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    courseSelect.appendChild(opt);
+  });
+
+  courseGroup.appendChild(courseSelect);
+  form.appendChild(courseGroup);
+
   if (phoneInput && window.intlTelInput) {
     iti = window.intlTelInput(phoneInput, {
       utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js",
@@ -95,13 +106,13 @@ export const createReservationForm = (lessonInfo, submitHandler) => {
   }
 
   const submitButton = document.createElement('button');
-  submitButton.className = 'reservation-form__button';
+  submitButton.className = 'reservation-form-free__button';
   submitButton.type = 'submit';
   submitButton.textContent = 'Отправить резервацию';
   form.appendChild(submitButton);
 
   const errorMessage = document.createElement('p');
-  errorMessage.className = 'reservation-form__error';
+  errorMessage.className = 'reservation-form-free__error';
   errorMessage.style.color = 'red';
   errorMessage.style.display = 'none';
   form.appendChild(errorMessage);
@@ -135,6 +146,10 @@ export const createReservationForm = (lessonInfo, submitHandler) => {
     const formData = new FormData(form);
     const internationalPhoneNumber = iti ? iti.getNumber() : formData.get('phone');
 
+    const selectedCourseId = DOMPurify.sanitize(formData.get('course'));
+    const selectedCourse = courses.find(c => c.id === selectedCourseId);
+    const courseName = selectedCourse ? selectedCourse.name : '';
+
     const data = [
       DOMPurify.sanitize(formData.get('surname')),
       DOMPurify.sanitize(formData.get('name')),
@@ -142,7 +157,8 @@ export const createReservationForm = (lessonInfo, submitHandler) => {
       DOMPurify.sanitize(formData.get('birthdate')),
       DOMPurify.sanitize(formData.get('day')),
       DOMPurify.sanitize(formData.get('time')),
-      DOMPurify.sanitize(formData.get('category'))
+      DOMPurify.sanitize(courseName),
+      DOMPurify.sanitize(selectedCourseId)
     ];
 
     submitButton.disabled = true;
