@@ -47,6 +47,16 @@
     opacity: 1;
   }
 }
+@keyframes zoom-pop {
+  from {
+    opacity: 0;
+    transform: perspective(800px) translateZ(-60px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(800px) translateZ(0) scale(1);
+  }
+}
 // Light zoom out effect
 @keyframes fade-in-up {
   from {

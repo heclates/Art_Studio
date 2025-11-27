@@ -1,19 +1,24 @@
+// src/components/MainContent.js
 import { createIntroduction } from './Introduction.js';
 import { createCourses } from './Courses.js';
-import { createReservationForm } from './ReservationForm.js';
-import { createReservationFormFree } from './freeRezervationForm.js'; 
+import { createReservationFormFree } from './freeRezervationForm.js';
 import { createShiftLesson } from './ShiftLesson.js';
+import { createGallery } from './Gallery.js'; // ← Imgur галерея
+import { submitToGoogleSheets } from '@/utils/googleSheets.js';
 
-export const createMainContent = (submitHandler) => {
+export const createMainContent = async () => {
   const main = document.createElement('main');
   main.setAttribute('role', 'main');
   main.className = 'main-content';
 
+  // Синхронные блоки
   main.appendChild(createIntroduction());
-
   main.appendChild(createCourses());
   main.appendChild(createShiftLesson());
-  main.appendChild(createReservationFormFree(submitHandler));
+  main.appendChild(createGallery());
 
+  
+  // Форма записи
+  main.appendChild(createReservationFormFree(submitToGoogleSheets));
   return main;
 };

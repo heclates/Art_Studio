@@ -1,57 +1,100 @@
-import { galleryData } from "@/constants/galleryData";
+import Swiper from 'swiper';
+import { Navigation, Pagination, A11y } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
-const createGalleryItem = (item) => {
-    const figure = document.createElement('figure');
-    figure.className = 'gallery__item';
+import { galleryData } from '@/constants/galleryData';
+import { createGalleryItem } from './galleryItem';
 
-    const img = document.createElement('img');
-    img.src = item.src;
-    img.alt = item.alt;
-    img.loading = 'lazy';
-    img.className = 'gallery__img';
+export const createGallery = () => {
+  const article = document.createElement('article');
+  article.className = 'gallery';
+  article.setAttribute('aria-labelledby', 'gallery-title');
 
-    const figcaption = document.createElement('figcaption');
-    figcaption.textContent = item.caption;
-    figcaption.className = 'gallery__caption';
-    figcaption.setAttribute('aria-label', `Описание работы: ${item.caption}`);
+  const h3 = document.createElement('h3');
+  h3.id = 'gallery-title';
+  h3.className = 'gallery__title';
+  h3.textContent = 'Галерея работ';
+  article.appendChild(h3);
 
-    figure.appendChild(img);
-    figure.appendChild(figcaption);
+  const introP = document.createElement('p');
+  introP.className = 'gallery__text';
+  introP.textContent = 'Творчество наших учеников и атмосфера студии';
+  article.appendChild(introP);
 
-    return figure;
-};
+  const swiperContainer = document.createElement('div');
+  swiperContainer.className = 'gallery-swiper swiper';
 
-const renderGallery = (container, data) => {
-    data.forEach(item => {
-        const galleryItem = createGalleryItem(item);
-        container.appendChild(galleryItem);
+  const wrapper = document.createElement('div');
+  wrapper.className = 'swiper-wrapper';
+
+  const pagination = document.createElement('div');
+  pagination.className = 'swiper-pagination';
+
+  const navPrev = document.createElement('button');
+  navPrev.className = 'swiper-button-prev';
+  navPrev.type = 'button';
+  navPrev.setAttribute('aria-label', 'Предыдущий');
+
+  const navNext = document.createElement('button');
+  navNext.className = 'swiper-button-next';
+  navNext.type = 'button';
+  navNext.setAttribute('aria-label', 'Следующий');
+
+  galleryData.forEach(item => {
+    const slide = document.createElement('div');
+    slide.className = 'swiper-slide gallery__item';
+    slide.appendChild(createGalleryItem(item));
+    wrapper.appendChild(slide);
+  });
+
+  swiperContainer.append(wrapper, pagination, navPrev, navNext);
+  article.appendChild(swiperContainer);
+
+  // LAZY LOAD
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target.querySelector('img');
+        if (img && img.dataset.src) {
+          img.src = img.dataset.src;
+          observer.unobserve(entry.target);
+        }
+      }
     });
-};
+  });
+  wrapper.querySelectorAll('.gallery__item').forEach(item => observer.observe(item));
 
-const createGallery = () => {
-    const article = document.createElement('article');
-    article.className = 'gallery';
-    article.setAttribute('aria-labelledby', 'gallery-title');
+  // SWIPER ИНИЦИАЛИЗАЦИЯ
+  requestAnimationFrame(() => {
+    const swiper = new Swiper(swiperContainer, {
+      modules: [Navigation, Pagination, A11y],
+      slidesPerView: 3,
+      spaceBetween: 20,
+      loop: false,
+      centeredSlides: false,
+      grabCursor: true,
+      watchOverflow: true,
+      navigation: { nextEl: navNext, prevEl: navPrev },
+      pagination: { el: pagination, clickable: true },
+      a11y: { enabled: true },
+      breakpoints: { 320: { slidesPerView: 1 }, 568: { slidesPerView: 2 }, 920: { slidesPerView: 3 } }
+    });
 
-    const h3 = document.createElement('h3');
-    h3.textContent = 'Галерея работ';
-    h3.className = 'gallery__title';
-    h3.id = 'gallery-title';
+    // hover zoom + blur
+    wrapper.querySelectorAll('.swiper-slide').forEach(slide => {
+      slide.addEventListener('mouseenter', () => {
+        wrapper.querySelectorAll('.swiper-slide').forEach(s => {
+          s === slide ? s.classList.add('active-zoom') : s.classList.add('blur-slide');
+          s !== slide ? s.classList.remove('active-zoom') : s.classList.remove('blur-slide');
+        });
+      });
+      slide.addEventListener('mouseleave', () => {
+        wrapper.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('active-zoom', 'blur-slide'));
+      });
+    });
+  });
 
-    const introP = document.createElement('p');
-    introP.textContent = 'Творчество наших учеников и атмосфера студии';
-    introP.className = 'gallery__text';
-    
-    const gallerySection = document.createElement('section');
-    gallerySection.className = 'gallery__container'; 
-    gallerySection.setAttribute('role', 'region');
-    gallerySection.setAttribute('aria-label', 'Коллекция работ учеников');
-
-    renderGallery(gallerySection, galleryData);
-
-    article.appendChild(h3);
-    article.appendChild(introP);
-    article.appendChild(gallerySection);
-
-    return article;
+  return article;
 };
