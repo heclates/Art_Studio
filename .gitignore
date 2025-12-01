@@ -26,6 +26,6 @@ dist-ssr
 schemas/*
 schemas
 
-assets/img/*
+assets/img/
 credentials.json
 .env

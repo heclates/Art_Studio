@@ -1,8 +1,6 @@
 @use "sass:color";
-@use "animation";
 
-
-.reservation-form{
+.reservation-form-free {
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem 1rem;
@@ -25,6 +23,12 @@
     gap: 1.25rem;
   }
 
+  &__field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   &__label {
     font-size: 1rem;
     color: #333;
@@ -32,7 +36,8 @@
     font-weight: 500;
   }
 
-  &__input {
+  &__input,
+  &__select {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid #ddd;
@@ -47,6 +52,7 @@
     &:focus {
       border-color: #007bff;
       box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+      outline: none;
     }
 
     &::placeholder {
@@ -88,10 +94,18 @@
     margin-top: 0.5rem;
     animation: fade-in 0.2s ease-in;
   }
+
+  &__success {
+    font-size: 0.95rem;
+    color: green;
+    text-align: center;
+    margin-top: 0.5rem;
+    display: none;
+  }
 }
-// adaptive styles
+
 @media (max-width: 600px) {
-  .reservation-form {
+  .reservation-form-free {
     padding: 1.5rem 1rem;
 
     &__title {
@@ -99,6 +113,7 @@
     }
 
     &__input,
+    &__select,
     &__button {
       font-size: 0.95rem;
       padding: 0.65rem 0.9rem;

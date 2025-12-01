@@ -42,6 +42,7 @@ export const createGallery = () => {
   navNext.type = 'button';
   navNext.setAttribute('aria-label', 'Следующий');
 
+  // Slides
   galleryData.forEach(item => {
     const slide = document.createElement('div');
     slide.className = 'swiper-slide gallery__item';
@@ -52,7 +53,7 @@ export const createGallery = () => {
   swiperContainer.append(wrapper, pagination, navPrev, navNext);
   article.appendChild(swiperContainer);
 
-  // LAZY LOAD
+  // Lazy load
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -66,33 +67,44 @@ export const createGallery = () => {
   });
   wrapper.querySelectorAll('.gallery__item').forEach(item => observer.observe(item));
 
-  // SWIPER ИНИЦИАЛИЗАЦИЯ
-  requestAnimationFrame(() => {
-    const swiper = new Swiper(swiperContainer, {
-      modules: [Navigation, Pagination, A11y],
-      slidesPerView: 3,
-      spaceBetween: 20,
-      loop: false,
-      centeredSlides: false,
-      grabCursor: true,
-      watchOverflow: true,
-      navigation: { nextEl: navNext, prevEl: navPrev },
-      pagination: { el: pagination, clickable: true },
-      a11y: { enabled: true },
-      breakpoints: { 320: { slidesPerView: 1 }, 568: { slidesPerView: 2 }, 920: { slidesPerView: 3 } }
-    });
+  // SWIPER ИНИЦИАЛИЗАЦИЯ (без rAF)
+  const swiper = new Swiper(swiperContainer, {
+    modules: [Navigation, Pagination, A11y],
+    slidesPerView: 3,
+    spaceBetween: 20,
+    loop: false,
+    grabCursor: true,
+    watchOverflow: true,
+    navigation: { nextEl: navNext, prevEl: navPrev },
+    pagination: { el: pagination, clickable: true },
+    a11y: { enabled: true },
 
-    // hover zoom + blur
-    wrapper.querySelectorAll('.swiper-slide').forEach(slide => {
-      slide.addEventListener('mouseenter', () => {
-        wrapper.querySelectorAll('.swiper-slide').forEach(s => {
-          s === slide ? s.classList.add('active-zoom') : s.classList.add('blur-slide');
-          s !== slide ? s.classList.remove('active-zoom') : s.classList.remove('blur-slide');
-        });
+    breakpoints: {
+      320: { slidesPerView: 1 },
+      568: { slidesPerView: 2 },
+      920: { slidesPerView: 3 }
+    },
+
+    on: {
+      init() {
+        document.dispatchEvent(new Event('galleryReady'));
+      }
+    }
+  });
+
+  // Hover эффекты
+  wrapper.querySelectorAll('.swiper-slide').forEach(slide => {
+    slide.addEventListener('mouseenter', () => {
+      wrapper.querySelectorAll('.swiper-slide').forEach(s => {
+        s === slide ? s.classList.add('active-zoom') : s.classList.add('blur-slide');
+        if (s !== slide) s.classList.remove('active-zoom');
+        if (s === slide) s.classList.remove('blur-slide');
       });
-      slide.addEventListener('mouseleave', () => {
-        wrapper.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('active-zoom', 'blur-slide'));
-      });
+    });
+    slide.addEventListener('mouseleave', () => {
+      wrapper.querySelectorAll('.swiper-slide').forEach(s =>
+        s.classList.remove('active-zoom', 'blur-slide')
+      );
     });
   });
 

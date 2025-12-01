@@ -2,38 +2,70 @@ export const createIntroduction = () => {
   const article = document.createElement('article');
   article.className = 'introduction';
 
+  const logo = document.createElement('img'); 
+  logo.className = 'introduction__logo';
+  logo.src = 'assets/ico/logo.png'; 
+  logo.alt = 'Art Studio Logo'; 
+  article.appendChild(logo);
+
   const section = document.createElement('section');
   section.className = 'introduction__info';
   article.appendChild(section);
 
-  const h1 = document.createElement('h1');
-  h1.className = 'introduction__title';
-  h1.textContent = 'Творите, вдохновляйтесь, создавайте';
-  section.appendChild(h1);
+  const div = document.createElement('div');
+  div.className = 'introduction__decorative-circle';
+  section.appendChild(div);
 
-  const p = document.createElement('p');
-  p.className = 'introduction__text';
-  p.textContent = 'Художественная студия, где каждый может раскрыть свой творческий потенциал — дети, взрослые, начинающие и опытные художники.';
-  section.appendChild(p);
+  const logoImgTop = document.createElement('img');
+  logoImgTop.className = 'introduction__logo-top';
+  logoImgTop.src = 'assets/ico/logo_img_1.jpg';
+  logoImgTop.alt = 'Art Studio Logo';
+  div.appendChild(logoImgTop);
 
-  const button = document.createElement('button');
-  button.className = 'introduction__button';
-  button.textContent = 'Запись на занятие';
-  section.appendChild(button);
+  const logoMiddleTop = document.createElement('h2');
+  logoMiddleTop.className = 'introduction__logo-middle-top';
+  logoMiddleTop.textContent = 'ALEKSANDROVA';
+  div.appendChild(logoMiddleTop);
 
-  button.addEventListener('click', () => {
-    const targetForm = document.getElementById('reservation-form');
-    if (targetForm) {
-      targetForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
+  const logoMiddle = document.createElement('h2');
+  logoMiddle.className = 'introduction__logo-middle';
+  logoMiddle.textContent = 'Art Studio';
+  div.appendChild(logoMiddle);
 
-  const img = document.createElement('img');
-  img.src = '/assets/img/logo.png';
-  img.className = 'introduction__image';
-  img.alt = 'Логотип Art-Studio';
-  img.loading = 'lazy';
-  section.appendChild(img);
+  const logoMiddleBot = document.createElement('p');
+  logoMiddleBot.className = 'introduction__logo-middle-bot';
+  logoMiddleBot.textContent = '𓅓';
+  div.appendChild(logoMiddleBot);
+
+  const logoImgBot = document.createElement('img');
+  logoImgBot.className = 'introduction__logo-bot';
+  logoImgBot.src = 'assets/ico/logo_img_2.jpg';
+  logoImgBot.alt = 'Art Studio Logo';
+  div.appendChild(logoImgBot);
+
+  const aboutSection = document.createElement('section');
+  aboutSection.className = 'about';
+  aboutSection.setAttribute('aria-labelledby', 'about__title');
+  section.appendChild(aboutSection);
+
+  const aboutContainer = document.createElement('div');
+  aboutContainer.className = 'about__container';
+  aboutSection.appendChild(aboutContainer);
+
+  const aboutTitle = document.createElement('h2');
+  aboutTitle.className = 'about__title';
+  aboutTitle.id = 'about__title';
+  aboutTitle.textContent = 'О НАС';
+  aboutContainer.appendChild(aboutTitle);
+
+  const aboutText = document.createElement('p');
+  aboutText.className = 'about__text';
+  aboutText.innerHTML = `
+    Наша арт-студия, основанная в 2022 году в Праге 9, — это пространство, где каждый, вне зависимости от возраста и опыта, может погрузиться в мир искусства и творчества. Здесь дети делают первые шаги в рисовании, а взрослые находят минуты спокойствия и вдохновения среди повседневной суеты.<br><br>
+    Мы верим, что искусство должно быть доступно каждому — от детей, которые только начинают открывать для себя радость творчества, до взрослых, ищущих новые пути для самовыражения. Каждое занятие в нашей студии — это больше, чем просто обучение. Это возможность раскрыть свой творческий потенциал, ощутить поддержку и радость от самого процесса создания.<br><br>
+    Присоединяйтесь к нам, чтобы найти в творчестве источник вдохновения и сделать его частью своей повседневной жизни.
+  `;
+  aboutContainer.appendChild(aboutText);
 
   return article;
 };

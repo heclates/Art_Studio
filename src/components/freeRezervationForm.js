@@ -1,10 +1,12 @@
 import DOMPurify from 'dompurify';
 import { fieldsFree, courses } from '@/constants/fields_free.js';
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+gsap.registerPlugin(ScrollToPlugin);
 
 export const createReservationFormFree = (submitHandler) => {
   const section = document.createElement('section');
   section.className = 'reservation-form-free';
-  section.id = 'reservation-form-free';
   section.setAttribute('aria-labelledby', 'reservation-form-free__title');
 
   const h2 = document.createElement('h2');
@@ -22,7 +24,6 @@ export const createReservationFormFree = (submitHandler) => {
 
   const form = document.createElement('form');
   form.className = 'reservation-form-free__form';
-  form.id = 'reservationFormFree';
   form.noValidate = true;
 
   let phoneInput = null;
@@ -43,16 +44,19 @@ export const createReservationFormFree = (submitHandler) => {
     input.id = field.name;
     input.name = field.name;
     input.required = true;
-
     if (field.pattern) input.pattern = field.pattern;
     if (field.title) input.title = field.title;
     if (field.min) input.min = field.min;
     if (field.max) input.max = field.max;
     if (field.placeholder) input.placeholder = field.placeholder;
 
-    if (field.name === 'phone') {
-      phoneInput = input;
-    }
+    input.addEventListener('focus', () => {
+  if (window.innerWidth >= 768) {
+    gsap.to(window, { duration: 0.8, scrollTo: { y: section, offsetY: 80 } });
+  }
+});
+
+    if (field.name === 'phone') phoneInput = input;
 
     fieldGroup.appendChild(label);
     fieldGroup.appendChild(input);
@@ -132,20 +136,13 @@ export const createReservationFormFree = (submitHandler) => {
     }
 
     if (!isFormValid) {
-      if (errorMessage.style.display === 'none') {
-        errorMessage.textContent = 'Пожалуйста, проверьте все поля.';
-        errorMessage.style.display = 'block';
-      }
       const firstInvalidField = form.querySelector(':invalid');
-      if (firstInvalidField && firstInvalidField !== phoneInput) {
-        firstInvalidField.focus();
-      }
+      if (firstInvalidField) firstInvalidField.focus();
       return;
     }
 
     const formData = new FormData(form);
     const internationalPhoneNumber = iti ? iti.getNumber() : formData.get('phone');
-
     const selectedCourseId = DOMPurify.sanitize(formData.get('course'));
     const selectedCourse = courses.find(c => c.id === selectedCourseId);
     const courseName = selectedCourse ? selectedCourse.name : '';

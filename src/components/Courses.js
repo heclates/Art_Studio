@@ -56,7 +56,7 @@ export const createCourses = () => {
       section.appendChild(ul);
     }
 
-    // Кнопка "Записаться"
+    // Кнопка
     const btn = document.createElement('button');
     btn.className = 'course__enroll';
     btn.textContent = type.buttonText || 'Записаться';
@@ -73,7 +73,6 @@ export const createCourses = () => {
 
     section.appendChild(btn);
 
-    // Добавляем карточку в article
     article.appendChild(section);
   });
 
