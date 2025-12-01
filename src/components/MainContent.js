@@ -1,5 +1,5 @@
 // src/components/MainContent.js
-import { createIntroduction } from './Introduction.js';
+import { createIntroduction } from './introduction/Introduction.js';
 import { createCourses } from './Courses.js';
 import { createReservationFormFree } from './freeRezervationForm.js';
 import { createShiftLesson } from './ShiftLesson.js';
@@ -11,7 +11,7 @@ export const createMainContent = async () => {
   main.setAttribute('role', 'main');
   main.className = 'main-content';
 
-  main.appendChild(createIntroduction());
+  main.appendChild(createIntroduction('ru'));
   main.appendChild(createCourses());
   main.appendChild(createShiftLesson());
   main.appendChild(createGallery());

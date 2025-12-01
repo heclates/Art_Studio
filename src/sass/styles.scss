@@ -1,8 +1,10 @@
 @use './app' as app;
 @use './modal' as modal;
+@use './variables' as var;
+@use './mixins' as mixins;
 @use './animation' as animation;
 @use './header' as header;  
-@use './introduction' as introduction;
+@use './introduction';
 @use './rezervation-form' as rezervation-form;
 @use './rezervation-form-free' as reservation-form-free;    
 @use './courses' as courses;

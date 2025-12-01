@@ -2,11 +2,6 @@ export const createIntroduction = () => {
   const article = document.createElement('article');
   article.className = 'introduction';
 
-  const logo = document.createElement('img'); 
-  logo.className = 'introduction__logo';
-  logo.src = 'assets/ico/logo.png'; 
-  logo.alt = 'Art Studio Logo'; 
-  article.appendChild(logo);
 
   const section = document.createElement('section');
   section.className = 'introduction__info';

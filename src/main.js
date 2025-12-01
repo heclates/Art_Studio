@@ -1,5 +1,5 @@
 // src/main.js
-import { createHeader } from '@/components/header.js';
+import { createHeader } from '@/components/header/Header.js';
 import { createMainContent } from '@/components/MainContent.js';
 import { createFooter } from '@/components/footer.js';
 import { initGoogleApi } from '@/utils/googleSheets.js';

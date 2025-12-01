@@ -3,6 +3,20 @@
 // --------------------------------------------
 // 1. RESPONSIVE DESIGN
 // --------------------------------------------
+// Мои миксины 
+@mixin responsive-font($desktop, $tablet: null, $mobile: null) {
+  font-size: $desktop;
+  @if $tablet {
+    @media (max-width: 1024px) { font-size: $tablet; }
+  }
+  @if $mobile {
+    @media (max-width: 480px) { font-size: $mobile; }
+  }
+}
+
+.introduction__decorative-circle-text {
+  @include responsive-font(2.2rem, 1.8rem, 1.6rem);
+}
 
 // Брейкпоинты (mobile-first подход)
 $breakpoints: (

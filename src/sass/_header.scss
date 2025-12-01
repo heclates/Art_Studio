@@ -1,7 +1,47 @@
 .header {
-    background-color: #FF6E11;
-    color: #fafafa;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin: 0 3rem;
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0;
+        background-color: #fafafa99;
+    }
+    &__side-left {
+        display: flex;
+        gap: 10px;
+    }
+    &__side-middle {
+        margin: 0 auto;
+    }
+    &__side-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 60px;
+        a {
+            width: 60px;
+            display: inline-block;
+        }
+
+        img {
+            display: block;
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transform: translateX(-50%,-50%);
+        }
+    }
+    &__menu{
+    background-color: #FF6E11;
+    padding: 15px 0;
+
+    }
+    img {
+        width: 250px;
+        margin: 0 20px;
+
+    }}
