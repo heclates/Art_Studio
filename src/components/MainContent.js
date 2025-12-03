@@ -1,9 +1,8 @@
-// src/components/MainContent.js
 import { createIntroduction } from './introduction/Introduction.js';
-import { createCourses } from './Courses.js';
-import { createReservationFormFree } from './freeRezervationForm.js';
-import { createShiftLesson } from './ShiftLesson.js';
-import { createGallery } from './Gallery.js';
+import { createCourses } from './courses/Courses.js';
+import { createShiftLesson } from './shift/Shift.js';
+import { createGallery } from './gallery/Gallery.js';
+import { createReservationFormFree } from './forms/freeRezervationForm.js';
 import { submitToGoogleSheets } from '@/utils/googleSheets.js';
 
 export const createMainContent = async () => {

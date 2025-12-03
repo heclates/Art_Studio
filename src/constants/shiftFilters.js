@@ -3,30 +3,46 @@ export const shiftFilters = [
     name: 'all',
     label: 'Все',
     filterType: 'all',
-    filterFn: () => true  // Показывает все lessonDiv
+    filterFn: () => true
   },
   {
     name: 'weekday',
     label: 'Будни',
     filterType: 'day',
-    filterFn: (lesson) => ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'].includes(lesson.day)
+    // Ищем английские названия дней (monday, tuesday, ...)
+    filterFn: (lesson) => ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].includes((lesson.day || '').toLowerCase())
   },
   {
     name: 'weekend',
     label: 'Выходные',
     filterType: 'day',
-    filterFn: (lesson) => ['Суббота', 'Воскресенье'].includes(lesson.day)
+    // Ищем английские названия дней (saturday, sunday)
+    filterFn: (lesson) => ['saturday', 'sunday'].includes((lesson.day || '').toLowerCase())
   },
   {
     name: 'childs',
     label: 'Дети',
     filterType: 'age',
-    filterFn: (lesson) => lesson.class.includes('-child') || lesson.class.includes('-middle') || lesson.class.includes('-junior') || lesson.age.includes('дет')
+    filterFn: (lesson) => {
+      const cls = (lesson.class || '').toLowerCase();
+      const age = (lesson.age || '').toLowerCase();
+      
+      return cls.includes('-child') || 
+             cls.includes('-middle') || 
+             cls.includes('-junior') || 
+             age.includes('дет');
+    }
   },
   {
     name: 'adults',
     label: 'Взрослые',
     filterType: 'age',
-    filterFn: (lesson) => lesson.age.includes('взросл') || lesson.age.includes('18+') || lesson.age.includes('Все возраста')  // Включает "Все возраста"
+    filterFn: (lesson) => {
+      const age = (lesson.age || '').toLowerCase();
+      
+      return age.includes('взросл') || 
+             age.includes('18+') || 
+             age.includes('все возраста');
+    }
   },
 ];

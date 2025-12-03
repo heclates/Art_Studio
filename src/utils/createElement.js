@@ -1,25 +1,30 @@
 export const el = (tag, props = {}) => {
-const element = document.createElement(tag);
-// Специфические атрибуты
-if (props.class) element.className = props.class;
-if (props.id) element.id = props.id;
-if (props.src) element.src = props.src;
-if (props.alt) element.alt = props.alt;
-if (props.href) element.href = props.href;
-if (props.target) element.target = props.target;
-if (props.rel) element.rel = props.rel;
-// Текст/контент
-if (props.textContent) element.textContent = props.textContent;
-if (props.innerHTML) element.innerHTML = props.innerHTML;
-// Дети
-if (props.children && Array.isArray(props.children)) {
-props.children.forEach(child => element.appendChild(child));
-}
-// Любые другие атрибуты
-Object.entries(props).forEach(([key, value]) => {
-if (!['class', 'id', 'src', 'alt', 'href', 'target', 'rel', 'textContent', 'innerHTML', 'children'].includes(key)) {
-element.setAttribute(key, value);
-}
-});
-return element;
+  const node = document.createElement(tag);
+
+  // Core
+  if (props.class) node.className = props.class;
+  if (props.id) node.id = props.id;
+
+  // Standard attributes
+  ['src', 'alt', 'href', 'target', 'rel', 'type', 'value', 'role']
+    .forEach(attr => props[attr] && (node[attr] = props[attr]));
+
+  // Text / HTML
+  if (props.textContent) node.textContent = props.textContent;
+  if (props.innerHTML) node.innerHTML = props.innerHTML;
+
+  // Events
+  if (props.onclick) node.addEventListener('click', props.onclick);
+
+  // Children
+  if (props.children) props.children.forEach(c => node.appendChild(c));
+
+  // Rest
+  Object.entries(props).forEach(([key, value]) => {
+    if (!['class','id','src','alt','href','target','rel','type','value','role','textContent','innerHTML','children','onclick'].includes(key)) {
+      node.setAttribute(key, value);
+    }
+  });
+
+  return node;
 };

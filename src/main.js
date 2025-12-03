@@ -24,10 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.body.appendChild(preloader);
 
   try {
-    // Инициализация только Google Sheets (для формы)
     await initGoogleApi();
 
-    // Главный контент — ждём галерею из Imgur
     const mainContent = await createMainContent();
 
     document.body.appendChild(createHeader());

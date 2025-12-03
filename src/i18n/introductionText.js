@@ -1,17 +1,4 @@
 export const INTRO_TEXTS = {
-  en: {
-    logoMiddleTop: 'ALEKSANDROVA',
-    logoMiddle: 'Art Studio',
-    logoMiddleBot: '𓅓',
-    aboutTitle: 'ABOUT US',
-    aboutText: `
-      Our art studio, founded in 2022 in Prague 9, is a space where everyone, regardless of age or experience, can immerse themselves in the world of creativity...
-      <br><br>
-      We believe art should be accessible to everyone...
-      <br><br>
-      Join us to find inspiration and make creativity a part of your daily life.
-    `
-  },
   ru: {
     logoMiddleTop: 'ALEKSANDROVA',
     logoMiddle: 'Art Studio',
