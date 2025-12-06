@@ -1,80 +1,88 @@
 @use "sass:color";
-@use "animation";
+@use "animation" as *;
+@use "variables" as *;
 
 .modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-
-  &.is-active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fade-in 0.25s ease-out;
-  }
-
-  &__overlay {
-    position: absolute;
+    display: none;
+    position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-    backdrop-filter: blur(2px);
-    animation: fade-in 0.25s ease-out;
-  }
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
 
-  &__content {
-    position: relative;
-    background-color: #fff;
-    padding: 2rem;
-    margin: 0 auto;
-    border-radius: 0.75rem;
-    max-width: 500px;
-    width: 90%;
-    max-height: 90%;
-    overflow-y: auto;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    animation: slide-up 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  &__close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #333;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: #000;
+    &.is-active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fade-in 0.25s ease-out;
     }
-  }
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        animation: fade-in 0.25s ease-out;
+    }
+
+    &__content {
+        position: relative;
+        background-color: $text-color-light;
+        padding: 2.5rem;
+        margin: 0 auto;
+        border-radius: 0.75rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90%;
+        overflow-y: auto;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        z-index: 10;
+        animation: slide-up 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        color: $text-color-dark;
+    }
+
+    &__close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: $text-color-medium;
+        transition: color 0.2s ease, transform 0.1s ease;
+
+        &:hover {
+            color: $text-color-dark;
+            transform: rotate(90deg);
+        }
+
+      
+    }
 }
 
 .course__enroll {
-  cursor: pointer;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  background-color: #007bff;
-  color: #fff;
-  font-weight: 600;
-  transition:
-    background-color 0.2s ease,
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
+    cursor: pointer;
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: $primary-color;
+    color: $text-color-light;
+    font-weight: 600;
+    font-size: 1rem;
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
 
-  &:hover {
-    background-color: color.adjust(#007bff, $lightness: -10%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  }
+    &:hover {
+        background-color: $primary-darker;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba($primary-color, 0.3);
+    }
 
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba($primary-color, 0.1);
+    }
 }

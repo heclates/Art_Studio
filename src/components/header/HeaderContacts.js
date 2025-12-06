@@ -1,5 +1,5 @@
-import { el } from '../../utils/createElement.js';
-import { CONTACTS } from '../../constants/contacts.js';
+import { el } from '@/utils/createElement.js';
+import { CONTACTS } from '@/constants/contacts.js';
 
 export const HeaderContacts = () => {
   const wrapper = el('div', { class: 'header__side-left' });

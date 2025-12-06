@@ -1,4 +1,4 @@
-import { el } from '../../utils/createElement.js';
+import { el } from '@/utils/createElement.js';
 import { HeaderTop } from './HeaderTop.js';
 import { HeaderLogo } from './HeaderLogo.js';
 

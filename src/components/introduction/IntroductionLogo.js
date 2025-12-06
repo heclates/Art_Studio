@@ -1,4 +1,4 @@
-import { el } from '../../utils/createElement.js';
+import { el } from '@/utils/createElement.js';
 
 
 export const createLogo = (texts) => {

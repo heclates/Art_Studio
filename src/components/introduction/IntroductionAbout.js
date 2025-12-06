@@ -1,7 +1,7 @@
-import { el } from '../../utils/createElement.js';
+import { el } from '@/utils/createElement.js';
 
 export const createAbout = (texts) => {
-  const section = el('section', { class: 'about', 'aria-labelledby': 'about__title' });
+  const section = el('section', { class: 'about', 'aria-labelledby': 'about__title', id: 'introduction' });
   const container = el('div', { class: 'about__container' });
 
   const title = el('h2', { class: 'about__title', id: 'about__title', textContent: texts.aboutTitle });

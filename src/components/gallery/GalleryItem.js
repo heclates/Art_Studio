@@ -13,9 +13,9 @@ export const createGalleryItem = (item) => {
   figure.appendChild(img);
 
   const figcaption = document.createElement('figcaption');
-  figcaption.textContent = DOMPurify.sanitize(item.caption);
+  figcaption.innerHTML = `${DOMPurify.sanitize(item.caption)} <br> by ${DOMPurify.sanitize(item.author)}`;
   figcaption.className = 'gallery__caption';
-  figcaption.setAttribute('aria-label', `Описание работы: ${DOMPurify.sanitize(item.caption)}`);
+  figcaption.setAttribute('aria-label', `Описание работы: ${DOMPurify.sanitize(item.caption)} автора ${DOMPurify.sanitize(item.author)}`);
   figure.appendChild(figcaption);
 
   return figure;

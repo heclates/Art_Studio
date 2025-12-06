@@ -1,30 +1,66 @@
-import { galleryData } from '@/constants/galleryData';
 import { createGalleryItem } from './GalleryItem';
 import { createGalleryDOM } from './GalleryDOM';
 import { initGallerySwiper, setupLazyLoad, setupHoverEffects } from './GalleryEffect';
+import { getLanguage, subscribe } from '@/utils/languageManager';
 
-export const createGallery = () => {
-    // 1. Создаем DOM-структуру
-    const { article, wrapper, swiperContainer, navPrev, navNext, pagination } = createGalleryDOM();
+import { galleryRU } from '@/i18n/gallery/ru.js';
+import { galleryEN } from '@/i18n/gallery/en.js';
 
-    // 2. Заполняем слайды данными
-    galleryData.forEach(item => {
+const GALLERY_MAP = {
+    ru: galleryRU,
+    en: galleryEN,
+    default: galleryRU
+};
+
+const renderGalleryContent = (lang, rootElement) => {
+    const texts = GALLERY_MAP[lang] || GALLERY_MAP.default;
+    
+    const existingSwiperContainer = rootElement.querySelector('.gallery-swiper');
+    if (existingSwiperContainer && existingSwiperContainer.swiper) {
+        existingSwiperContainer.swiper.destroy(true, true);
+    }
+    
+    rootElement.innerHTML = ''; 
+
+    const { article: newArticle, wrapper, swiperContainer, navPrev, navNext, pagination } = createGalleryDOM(texts);
+    
+    while (newArticle.firstChild) {
+        rootElement.appendChild(newArticle.firstChild);
+    }
+    
+    const wrapperElement = rootElement.querySelector('.swiper-wrapper');
+
+    texts.items.forEach(item => {
         const slide = document.createElement('div');
         slide.className = 'swiper-slide gallery__item';
         slide.appendChild(createGalleryItem(item));
-        wrapper.appendChild(slide);
+        wrapperElement.appendChild(slide);
     });
 
-    // 3. Применяем интерактивные эффекты и инициализируем Swiper
+    setupLazyLoad(wrapperElement);
     
-    // Lazy Load
-    setupLazyLoad(wrapper);
+    const swiper = initGallerySwiper(swiperContainer, navNext, navPrev, pagination);
+    
+    setupHoverEffects(wrapperElement);
 
-    // Swiper
-    initGallerySwiper(swiperContainer, navNext, navPrev, pagination);
+    return swiper;
+};
 
-    // Hover Effects (Применяются после заполнения DOM)
-    setupHoverEffects(wrapper);
+export const createGallery = () => {
+    const article = document.createElement('article');
+    article.className = 'gallery';
+    let currentSwiper = null;
+
+    const updateUI = (lang) => {
+        if (currentSwiper && currentSwiper.destroy) {
+            currentSwiper.destroy(true, true);
+        }
+        currentSwiper = renderGalleryContent(lang, article);
+    };
+
+    updateUI(getLanguage());
+
+    subscribe(updateUI);
 
     return article;
 };

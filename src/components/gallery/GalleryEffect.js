@@ -1,7 +1,6 @@
 import Swiper from 'swiper';
 import { Navigation, Pagination, A11y } from 'swiper/modules';
 
-// --- Intersection Observer (Lazy Load) ---
 export const setupLazyLoad = (wrapper) => {
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -17,7 +16,6 @@ export const setupLazyLoad = (wrapper) => {
     wrapper.querySelectorAll('.swiper-slide').forEach(item => observer.observe(item));
 };
 
-// --- Hover Effects ---
 export const setupHoverEffects = (wrapper) => {
     const slides = wrapper.querySelectorAll('.swiper-slide');
     
@@ -41,9 +39,7 @@ export const setupHoverEffects = (wrapper) => {
     });
 };
 
-// --- Swiper Initialization ---
 export const initGallerySwiper = (swiperContainer, navNext, navPrev, pagination) => {
-    // В отличие от Shift.js, здесь не используем cleanup, так как галерея не перестраивается.
     const swiper = new Swiper(swiperContainer, {
         modules: [Navigation, Pagination, A11y],
         slidesPerView: 3,

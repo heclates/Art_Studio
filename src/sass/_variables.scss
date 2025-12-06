@@ -1,12 +1,28 @@
 // ============================================
 // СОВРЕМЕННЫЕ CSS ПЕРЕМЕННЫЕ (:root) 2025
 // ============================================
+@use "sass:color";
 
+$primary-color: #FF6E11; // Главный акцентный цвет (Оранжевый)
+$primary-darker: #E65F0F; // Для :hover/active состояний кнопок
+$primary-light: #FFF3EB; // Для светлого фона или мягкой рамки (редко)
+
+$text-color-dark: #1A1A1A; // Заголовки, основной текст
+$text-color-medium: #4A4A4A; // Второстепенный текст, иконки
+$text-color-light: #FFFFFF; // Текст на темном фоне
+
+$background-page: #FAFAFA; // Светлый фон секций
+$background-translucent: #FAFAFA99; // Для полупрозрачного хедера
+$border-light: #EAEAEA; // Светлые разделители/рамки
+
+$breakpoint-mobile: 992px;
+$breakpoint-tablet: 768px;
 :root {
   // --------------------------------------------
   // ЦВЕТОВАЯ ПАЛИТРА (Design System)
   // --------------------------------------------
   // Мои дополнения
+  
   $primary-color: #FF6E11;
 $background-light: #fafafa;
 $text-light: #fafafa;
