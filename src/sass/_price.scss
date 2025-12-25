@@ -1,0 +1,231 @@
+@use "variables" as *;
+@use "animation" as *;
+
+.price {
+    width: 100%;
+    padding: 4rem 1rem;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    animation: fade-in 0.7s ease-out forwards;
+
+    &__title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $color-text-dark;
+        margin-bottom: 1rem;
+        @media (max-width: 600px) { font-size: 2rem; }
+    }
+
+    &__text {
+        font-size: 1.15rem;
+        color: $color-text-medium;
+        margin-bottom: 3rem;
+        @media (max-width: 600px) { font-size: 1rem; }
+    }
+
+    .price-swiper {
+        position: relative;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding-bottom: 3rem;
+        height: auto; 
+        
+        .swiper-wrapper {
+            width: 100%;
+            height: auto;
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            flex-shrink: 0;
+            height: auto;
+        }
+
+        @media (pointer: coarse) {
+            .swiper-button-prev,
+            .swiper-button-next { display: none !important; }
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: $color-primary;
+            @media (max-width: $breakpoint-tablet) { display: none !important; }
+            &:after { font-size: 2rem; }
+        }
+
+        .swiper-pagination-bullet {
+            opacity: 1;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: $color-primary;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        background-color: $color-text-light;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        width: 100%;
+        height: auto; 
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fade-in-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        &__img {
+            width: 100%;
+            height: auto;
+            max-height: 70vh; 
+            max-width: 500px; 
+            object-fit: contain; 
+            display: block;
+            margin: 0 auto;
+            
+            @media (min-width: 1024px) {
+                max-width: 400px;
+            }
+        }
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.95);
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__content {
+        position: relative;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        height: 95%;
+        background: none;
+        max-width: none;
+    }
+
+    &__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10001;
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+        
+        &:hover {
+            opacity: 1;
+            color: $color-primary; 
+        }
+    }
+}
+
+.modal-swiper {
+    width: 100%;
+    height: 100%;
+
+    .swiper-wrapper {
+        height: 100%;
+    }
+
+    .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .swiper-zoom-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .modal-swiper-prev,
+    .modal-swiper-next {
+        color: $color-text-light;
+        display: block !important;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.7;
+        transition: opacity 0.2s ease, color 0.2s ease;
+
+        &:hover {
+            opacity: 1;
+            color: $color-primary;
+        }
+
+        &:after {
+            font-size: 2.5rem;
+        }
+    }
+
+    .modal-swiper-prev {
+        left: 20px;
+    }
+
+    .modal-swiper-next {
+        right: 20px;
+    }
+
+    .swiper-pagination {
+        bottom: 10px;
+    }
+
+    .swiper-pagination-bullet {
+        background: $color-text-light;
+        opacity: 0.5;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: $color-primary;
+    }
+}
+
+.modal.is-active ~ .price {
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none !important;
+    }
+}

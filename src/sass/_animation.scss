@@ -1,0 +1,111 @@
+@use 'sass:math';
+@use 'variables' as *;
+
+//Global Animation
+
+@keyframes movePath {
+0% { transform: translateX(0) translateY(0); }
+25% { transform: translateX(-30px) translateY(0); }
+
+}
+@keyframes scaleShift {
+0% { transform: translateX(0) scale(1); opacity: 1; }
+50% { transform: translateX(-15px) scale(1.02); opacity: 0.9; }
+100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+// Simple fade in
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Fade out effect
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+// Smooth slide up effect
+@keyframes slide-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Smooth slide down effect
+@keyframes slide-down {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Light zoom in effect
+@keyframes zoom-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-pop {
+  from {
+    opacity: 0;
+    transform: perspective(800px) translateZ(-60px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(800px) translateZ(0) scale(1);
+  }
+}
+
+// Light zoom out effect
+@keyframes fade-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+@keyframes float-gentle1 {
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+    }
+    50% { 
+        transform: translate(40px, -40px) scale(1.15); 
+    }
+}
+
+@keyframes float-gentle2 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+  }
+  50% { 
+    transform: translate(10px, -10px) scale(1.05); 
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}

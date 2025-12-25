@@ -1,0 +1,447 @@
+@use "sass:color";
+@use "variables" as *;
+@use "animation" as *;
+
+// ============================================================================
+// GALLERY SECTION - ORGANIC BLOB STYLE
+// ============================================================================
+
+.gallery {
+  width: 100%;
+  padding: 4rem 2rem;
+  background: $color-bg-main;
+  text-align: center;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow: hidden;
+  animation: fade-in 0.7s ease-out forwards;
+  position: relative;
+
+  // Section title
+  &__title {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: $color-text-dark;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+
+    strong {
+      font-weight: 700;
+      color: $color-primary;
+    }
+  }
+
+  // Section subtitle
+  &__text {
+    font-size: 1.2rem;
+    color: $color-text-medium;
+    margin-bottom: 3rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  // Swiper container
+  .gallery-swiper {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+    height: auto;
+    overflow: hidden;
+
+    .swiper-wrapper {
+      display: flex;
+      align-items: stretch;
+      @include transition(all 0.4s ease);
+      height: 100%;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      width: auto;
+      flex-shrink: 0;
+      @include transition(transform 0.4s ease, filter 0.4s ease);
+      height: 100%;
+    }
+
+    // Active zoom effect
+    .swiper-slide.active-zoom {
+      transform: scale(1.05);
+      z-index: 2;
+    }
+
+    // Blur effect for non-active slides
+    .swiper-slide.blur-slide {
+      filter: blur(2px) brightness(0.9);
+      transform: scale(0.95);
+    }
+
+    // Hide navigation on touch devices
+    @media (pointer: coarse) {
+      .swiper-button-prev,
+      .swiper-button-next { 
+        display: none !important; 
+      }
+    }
+
+    // Navigation buttons
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: $color-primary;
+      
+      @media (max-width: 1024px) { 
+        display: none !important; 
+      }
+      
+      &:after { 
+        font-size: 2rem; 
+      }
+    }
+
+    // Pagination bullets
+    .swiper-pagination-bullet {
+      background: $color-text-accent-light;
+      opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: $color-primary;
+    }
+  }
+
+  // Gallery item with organic blob style
+  &__item {
+    display: flex;
+    flex-direction: column;
+    background: $color-bg-white;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    overflow: hidden;
+    @include box-shadow(40px, 0.08);
+    @include transition(all 0.5s ease);
+    animation: fade-in-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    aspect-ratio: 1;
+    max-width: 350px;
+    &:hover { 
+      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+      transform: scale(1.05);
+      box-shadow: 0 20px 60px rgba($color-primary, 0.25);
+    }
+
+    // Image
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      @include transition(transform 0.4s ease);
+      
+      .gallery__item:hover & { 
+        transform: scale(1.08);
+      }
+    }
+
+    // Caption (optional)
+    &__caption {
+      padding: 1rem 1.2rem;
+      font-size: 1rem;
+      color: $color-text-dark;
+      background: $color-bg-main;
+      text-align: center;
+      border-top: 2px solid $color-accent-light;
+    }
+  }
+
+  // Grid layout (alternative to swiper)
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .gallery {
+    padding: 3rem 1.5rem;
+
+    &__title {
+      font-size: 2.3rem;
+    }
+
+    &__text {
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    &__item {
+      max-width: 320px;
+
+      &__caption {
+        padding: 0.9rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    &__grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  .gallery-grid {
+    padding: 3rem 1.5rem;
+
+    &__title {
+      font-size: 2.3rem;
+    }
+
+    &__subtitle {
+      font-size: 1.1rem;
+    }
+
+    &__container {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+  }
+}
+
+// Mobile (768px and below)
+@media (max-width: $breakpoint-mobile) {
+  .gallery {
+    padding: 2.5rem 1rem;
+
+    &__title {
+      font-size: 2.5rem;
+      font-weight: 500;
+    }
+
+    &__text {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .gallery-swiper {
+      padding-bottom: 2.5rem;
+    }
+
+    &__item {
+      max-width: 280px;
+
+      &__caption {
+        padding: 0.8rem 0.9rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    &__grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  .gallery-grid {
+    padding: 2.5rem 1rem;
+
+    &__title {
+      font-size: 2rem;
+    }
+
+    &__subtitle {
+      font-size: 1rem;
+    }
+
+    &__container {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+  }
+}
+
+// Small mobile (480px and below)
+@media (max-width: 480px) {
+  .gallery {
+    padding: 2rem 0.875rem;
+
+    &__title {
+      font-size: 1.75rem;
+    }
+
+    &__text {
+      font-size: 0.95rem;
+    }
+
+    &__item {
+      max-width: 260px;
+      border-radius: 50%;
+
+      &:hover {
+        border-radius: 45% 55% 50% 50% / 50% 50% 50% 50%;
+      }
+
+      &__caption {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .gallery-grid {
+    padding: 2rem 0.875rem;
+
+    &__title {
+      font-size: 1.75rem;
+    }
+
+    &__subtitle {
+      font-size: 0.95rem;
+    }
+
+    &__container {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    &__item {
+      border-radius: 50%;
+
+      &:hover {
+        border-radius: 45% 55% 50% 50% / 50% 50% 50% 50%;
+      }
+    }
+  }
+}
+
+// Extra small mobile (360px and below)
+@media (max-width: 360px) {
+  .gallery {
+    &__title {
+      font-size: 1.6rem;
+    }
+
+    &__text {
+      font-size: 0.9rem;
+    }
+
+    &__item {
+      max-width: 240px;
+    }
+  }
+
+  .gallery-grid {
+    &__title {
+      font-size: 1.6rem;
+    }
+
+    &__subtitle {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// ============================================================================
+// ACCESSIBILITY & REDUCED MOTION
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery {
+    animation: none;
+
+    &__item {
+      animation: none;
+      @include transition(box-shadow 0.2s ease);
+
+      &:hover {
+        transform: none;
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      }
+
+      &__img {
+        transition: none;
+
+        .gallery__item:hover & {
+          transform: none;
+        }
+      }
+    }
+
+    .gallery-swiper {
+      .swiper-wrapper {
+        transition: none;
+      }
+
+      .swiper-slide {
+        transition: none;
+
+        &.active-zoom,
+        &.blur-slide {
+          transform: none;
+          filter: none;
+        }
+      }
+    }
+  }
+
+  .gallery-grid {
+    &__item {
+      @include transition(box-shadow 0.2s ease);
+
+      &:hover {
+        transform: none;
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      }
+
+      img {
+        transition: none;
+      }
+
+      &:hover img {
+        transform: none;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// PRINT STYLES
+// ============================================================================
+
+@media print {
+  .gallery,
+  .gallery-grid {
+    padding: 20px;
+    animation: none;
+
+    .gallery-swiper {
+      .swiper-button-prev,
+      .swiper-button-next,
+      .swiper-pagination {
+        display: none;
+      }
+    }
+  }
+
+  .gallery__item,
+  .gallery-grid__item {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+    border-radius: 20px;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .gallery__grid,
+  .gallery-grid__container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}

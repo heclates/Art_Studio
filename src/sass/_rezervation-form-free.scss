@@ -1,0 +1,198 @@
+@use "sass:color";
+@use "variables" as *;
+@use "animation" as *;
+
+.reservation-form-free {
+  max-width: 600px;
+  margin: $space-xl auto;
+  padding: $space-xl;
+  background: $color-bg-white;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-lg;
+  position: relative;
+  animation: fade-in $transition-base $ease-out;
+  font-family: $font-primary;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(
+      135deg,
+      $color-accent-light,
+      $color-accent-lighter
+    );
+    border-radius: $radius-full;
+    opacity: 0.6;
+    z-index: -1;
+    animation: float-gentle2 14s ease-in-out infinite;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: $font-2xl;
+    font-weight: $font-bold;
+    color: $color-text-dark;
+    margin-bottom: $space-lg;
+    line-height: $leading-snug;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+  }
+
+  &__field-group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  &__label {
+    font-size: $font-base;
+    font-weight: $font-semibold;
+    color: $color-text-dark;
+  }
+
+  &__input,
+  &__select {
+    width: 100%;
+    padding: $space-sm $space-md;
+    font-size: $font-base;
+    color: $color-text-dark;
+    background: $color-bg-main;
+    border: 2px solid $color-border-light;
+    border-radius: $radius-xl;
+    @include transition-all;
+
+    &::placeholder {
+      color: $color-text-placeholder;
+    }
+
+    &:focus {
+      background: $color-bg-white;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.18);
+      outline: none;
+    }
+
+    &:invalid {
+      border-color: $color-error-light;
+    }
+  }
+
+  &__button {
+    margin-top: $space-sm;
+    padding: $space-sm $space-lg;
+    font-size: $font-lg;
+    font-weight: $font-semibold;
+    color: $color-text-light;
+    background: linear-gradient(
+      135deg,
+      $color-primary,
+      $color-primary-light
+    );
+    border: none;
+    border-radius: $radius-full;
+    cursor: pointer;
+    box-shadow: $shadow-primary;
+    @include transition-all;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-primary-lg;
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: $shadow-primary;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  &__error {
+    font-size: $font-sm;
+    color: $color-error;
+    background: $color-error-bg;
+    padding: $space-sm $space-md;
+    border-radius: $radius-md;
+    text-align: center;
+    font-weight: $font-medium;
+    animation: fade-in $transition-fast $ease-out;
+  }
+
+  &__success {
+    font-size: $font-base;
+    color: $color-success;
+    background: $color-success-bg;
+    padding: $space-sm $space-md;
+    border-radius: $radius-md;
+    text-align: center;
+    font-weight: $font-semibold;
+    animation: fade-in-up $transition-base $ease-out;
+  }
+
+  @include respond-below($breakpoint-md) {
+    padding: $space-lg;
+    border-radius: $radius-xl;
+
+    &__title {
+      font-size: $font-xl;
+    }
+
+    &__input,
+    &__select {
+      font-size: $font-sm;
+      padding: $space-sm $space-md;
+    }
+
+    &__button {
+      font-size: $font-base;
+    }
+  }
+
+  @include respond-below($breakpoint-xs) {
+    padding: $space-md;
+
+    &::before {
+      width: 44px;
+      height: 44px;
+      top: -8px;
+      right: -8px;
+    }
+  }
+
+  @include reduced-motion {
+    animation: none;
+
+    &::before {
+      animation: none;
+    }
+
+    &__button {
+      transition: background-color $transition-fast $ease-out;
+    }
+  }
+
+  @include print-only {
+    box-shadow: none;
+    border: 1px solid $color-border-medium;
+
+    &::before {
+      display: none;
+    }
+
+    &__button {
+      display: none;
+    }
+  }
+}

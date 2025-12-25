@@ -1,0 +1,192 @@
+@use "sass:color";
+@use "variables" as *;
+@use "animation" as *;
+
+.contacts {
+  width: 100%;
+  padding: 4rem 2rem;
+  text-align: center;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow: hidden;
+  position: relative;
+  animation: zoom-in 0.7s ease-out forwards;
+  text-decoration: none;
+
+  &__title {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: $color-text-dark;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+
+    strong {
+      font-weight: 700;
+      color: $color-primary;
+    }
+  }
+
+  &__text {
+    font-size: 1.2rem;
+    color: $color-text-medium;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  // Переключатель в стиле кнопок из Shift Lesson
+  &__toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+
+    &-btn {
+      padding: 1rem 3rem;
+      border-radius: 8px;
+      border: 3px solid $color-primary;
+      background: $color-bg-white;
+      color: $color-primary;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.5rem;
+      @include transition(all 0.4s ease);
+      outline: none;
+
+      &:hover {
+        background: $color-bg-gradient; 
+        transform: translateY(-2px);
+      }
+
+      &.active {
+        background: linear-gradient(135deg, $color-primary, $color-primary-light);
+        color: $color-text-light;
+        box-shadow: 0 8px 25px rgba($color-primary, 0.3);
+        transform: scale(1.05);
+        border-color: transparent;
+      }
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    opacity: 0;
+    display: none;
+    
+    &.active {
+      display: grid;
+      opacity: 1;
+      animation: zoom-pop 0.5s ease-out both;
+    }
+
+    @media (max-width: $breakpoint-tablet) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Карта в стиле Day Card
+  &__map-container {
+    grid-column: span 2;
+    border-radius: 35px;
+    overflow: hidden;
+    height: 500px;
+    border: 2px solid transparent;
+    @include box-shadow(40px, 0.06);
+    @include transition(all 0.3s ease);
+
+    &:hover {
+      border-color: $color-primary;
+      transform: translateY(-5px);
+      box-shadow: $shadow-hover;
+    }
+
+    iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    @media (max-width: $breakpoint-tablet) {
+      grid-column: span 1;
+      height: 400px;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  // Карточки инфо и часов в стиле Day Card из расписания
+  &__info, &__hours {
+    background: $color-bg-white;
+    padding: 2.5rem;
+    border-radius: 35px;
+    text-align: left;
+    @include box-shadow(40px, 0.06);
+    @include transition(all 0.3s ease);
+    border: 2px solid transparent;
+
+    &:hover {
+      border-color: $color-primary;
+      transform: translateY(-5px);
+      box-shadow: $shadow-hover;
+    }
+  }
+
+  // Заголовки как Day Title в расписании (плашки с градиентом)
+  &__label, &__hours-title {
+    display: inline-block;
+    background: linear-gradient(135deg, $color-accent-light, $color-accent-lighter);
+    color: $color-primary;
+    padding: 0.4rem 1.2rem;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+
+  &__hours-title {
+    font-size: 1.3rem;
+    text-transform: none;
+    display: block;
+    width: fit-content;
+  }
+
+  &__value {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: $color-text-dark;
+    margin-bottom: 1.5rem;
+    display: block;
+    text-decoration: none;
+    @include transition(all 0.2s ease);
+    margin-bottom: 1.5rem;
+
+    &.contacts__phone, &.contacts__email {
+      &:hover {
+        color: $color-primary;
+        transform: translateX(5px);
+      }
+    }
+    
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &__hours-list {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem;
+    
+    .contacts__day { font-weight: 600; color: $color-text-dark; }
+    .contacts__time { color: $color-text-medium; text-align: right; }
+  }
+}
+
+// Адаптив в стиле Shift Lesson
+@media (max-width: $breakpoint-mobile) {
+  .contacts {
+    padding: 2.5rem 1rem;
+    &__title { font-size: 2.5rem;font-weight: 500; margin-bottom: 2rem; }
+    &__toggle-btn { padding: 1.4rem 3.5rem; font-size: 1.2rem; border-width: 2px; }
+    &__info, &__hours, &__map-container { padding: 1.5rem; border-radius: 25px; }
+  }
+}

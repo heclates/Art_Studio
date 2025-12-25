@@ -1,0 +1,564 @@
+@use "sass:color";
+@use "sass:list";
+// --------------------------------------------
+// 1. RESPONSIVE DESIGN
+// --------------------------------------------
+// Мои миксины 
+@mixin responsive-font($desktop, $tablet: null, $mobile: null) {
+  font-size: $desktop;
+  @if $tablet {
+    @media (max-width: 1024px) { font-size: $tablet; }
+  }
+  @if $mobile {
+    @media (max-width: 480px) { font-size: $mobile; }
+  }
+}
+
+.introduction__decorative-circle-text {
+  @include responsive-font(2.2rem, 1.8rem, 1.6rem);
+}
+
+// Брейкпоинты (mobile-first подход)
+$breakpoints: (
+  xs: 320px,
+  sm: 576px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1536px,
+  xxxl: 1920px
+);
+
+// Media queries миксин
+@mixin respond($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint #{$breakpoint} не найден в $breakpoints";
+  }
+}
+
+
+
+// --------------------------------------------
+// 2. FLEXBOX УТИЛИТЫ
+// --------------------------------------------
+
+@mixin flex($justify: center, $align: center, $direction: row, $wrap: nowrap) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// --------------------------------------------
+// 3. GRID УТИЛИТЫ
+// --------------------------------------------
+
+@mixin grid($cols: 12, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+  gap: $gap;
+}
+
+@mixin grid-auto($min-width: 250px, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+@mixin grid-areas($areas) {
+  display: grid;
+  grid-template-areas: $areas;
+}
+
+// --------------------------------------------
+// 4. ПОЗИЦИОНИРОВАНИЕ
+// --------------------------------------------
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin fixed-full {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+// --------------------------------------------
+// 5. РАЗМЕРЫ И SPACING
+// --------------------------------------------
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin min-size($width, $height: $width) {
+  min-width: $width;
+  min-height: $height;
+}
+
+@mixin max-size($width, $height: $width) {
+  max-width: $width;
+  max-height: $height;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+}
+
+// --------------------------------------------
+// 6. ТЕКСТ И ТИПОГРАФИКА
+// --------------------------------------------
+
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@mixin font-smooth {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin text-gradient($gradient) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin fluid-type($min-font-size, $max-font-size, $min-vw: 320px, $max-vw: 1200px) {
+  font-size: clamp(
+    #{$min-font-size},
+    calc(#{$min-font-size} + (#{strip-unit($max-font-size)} - #{strip-unit($min-font-size)}) * ((100vw - #{$min-vw}) / (#{strip-unit($max-vw)} - #{strip-unit($min-vw)}))),
+    #{$max-font-size}
+  );
+}
+
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+// --------------------------------------------
+// 7. ТЕНИ И ЭФФЕКТЫ
+// --------------------------------------------
+
+@mixin box-shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  } @else if $level == 2 {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+  } @else if $level == 3 {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.10);
+  } @else if $level == 4 {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.05);
+  } @else if $level == 5 {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@mixin glass-morphism($blur: 10px, $opacity: 0.1) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@mixin neumorphism($bg-color, $distance: 10px, $blur: 20px) {
+  background: $bg-color;
+  box-shadow: 
+    #{$distance} #{$distance} #{$blur} darken($bg-color, 10%),
+    -#{$distance} -#{$distance} #{$blur} lighten($bg-color, 10%);
+}
+
+// --------------------------------------------
+// 8. АНИМАЦИИ И ПЕРЕХОДЫ
+// --------------------------------------------
+
+@mixin transition($properties: all, $duration: 0.3s, $easing: ease-in-out) {
+  transition: $properties $duration $easing;
+}
+
+@mixin animation($name, $duration: 1s, $easing: ease, $delay: 0s, $iteration: 1, $direction: normal, $fill: both) {
+  animation: $name $duration $easing $delay $iteration $direction $fill;
+}
+
+@mixin hover-lift($translate: -5px, $shadow-level: 3) {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY($translate);
+    @include box-shadow($shadow-level);
+  }
+}
+
+@mixin smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Популярные keyframes
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// --------------------------------------------
+// 9. КНОПКИ
+// --------------------------------------------
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  user-select: none;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($bg, $color: #fff, $hover-bg: darken($bg, 10%)) {
+  @include button-base;
+  background-color: $bg;
+  color: $color;
+  
+  &:hover:not(:disabled) {
+    background-color: $hover-bg;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($bg, 0.4);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+@mixin button-outline($color) {
+  @include button-base;
+  background-color: transparent;
+  color: $color;
+  border: 2px solid $color;
+  
+  &:hover:not(:disabled) {
+    background-color: $color;
+    color: #fff;
+  }
+}
+
+// --------------------------------------------
+// 10. СКРОЛЛБАРЫ (CUSTOM)
+// --------------------------------------------
+
+@mixin custom-scrollbar($width: 8px, $track-color: #f1f1f1, $thumb-color: #888, $thumb-hover: #555) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    border-radius: $width;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $width;
+    
+    &:hover {
+      background: $thumb-hover;
+    }
+  }
+  
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: $thumb-color $track-color;
+}
+
+@mixin hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// --------------------------------------------
+// 11. ФОРМЫ
+// --------------------------------------------
+
+@mixin input-base {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &::placeholder {
+    color: #9ca3af;
+  }
+  
+  &:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin checkbox-custom($size: 20px, $color: #3b82f6) {
+  appearance: none;
+  width: $size;
+  height: $size;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  
+  &:checked {
+    background-color: $color;
+    border-color: $color;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+// --------------------------------------------
+// 12. КАРТОЧКИ И КОНТЕЙНЕРЫ
+// --------------------------------------------
+
+@mixin card($padding: 1.5rem, $shadow-level: 2) {
+  padding: $padding;
+  background: #fff;
+  border-radius: 0.5rem;
+  @include box-shadow($shadow-level);
+}
+
+@mixin container($max-width: 1200px, $padding: 1rem) {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding-left: $padding;
+  padding-right: $padding;
+  width: 100%;
+}
+
+// --------------------------------------------
+// 13. ASPECT RATIO
+// --------------------------------------------
+
+@mixin aspect-ratio($width, $height) {
+  aspect-ratio: $width / $height;
+  
+  @supports not (aspect-ratio: 1 / 1) {
+    position: relative;
+    
+    &::before {
+      content: '';
+      display: block;
+      padding-top: ($height / $width) * 100%;
+    }
+    
+    > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+// --------------------------------------------
+// 14. DARK MODE
+// --------------------------------------------
+
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+@mixin light-mode {
+  @media (prefers-color-scheme: light) {
+    @content;
+  }
+}
+
+// Использование с CSS переменными
+@mixin theme-aware($property, $light-value, $dark-value) {
+  #{$property}: $light-value;
+  
+  @include dark-mode {
+    #{$property}: $dark-value;
+  }
+}
+
+// --------------------------------------------
+// 15. УТИЛИТЫ ДЛЯ ДОСТУПНОСТИ
+// --------------------------------------------
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+@mixin reduce-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// --------------------------------------------
+// 16. ПСЕВДО-ЭЛЕМЕНТЫ
+// --------------------------------------------
+
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+@mixin overlay($bg: rgba(0, 0, 0, 0.5)) {
+  &::before {
+    @include pseudo;
+    @include absolute-full;
+    background: $bg;
+    z-index: 1;
+  }
+}
+
+// --------------------------------------------
+// 17. СОВРЕМЕННЫЕ CSS ФУНКЦИИ
+// --------------------------------------------
+
+@mixin clamp-size($property, $min, $preferred, $max) {
+  #{$property}: clamp(#{$min}, #{$preferred}, #{$max});
+}
+
+@mixin container-query($min-width) {
+  @container (min-width: #{$min-width}) {
+    @content;
+  }
+}

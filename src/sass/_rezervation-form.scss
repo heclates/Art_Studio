@@ -1,0 +1,225 @@
+@use "sass:color";
+@use "animation" as *;
+@use "variables" as *;
+
+
+.reservation-form {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: $color-bg-white;
+  border-radius: 40px;
+  box-shadow: $shadow-lg;
+  animation: fade-in 0.4s ease-out;
+  position: relative;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  @include transition(all 0.3s ease);
+
+  // Decorative blob shapes
+  &::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, $color-accent-light, $color-accent-lighter);
+    border-radius: 50%;
+    opacity: 0.7;
+    z-index: -1;
+    animation: float-gentle 3s infinite ease-in-out;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: -15px;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, $color-accent-lighter, $color-accent-light);
+    border-radius: 50%;
+    opacity: 0.6;
+    z-index: -1;
+    animation: float-gentle 4s infinite ease-in-out reverse;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba($color-primary, 0.15);
+  }
+
+  // Title
+  &__title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: $color-text-dark;
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, $color-primary, $color-primary-light);
+      border-radius: 2px;
+    }
+  }
+
+  // Form container
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  // Field group
+  &__field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  // Label
+  &__label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $color-text-dark;
+    margin-bottom: 0.25rem;
+    @include transition(color 0.2s ease);
+  }
+
+  // Inputs, Textarea, Select
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #E5E5E5;
+    border-radius: 25px;
+    background-color: $color-bg-main;
+    font-size: 1rem;
+    color: $color-text-dark;
+    @include transition(all 0.3s ease);
+    font-family: inherit;
+
+    &::placeholder {
+      color: $color-text-accent-light;
+    }
+
+    &:focus {
+      border-color: $color-primary;
+      background-color: $color-bg-white;
+      box-shadow: 0 0 0 4px rgba($color-primary, 0.1);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    &:hover:not(:focus) {
+      border-color: $color-primary-light;
+    }
+  }
+
+  &__textarea {
+    min-height: 120px;
+    resize: vertical;
+    border-radius: 20px;
+  }
+
+  &__select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D97757' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  // Submit button
+  &__button {
+    background: linear-gradient(135deg, $color-primary, $color-primary-light);
+    color: $color-text-light;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 1rem 2rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 8px 20px rgba($color-primary, 0.25);
+    @include transition(all 0.3s ease);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba($color-text-light, 0.3);
+      transform: translate(-50%, -50%);
+      @include transition(width 0.6s ease, height 0.6s ease);
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba($color-primary, 0.35);
+
+      &::before {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba($color-primary, 0.3);
+    }
+
+    &:disabled {
+      background: $color-text-accent-light;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  // Error message
+  &__error {
+    font-size: 0.95rem;
+    color: #E74C3C;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    background: rgba(#E74C3C, 0.1);
+    border-radius: 15px;
+    font-weight: 500;
+    animation: shake 0.3s ease-in-out;
+  }
+
+  // Success message
+  &__success {
+    font-size: 1rem;
+    color: #27AE60;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    background: rgba(#27AE60, 0.1);
+    border-radius: 15px;
+    font-weight: 600;
+    animation: fade-in 0.3s ease-out;
+  }
+}
