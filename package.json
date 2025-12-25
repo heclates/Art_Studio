@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "prebuild": "npm run format:fix && npm run lint:fix",
     "build": "vite build",
     "analyze": "vite build --mode analyze",
     "preview": "vite preview",
