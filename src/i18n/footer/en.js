@@ -2,10 +2,10 @@
 export const footerEN = {
   navItems: [
     { href: '#', text: 'Home' },
-    { href: '#services', text: 'Services' },
-    { href: '#portfolio', text: 'Portfolio' },
+    { href: 'terms.html', text: 'Terms' },
+    { href: '#courses', text: 'Courses' },
     { href: '#contacts', text: 'Contacts' },
-    { href: '#privacy', text: 'Privacy Policy' }
+    { href: 'privacy.html', text: 'Privacy Policy' }
   ],
   copyright: '© 2025 Your Company. All rights reserved.'
 };
