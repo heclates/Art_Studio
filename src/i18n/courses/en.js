@@ -87,7 +87,7 @@ export const coursesEN = {
       button: 'Koupit přístup'
     },
     {
-      name: 'ART-Kemp',
+      name: 'ART-Camp',
       class: 'courses__card--camp',
       title: 'Tvůrčí turnusy',
       description: 'Art-camp spojuje tvořivost, zábavu a objevování světa kolem nás. Děti malují, tvoří, vaří, hrají si, navštěvují muzea a galerie, užívají si filmové odpoledne a tráví čas v inspirativní a přátelské atmosféře. Každý den přináší nové zážitky a radost z objevování i tvorby',
@@ -103,6 +103,42 @@ export const coursesEN = {
       time: ['Sezónní rozvrh'],
       img: 'assets/img_cards/plener.jpg',
       button: 'Přihlásit se'
-    }
+    },
+    {
+      name: 'ART-VEČÍRKY',
+      class: 'courses__card--vecirky-dospeli',
+      title: 'ART-VEČÍRKY PRO DOSPĚLÉ',
+      description: 'Uvolněné večery plné tvoření s občerstvením a nápoji, ideální pro relaxaci a zábavu',
+      time: ['Sezónní rozvrh'],
+      img: ':D',
+      button: 'Zjistit termíny'
+    },
+     {
+      name: 'Kurz malování',
+      class: 'courses__card--drawing-for-adult',
+      title: 'Lekce malování PRO DOSPĚLÉ',
+      description: 'Lekce malování rozvíjející fantazii a vyučující různé výtvarné techniky. Lekce pro děti všech věkových kategorií: mladší skupina (3,5–6 let), střední (7–11 let) a starší (12+).',
+      time: ['Sezónní rozvrh'],
+      img: ':D',
+      button: 'Zjistit termíny'
+    },
+    {
+      name: 'INDIVIDUÁLNÍ LEKCE',
+      class: 'courses__card--indiv-adult',
+      title: 'INDIVIDUÁLNÍ LEKCE PRO DOSPĚLÉ',
+      description: 'Lekce na míru podle potřeb a úrovně studenta, zahrnující různé výtvarné techniky',
+      time: ['Sezónní rozvrh'],
+      img: ':D',
+      button: 'Zjistit termíny'
+    },
+    {
+      name: 'Eventy na míru',
+      class: 'courses__card--events',
+      title: 'Eventy na míru',
+      description: 'Organizujeme art-párty, firemní akce, narozeninové oslavy a art-rande — a to jak ve studiu, tak i formou mobilních eventů',
+      time: ['Sezónní rozvrh'],
+      img: ':D',
+      button: 'Zjistit termíny'
+    },
   ]
 };
