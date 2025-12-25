@@ -97,7 +97,7 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
         class: 'header__logo-link',
         children: [el('img', { 
             class: 'header__logo', 
-            src: 'assets/ico/logo.png', 
+            src: 'public/assets/ico/logo.png', 
             alt: 'Logo', 
             width: '180',
             height: '50'
