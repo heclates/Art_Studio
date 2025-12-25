@@ -2,12 +2,12 @@ let modal;
 let previouslyFocusedElement = null;
 
 function handleKeyDown(event) {
-    if (event.key === 'Escape' && modal.style.display !== 'none') {
+    if (event.key === 'Escape' && modal && modal.style.display !== 'none') {
         closeModal();
         return;
     }
 
-    if (event.key === 'Tab' && modal.style.display !== 'none') {
+    if (event.key === 'Tab' && modal && modal.style.display !== 'none') {
         trapFocus(event);
     }
 }
@@ -39,7 +39,6 @@ function getFocusableElements(container) {
         )
     ).filter(el => el.offsetParent !== null);
 }
-
 
 export function openModal(contentNode, titleId = 'modal-title') {
     previouslyFocusedElement = document.activeElement;
@@ -108,4 +107,9 @@ export function closeModal() {
 
         document.body.style.overflow = '';
     }
+}
+
+// Экспортируем closeModal глобально для использования в формах
+if (typeof window !== 'undefined') {
+    window.closeModal = closeModal;
 }

@@ -6,7 +6,7 @@ export const headerRU = {
         { href: '#price-title', text: 'Цены' },
         { href: '#gallery-title', text: 'Галерея' },
         { href: '#contacts', text: 'Контакты' },
-        { href: '#reservation-form-free__title', text: 'Резервация' }
+        { href: '#reservation-form-free', text: 'Резервация' }
     ],
     ariaLabel: 'Основная навигация по сайту'
 };

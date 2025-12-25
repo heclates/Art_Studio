@@ -2,7 +2,6 @@
 const today = new Date().toISOString().split('T')[0];
 
 export const formsRU = {
-    // Поля для формы бесплатной/свободной резервации (freeRezervationForm.js)
     freeFields: [
         {
             label: 'Имя, Фамилия родителя:',
@@ -34,19 +33,6 @@ export const formsRU = {
             max: today,
             title: 'Выберите дату рождения'
         },
-        { 
-            label: 'Дата занятия:', 
-            name: 'day', 
-            type: 'date',
-            min: today,
-            title: 'Выберите день занятия'
-        },
-        { 
-            label: 'Время занятия:', 
-            name: 'time', 
-            type: 'time',
-            title: 'Выберите время занятия'
-        }
     ],
 
     // Поля для формы бронирования по расписанию (reservationForm.js)

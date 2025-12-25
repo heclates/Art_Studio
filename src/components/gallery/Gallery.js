@@ -1,66 +1,70 @@
-import { createGalleryItem } from './GalleryItem';
-import { createGalleryDOM } from './GalleryDOM';
-import { initGallerySwiper, setupLazyLoad, setupHoverEffects } from './GalleryEffect';
+import { el } from '@/utils/createElement';
 import { getLanguage, subscribe } from '@/utils/languageManager';
+import Swiper from 'swiper';
+import { Navigation, Pagination, A11y } from 'swiper/modules';
 
-import { galleryRU } from '@/i18n/gallery/ru.js';
-import { galleryEN } from '@/i18n/gallery/en.js';
+import { createGalleryDOM } from './GalleryDOM';
+import { createGalleryItem } from './GalleryItem';
+import { setupLazyLoad, setupHoverEffects } from './GalleryEffect';
 
-const GALLERY_MAP = {
-    ru: galleryRU,
-    en: galleryEN,
-    default: galleryRU
+import { galleryRU } from '@/i18n/gallery/ru';
+import { galleryEN } from '@/i18n/gallery/en';
+
+const TRANSLATIONS = {
+  ru: galleryRU,
+  en: galleryEN,
+  default: galleryRU
 };
 
-const renderGalleryContent = (lang, rootElement) => {
-    const texts = GALLERY_MAP[lang] || GALLERY_MAP.default;
-    
-    const existingSwiperContainer = rootElement.querySelector('.gallery-swiper');
-    if (existingSwiperContainer && existingSwiperContainer.swiper) {
-        existingSwiperContainer.swiper.destroy(true, true);
+const initSwiper = (container, prev, next, pagination) =>
+  new Swiper(container, {
+    modules: [Navigation, Pagination, A11y],
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    navigation: { prevEl: prev, nextEl: next },
+    pagination: { el: pagination, clickable: true },
+    breakpoints: {
+      320: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      992: { slidesPerView: 3 }
     }
-    
-    rootElement.innerHTML = ''; 
-
-    const { article: newArticle, wrapper, swiperContainer, navPrev, navNext, pagination } = createGalleryDOM(texts);
-    
-    while (newArticle.firstChild) {
-        rootElement.appendChild(newArticle.firstChild);
-    }
-    
-    const wrapperElement = rootElement.querySelector('.swiper-wrapper');
-
-    texts.items.forEach(item => {
-        const slide = document.createElement('div');
-        slide.className = 'swiper-slide gallery__item';
-        slide.appendChild(createGalleryItem(item));
-        wrapperElement.appendChild(slide);
-    });
-
-    setupLazyLoad(wrapperElement);
-    
-    const swiper = initGallerySwiper(swiperContainer, navNext, navPrev, pagination);
-    
-    setupHoverEffects(wrapperElement);
-
-    return swiper;
-};
+  });
 
 export const createGallery = () => {
-    const article = document.createElement('article');
-    article.className = 'gallery';
-    let currentSwiper = null;
+  const root = el('section');
+  let swiper = null;
+  let observer = null;
 
-    const updateUI = (lang) => {
-        if (currentSwiper && currentSwiper.destroy) {
-            currentSwiper.destroy(true, true);
-        }
-        currentSwiper = renderGalleryContent(lang, article);
-    };
+  const render = (lang) => {
+    swiper?.destroy(true, true);
+    observer?.disconnect();
 
-    updateUI(getLanguage());
+    root.innerHTML = '';
 
-    subscribe(updateUI);
+    const texts = TRANSLATIONS[lang] || TRANSLATIONS.default;
+    const dom = createGalleryDOM(texts);
 
-    return article;
+    root.appendChild(dom.article);
+
+    texts.items.forEach(item => {
+      const slide = el('div', {
+        class: 'swiper-slide',
+        children: [createGalleryItem(item)]
+      });
+      dom.wrapper.appendChild(slide);
+    });
+
+    observer = setupLazyLoad(dom.wrapper);
+    swiper = initSwiper(dom.swiper, dom.prev, dom.next, dom.pagination);
+    setupHoverEffects(dom.wrapper);
+  };
+
+  render(getLanguage());
+  root._unsubscribe = subscribe(render);
+
+  return root;
+};
+
+export const destroyGallery = (root) => {
+  root._unsubscribe?.();
 };

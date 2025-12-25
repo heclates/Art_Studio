@@ -1,132 +1,398 @@
+@use "sass:color";
 @use "variables" as *;
 @use "animation" as *;
 
+// ============================================================================
+// COURSES SECTION
+// ============================================================================
 .courses {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 1rem;
-    background-color: $text-color-light;
+  width: 100%;
+  padding: $space-4xl $space-lg;
+  position: relative;
+  overflow: hidden;
+  
+
+  &__header {
     text-align: center;
-    animation: fade-in 0.8s ease-out forwards;
+    max-width: 800px;
+    margin: 0 auto $space-3xl;
+    position: relative;
+    z-index: 1;
+  }
 
-    > h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: $text-color-dark;
-        margin-bottom: 0.75rem;
+  &__title {
+    font-size: $font-4xl;
+    font-weight: $font-light;
+    color: $color-text-dark;
+    margin-bottom: $space-md;
+    letter-spacing: $tracking-tight;
+
+    strong {
+      font-weight: $font-bold;
+      color: $color-primary;
     }
+  }
 
-    > p {
-        font-size: 1.125rem;
-        color: $text-color-medium;
-        margin-bottom: 2.5rem;
-    }
+  &__subtitle {
+    font-size: $font-xl;
+    color: $color-text-medium;
+    font-weight: $font-normal;
+    line-height: $leading-relaxed;
+  }
 
+  &__grid {
     display: grid;
-    gap: 2rem;
-    justify-content: center;
-
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-
-    > h2,
-    > p {
-        grid-column: 1 / -1;
-    }
-
-    > section {
-        height: auto;
-        min-height: 400px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background-color: $background-page;
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        text-align: left;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        transition:
-            transform 0.3s ease,
-            box-shadow 0.3s ease;
-        opacity: 0;
-        animation: fade-in-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-
-        &:nth-child(2) { animation-delay: 0.1s; } 
-        &:nth-child(3) { animation-delay: 0.2s; } 
-        &:nth-child(4) { animation-delay: 0.3s; }
-        &:nth-child(5) { animation-delay: 0.4s; }
-
-
-        &:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-            background-color: $text-color-light;
-        }
-
-        h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: $text-color-dark;
-        }
-
-        p {
-            font-size: 1rem;
-            color: $text-color-medium;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.2rem;
-
-            li {
-                list-style-type: disc;
-                color: $text-color-medium;
-                font-size: 0.95rem;
-                margin-bottom: 0.5rem;
-            }
-        }
-
-        button {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            padding: 0.8rem 1rem;
-            background-color: $primary-color;
-            color: $text-color-light;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition:
-                background-color 0.2s ease,
-                transform 0.15s ease,
-                box-shadow 0.2s ease;
-            border: none;
-
-            &:hover {
-                background-color: $primary-darker;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 15px rgba($primary-color, 0.4);
-            }
-
-            &:active {
-                transform: translateY(0);
-                box-shadow: 0 2px 8px rgba($primary-color, 0.2);
-            }
-        }
-    }
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: $space-xl;
+    max-width: $container-xl;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
 }
 
-@media (max-width: $breakpoint-tablet) {
-    .courses {
-        grid-template-columns: 1fr;
-        padding: 2rem 0.5rem;
+// ============================================================================
+// COURSE CARD (ENHANCED GLASSMORPHISM)
+// ============================================================================
+.course-card {
+  position: relative;
+  border-radius: $radius-2xl;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  
+  // Прозрачное стекло как в introduction
+  background: rgba($color-bg-white, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba($color-bg-white, 0.3);
+  box-shadow: $shadow-lg;
+  
+  @include transition-all($transition-slow, $ease-smooth);
 
-        > section {
-            min-height: auto;
-            max-width: 100%;
-        }
+  // Эффект свечения при наведении
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba($color-primary, 0.1) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity $transition-slow $ease-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: $color-primary;
+    box-shadow: $shadow-hover;
+    background: rgba($color-bg-white, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    &::before {
+      opacity: 1;
     }
+  }
+
+  // Дополнительный эффект для глубины
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.2)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  &__image {
+    width: 100%;
+    height: 380px;
+    background: linear-gradient(
+      135deg,
+      $color-accent-light 0%,
+      $color-accent-lighter 50%,
+      $color-accent-peach 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+
+    // Добавляем легкий glass эффект на изображение
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.05) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      @include transition(transform $transition-slower $ease-out);
+    }
+  }
+
+  &:hover &__image img {
+    transform: scale(1.08);
+  }
+
+  &__content {
+    padding: $space-lg;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__title {
+    font-size: $font-2xl;
+    font-weight: $font-bold;
+    color: $color-primary;
+    margin: 0;
+    line-height: $leading-tight;
+    @include transition(color $transition-base $ease-out);
+  }
+
+  &:hover &__title {
+    color: $color-primary-dark;
+  }
+
+  &__description {
+    font-size: $font-base;
+    color: $color-text-dark;
+    line-height: $leading-relaxed;
+    margin: 0;
+    flex: 1;
+  }
+
+  &__time-list {
+    list-style: none;
+    padding: 0;
+    margin: $space-md 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+  }
+
+  &__time-item {
+    font-size: $font-sm;
+    color: $color-text-medium;
+    padding-left: 24px;
+    position: relative;
+    line-height: $leading-normal;
+
+    &::before {
+      content: '⏰';
+      position: absolute;
+      left: 0;
+      font-size: 0.85rem;
+    }
+  }
+
+  &__button {
+    width: 100%;
+    padding: $space-md $space-lg;
+    background: linear-gradient(
+      135deg,
+      $color-primary 0%,
+      $color-primary-light 100%
+    );
+    color: $color-text-light;
+    border: none;
+    border-radius: $radius-xl;
+    font-size: $font-lg;
+    font-weight: $font-semibold;
+    cursor: pointer;
+    margin-top: $space-md;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    
+    @include transition(
+      transform $transition-base $ease-out,
+      box-shadow $transition-base $ease-out
+    );
+    
+    // Эффект свечения кнопки
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        transparent 50%
+      );
+      opacity: 0;
+      transition: opacity $transition-base $ease-out;
+    }
+
+    &:hover {
+      box-shadow: $shadow-primary-lg;
+      transform: translateY(-2px);
+      
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    @include focus-visible;
+  }
+}
+
+// ============================================================================
+// LOADING STATE (опционально)
+// ============================================================================
+.course-card--loading {
+  pointer-events: none;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+@include respond-below($breakpoint-lg) {
+  .courses {
+    padding: $space-3xl $space-md;
+    
+    &__title {
+      font-size: $font-3xl;
+    }
+    
+    &__subtitle {
+      font-size: $font-lg;
+    }
+  }
+  
+  .course-card {
+    &__image {
+      height: 200px;
+    }
+    
+    &__content {
+      padding: $space-lg;
+    }
+  }
+}
+
+@include respond-below($breakpoint-md) {
+  .courses {
+    padding: $space-2xl $space-sm;
+    
+    &__title {
+      font-size: $font-3xl;
+      font-weight: $font-medium;
+    }
+    
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: $space-lg;
+    }
+  }
+  
+  .course-card {
+    border-radius: $radius-xl;
+    
+    &__image {
+      height: 260px;
+    }
+    
+    &__content {
+      padding: $space-md;
+    }
+    
+    &__title {
+      font-size: $font-xl;
+    }
+  }
+}
+
+// ============================================================================
+// ACCESSIBILITY
+// ============================================================================
+@include reduced-motion {
+  .course-card {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+    
+    &__image img {
+      transition: none;
+    }
+    
+    &__button {
+      transition: none;
+    }
+  }
+}
+
+// ============================================================================
+// PRINT STYLES
+// ============================================================================
+@include print-only {
+  .course-card {
+    background: $color-bg-white !important;
+    backdrop-filter: none;
+    border: 1px solid $color-border-dark;
+    box-shadow: none;
+    page-break-inside: avoid;
+    
+    &__button {
+      display: none;
+    }
+  }
 }

@@ -4,7 +4,6 @@
 .price {
     width: 100%;
     padding: 4rem 1rem;
-    background-color: $background-page;
     text-align: center;
     font-family: 'Inter', sans-serif;
     overflow: hidden;
@@ -13,21 +12,21 @@
     &__title {
         font-size: 2.5rem;
         font-weight: 700;
-        color: $text-color-dark;
+        color: $color-text-dark;
         margin-bottom: 1rem;
         @media (max-width: 600px) { font-size: 2rem; }
     }
 
     &__text {
         font-size: 1.15rem;
-        color: $text-color-medium;
+        color: $color-text-medium;
         margin-bottom: 3rem;
         @media (max-width: 600px) { font-size: 1rem; }
     }
 
     .price-swiper {
         position: relative;
-        max-width: 1200px;
+        max-width: 1440px;
         margin: 0 auto;
         padding-bottom: 3rem;
         height: auto; 
@@ -56,25 +55,24 @@
 
         .swiper-button-prev,
         .swiper-button-next {
-            color: $primary-color;
+            color: $color-primary;
             @media (max-width: $breakpoint-tablet) { display: none !important; }
             &:after { font-size: 2rem; }
         }
 
         .swiper-pagination-bullet {
-            background: $border-light;
             opacity: 1;
         }
         
         .swiper-pagination-bullet-active {
-            background: $primary-color;
+            background: $color-primary;
         }
     }
 
     &__item {
         display: flex;
         flex-direction: column;
-        background-color: $text-color-light;
+        background-color: $color-text-light;
         border-radius: 0.75rem;
         overflow: hidden;
         box-shadow: 0 6px 20px rgba(0,0,0,0.08);
@@ -149,7 +147,7 @@
         
         &:hover {
             opacity: 1;
-            color: $primary-color; 
+            color: $color-primary; 
         }
     }
 }
@@ -185,7 +183,7 @@
 
     .modal-swiper-prev,
     .modal-swiper-next {
-        color: $text-color-light;
+        color: $color-text-light;
         display: block !important;
         top: 50%;
         transform: translateY(-50%);
@@ -194,7 +192,7 @@
 
         &:hover {
             opacity: 1;
-            color: $primary-color;
+            color: $color-primary;
         }
 
         &:after {
@@ -215,13 +213,13 @@
     }
 
     .swiper-pagination-bullet {
-        background: $text-color-light;
+        background: $color-text-light;
         opacity: 0.5;
     }
 
     .swiper-pagination-bullet-active {
         opacity: 1;
-        background: $primary-color;
+        background: $color-primary;
     }
 }
 

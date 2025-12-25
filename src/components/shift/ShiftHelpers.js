@@ -1,22 +1,32 @@
-import { dayCard } from './ShiftDOM.js';
+import { dayCard } from './ShiftDOM';
 
-export const groupByDay = (items) =>
-  items.reduce((acc, item) => {
-    (acc[item.day] ??= []).push(item);
+export const buildSlides = (
+  wrapper,
+  filterFn,
+  lessons,
+  daysMap,
+  submitHandler,
+  meta
+) => {
+  wrapper.innerHTML = '';
+
+  const grouped = lessons.reduce((acc, l) => {
+    (acc[l.day] ??= []).push(l);
     return acc;
   }, {});
 
-export const buildSlides = (wrapper, filterFn, data, days, btnText, submitHandler) => {
-  wrapper.innerHTML = '';
-  const grouped = groupByDay(data);
+  Object.entries(grouped).forEach(([day, list]) => {
+    const filtered = list.filter(filterFn);
+    if (!filtered.length) return;
 
-  Object.entries(grouped).forEach(([dayKey, lessons]) => {
-    const translatedDay = days[dayKey] || dayKey;
-    
-    const filt = lessons.filter(filterFn);
-    
-    if (filt.length) {
-      wrapper.append(dayCard(translatedDay, filt, btnText, submitHandler));
-    }
+    wrapper.append(
+      dayCard(
+        day,
+        daysMap[day] || day,
+        filtered,
+        submitHandler,
+        meta
+      )
+    );
   });
 };

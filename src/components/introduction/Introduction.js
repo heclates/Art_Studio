@@ -1,39 +1,78 @@
-import { el } from '../../utils/createElement.js';
-import { createLogo } from './IntroductionLogo.js';
+import { el } from '@/utils/createElement.js';
 import { createAbout } from './IntroductionAbout.js';
-import { getLanguage, subscribe } from '@/utils/languageManager'; 
+import { getLanguage, subscribe } from '@/utils/languageManager';
 
 import { introductionRU } from '@/i18n/introduction/ru.js';
 import { introductionEN } from '@/i18n/introduction/en.js';
 
-const INTRO_MAP = {
-    ru: introductionRU,
-    en: introductionEN,
-    default: introductionRU
+const INTRO_TRANSLATIONS = {
+  ru: introductionRU,
+  en: introductionEN,
+  default: introductionRU
 };
 
-const renderIntroductionContent = (lang, articleElement) => {
-    const texts = INTRO_MAP[lang] || INTRO_MAP.default;
-    
-    articleElement.innerHTML = ''; 
+const getTexts = (lang) =>
+  INTRO_TRANSLATIONS[lang] || INTRO_TRANSLATIONS.default;
 
-    const section = el('section', { class: 'introduction__info' });
+/**
+ * Updates only translatable content (about section)
+ */
+const updateIntroductionContent = (lang, aboutWrapper) => {
+  const texts = getTexts(lang);
+  const newAbout = createAbout(texts);
 
-    section.appendChild(createLogo(texts));
-    section.appendChild(createAbout(texts));
-    articleElement.appendChild(section);
-}
+  aboutWrapper.replaceChildren(newAbout);
+};
 
-
+/**
+ * Creates hero introduction section with logo + about text
+ */
 export const createIntroduction = () => {
-    const article = el('article', { class: 'introduction' });
+  const article = el('article', {
+    class: 'introduction',
+    id: 'introduction',
+    role: 'region',
+    'aria-label': 'Introduction'
+  });
 
-    const initialLang = getLanguage();
-    renderIntroductionContent(initialLang, article);
+  const infoSection = el('section', {
+    class: 'introduction__info'
+  });
 
-    subscribe((newLang) => {
-        renderIntroductionContent(newLang, article);
-    });
+  // === HERO LOGO ===
+  const logo = el('img', {
+    class: 'hero__logo',
+    src: '/assets/ico/logo.png',
+    alt: 'Studio logo',
+    width: '160',
+    height: '160',
+    loading: 'eager'
+  });
 
-    return article;
+  // === ABOUT WRAPPER (replaced on language change) ===
+  const aboutWrapper = el('div', {
+    class: 'hero__content'
+  });
+
+  const lang = getLanguage();
+  aboutWrapper.appendChild(createAbout(getTexts(lang)));
+
+  infoSection.append(logo, aboutWrapper);
+  article.appendChild(infoSection);
+
+  // language subscription
+  const unsubscribe = subscribe((newLang) => {
+    updateIntroductionContent(newLang, aboutWrapper);
+  });
+
+  article._unsubscribe = unsubscribe;
+  return article;
+};
+
+/**
+ * Cleanup
+ */
+export const destroyIntroduction = (article) => {
+  article?._unsubscribe?.();
+  delete article._unsubscribe;
 };

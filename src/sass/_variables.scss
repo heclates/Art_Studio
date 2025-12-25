@@ -1,766 +1,367 @@
-// ============================================
-// СОВРЕМЕННЫЕ CSS ПЕРЕМЕННЫЕ (:root) 2025
-// ============================================
 @use "sass:color";
 
-$primary-color: #FF6E11; // Главный акцентный цвет (Оранжевый)
-$primary-darker: #E65F0F; // Для :hover/active состояний кнопок
-$primary-light: #FFF3EB; // Для светлого фона или мягкой рамки (редко)
+// ============================================================================
+// COLORS - PRIMARY PALETTE
+// ============================================================================
+$color-primary: #D97757;
+$color-primary-light: #E89177;
+$color-primary-lighter: #F2A896;
+$color-primary-dark: #C06645;
+$color-primary-darker: #A85536;
 
-$text-color-dark: #1A1A1A; // Заголовки, основной текст
-$text-color-medium: #4A4A4A; // Второстепенный текст, иконки
-$text-color-light: #FFFFFF; // Текст на темном фоне
+$color-secondary: #F4A261;
+$color-secondary-light: #F7B481;
+$color-secondary-dark: #E08F48;
 
-$background-page: #FAFAFA; // Светлый фон секций
-$background-translucent: #FAFAFA99; // Для полупрозрачного хедера
-$border-light: #EAEAEA; // Светлые разделители/рамки
+// ============================================================================
+// COLORS - BACKGROUNDS
+// ============================================================================
+$color-bg-main: #FFF9F5;
+$color-bg-white: #FFFFFF;
+$color-bg-gradient: #FFF4EC;
+$color-bg-cream: #FFF7F0;
+$color-bg-overlay: rgba(0, 0, 0, 0.5); // Для оверлеев/модалок
 
-$breakpoint-mobile: 992px;
-$breakpoint-tablet: 768px;
-:root {
-  // --------------------------------------------
-  // ЦВЕТОВАЯ ПАЛИТРА (Design System)
-  // --------------------------------------------
-  // Мои дополнения
-  
-  $primary-color: #FF6E11;
-$background-light: #fafafa;
-$text-light: #fafafa;
-$text-dark: #333;
-$border-radius: 15px;
-  // Primary colors
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
-  
-  // Secondary colors
-  --color-secondary-50: #faf5ff;
-  --color-secondary-100: #f3e8ff;
-  --color-secondary-200: #e9d5ff;
-  --color-secondary-300: #d8b4fe;
-  --color-secondary-400: #c084fc;
-  --color-secondary-500: #a855f7;
-  --color-secondary-600: #9333ea;
-  --color-secondary-700: #7e22ce;
-  --color-secondary-800: #6b21a8;
-  --color-secondary-900: #581c87;
-  
-  // Accent colors
-  --color-accent-50: #fef2f2;
-  --color-accent-100: #fee2e2;
-  --color-accent-200: #fecaca;
-  --color-accent-300: #fca5a5;
-  --color-accent-400: #f87171;
-  --color-accent-500: #ef4444;
-  --color-accent-600: #dc2626;
-  --color-accent-700: #b91c1c;
-  --color-accent-800: #991b1b;
-  --color-accent-900: #7f1d1d;
-  
-  // Neutral/Gray scale
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
-  --color-gray-950: #030712;
-  
-  // Success
-  --color-success-50: #f0fdf4;
-  --color-success-100: #dcfce7;
-  --color-success-500: #22c55e;
-  --color-success-600: #16a34a;
-  --color-success-700: #15803d;
-  
-  // Warning
-  --color-warning-50: #fffbeb;
-  --color-warning-100: #fef3c7;
-  --color-warning-500: #f59e0b;
-  --color-warning-600: #d97706;
-  --color-warning-700: #b45309;
-  
-  // Error/Danger
-  --color-error-50: #fef2f2;
-  --color-error-100: #fee2e2;
-  --color-error-500: #ef4444;
-  --color-error-600: #dc2626;
-  --color-error-700: #b91c1c;
-  
-  // Info
-  --color-info-50: #f0f9ff;
-  --color-info-100: #e0f2fe;
-  --color-info-500: #0ea5e9;
-  --color-info-600: #0284c7;
-  --color-info-700: #0369a1;
-  
-  // --------------------------------------------
-  // SEMANTIC COLORS (Light theme)
-  // --------------------------------------------
-  
-  --color-background: #ffffff;
-  --color-background-secondary: #f9fafb;
-  --color-background-tertiary: #f3f4f6;
-  --color-surface: #ffffff;
-  --color-surface-hover: #f9fafb;
-  
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary: #9ca3af;
-  --color-text-inverse: #ffffff;
-  
-  --color-border: #e5e7eb;
-  --color-border-hover: #d1d5db;
-  --color-border-focus: #3b82f6;
-  
-  --color-overlay: rgba(0, 0, 0, 0.5);
-  
-  // --------------------------------------------
-  // SPACING SYSTEM (8px base)
-  // --------------------------------------------
-  
-  --spacing-0: 0;
-  --spacing-1: 0.25rem;   // 4px
-  --spacing-2: 0.5rem;    // 8px
-  --spacing-3: 0.75rem;   // 12px
-  --spacing-4: 1rem;      // 16px
-  --spacing-5: 1.25rem;   // 20px
-  --spacing-6: 1.5rem;    // 24px
-  --spacing-7: 1.75rem;   // 28px
-  --spacing-8: 2rem;      // 32px
-  --spacing-9: 2.25rem;   // 36px
-  --spacing-10: 2.5rem;   // 40px
-  --spacing-12: 3rem;     // 48px
-  --spacing-14: 3.5rem;   // 56px
-  --spacing-16: 4rem;     // 64px
-  --spacing-20: 5rem;     // 80px
-  --spacing-24: 6rem;     // 96px
-  --spacing-32: 8rem;     // 128px
+// Glassmorphism backgrounds
+$color-glass-white: rgba(255, 255, 255, 0.9);
+$color-glass-white-light: rgba(255, 255, 255, 0.7);
+$color-glass-white-lighter: rgba(255, 255, 255, 0.5);
+$color-glass-cream: rgba(255, 249, 245, 0.85);
 
-  // --------------------------------------------
-  // TYPOGRAPHY
-  // --------------------------------------------
-  
-  // Font families
-  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-secondary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  --font-display: 'Cal Sans', 'Inter', sans-serif;
-  
-  // Font sizes (fluid typography)
-  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);      // 12-14px
-  --font-size-sm: clamp(0.875rem, 0.825rem + 0.25vw, 1rem);       // 14-16px
-  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);      // 16-18px
-  --font-size-md: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);    // 18-20px
-  --font-size-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);        // 20-24px
-  --font-size-xl: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);      // 24-30px
-  --font-size-2xl: clamp(1.875rem, 1.65rem + 1.125vw, 2.25rem);   // 30-36px
-  --font-size-3xl: clamp(2.25rem, 1.95rem + 1.5vw, 3rem);         // 36-48px
-  --font-size-4xl: clamp(3rem, 2.5rem + 2.5vw, 3.75rem);          // 48-60px
-  --font-size-5xl: clamp(3.75rem, 3rem + 3.75vw, 4.5rem);         // 60-72px
-  
-  // Font weights
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
-  
-  // Line heights
-  --line-height-tight: 1.25;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
-  
-  // Letter spacing
-  --letter-spacing-tight: -0.025em;
-  --letter-spacing-normal: 0;
-  --letter-spacing-wide: 0.025em;
-  --letter-spacing-wider: 0.05em;
-  --letter-spacing-widest: 0.1em;
-  
-  // --------------------------------------------
-  // BORDER RADIUS
-  // --------------------------------------------
-  
-  --radius-none: 0;
-  --radius-sm: 0.125rem;    // 2px
-  --radius-base: 0.25rem;   // 4px
-  --radius-md: 0.375rem;    // 6px
-  --radius-lg: 0.5rem;      // 8px
-  --radius-xl: 0.75rem;     // 12px
-  --radius-2xl: 1rem;       // 16px
-  --radius-3xl: 1.5rem;     // 24px
-  --radius-full: 9999px;
-  
-  // --------------------------------------------
-  // SHADOWS (Elevation system)
-  // --------------------------------------------
-  
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-2xl: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
-  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
-  
-  // Colored shadows (trendy in 2025)
-  --shadow-primary: 0 10px 30px -10px rgba(59, 130, 246, 0.4);
-  --shadow-success: 0 10px 30px -10px rgba(34, 197, 94, 0.4);
-  --shadow-warning: 0 10px 30px -10px rgba(245, 158, 11, 0.4);
-  --shadow-error: 0 10px 30px -10px rgba(239, 68, 68, 0.4);
-  
-  // --------------------------------------------
-  // Z-INDEX SCALE
-  // --------------------------------------------
-  
-  --z-index-dropdown: 1000;
-  --z-index-sticky: 1020;
-  --z-index-fixed: 1030;
-  --z-index-modal-backdrop: 1040;
-  --z-index-modal: 1050;
-  --z-index-popover: 1060;
-  --z-index-tooltip: 1070;
-  --z-index-notification: 1080;
-  
-  // --------------------------------------------
-  // TRANSITIONS & ANIMATIONS
-  // --------------------------------------------
-  
-  --transition-fast: 150ms;
-  --transition-base: 250ms;
-  --transition-slow: 350ms;
-  --transition-slower: 500ms;
-  
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --ease-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
-  
-  // --------------------------------------------
-  // LAYOUT & CONTAINERS
-  // --------------------------------------------
-  
-  --container-xs: 475px;
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1280px;
-  --container-2xl: 1536px;
-  
-  --max-width-prose: 65ch;
-  --max-width-reading: 75ch;
-  
-  // --------------------------------------------
-  // BACKDROP BLUR (Glassmorphism)
-  // --------------------------------------------
-  
-  --blur-sm: 4px;
-  --blur-base: 8px;
-  --blur-md: 12px;
-  --blur-lg: 16px;
-  --blur-xl: 24px;
-  --blur-2xl: 40px;
-  --blur-3xl: 64px;
-  
-  // --------------------------------------------
-  // SCROLLBAR
-  // --------------------------------------------
-  
-  --scrollbar-width: 8px;
-  --scrollbar-track: var(--color-gray-100);
-  --scrollbar-thumb: var(--color-gray-400);
-  --scrollbar-thumb-hover: var(--color-gray-500);
+// ============================================================================
+// COLORS - TEXT
+// ============================================================================
+$color-text-dark: #2C2C2C;
+$color-text-medium: #6B6B6B;
+$color-text-light: #FFFFFF;
+$color-text-accent-light: #8B8B8B;
+$color-text-placeholder: #ABABAB;
+$color-text-disabled: #CACACA;
+
+// ============================================================================
+// COLORS - ACCENTS
+// ============================================================================
+$color-accent-light: #FFE8DB;
+$color-accent-lighter: #FFD4BE;
+$color-accent-peach: #FFCCB3;
+
+// ============================================================================
+// COLORS - SEMANTIC (для статусов, форм, уведомлений)
+// ============================================================================
+$color-success: #4CAF50;
+$color-success-light: #81C784;
+$color-success-bg: #E8F5E9;
+
+$color-error: #F44336;
+$color-error-light: #E57373;
+$color-error-bg: #FFEBEE;
+
+$color-warning: #FF9800;
+$color-warning-light: #FFB74D;
+$color-warning-bg: #FFF3E0;
+
+$color-info: #2196F3;
+$color-info-light: #64B5F6;
+$color-info-bg: #E3F2FD;
+
+// ============================================================================
+// COLORS - BORDERS
+// ============================================================================
+$color-border-light: rgba(0, 0, 0, 0.08);
+$color-border-medium: rgba(0, 0, 0, 0.12);
+$color-border-dark: rgba(0, 0, 0, 0.2);
+$color-border-primary: rgba($color-primary, 0.3);
+$color-border-glass: rgba(255, 255, 255, 0.5);
+
+// ============================================================================
+// SHADOWS - Enhanced with glassmorphism
+// ============================================================================
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 10px 40px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 15px 50px rgba(0, 0, 0, 0.08);
+$shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.1);
+$shadow-2xl: 0 30px 80px rgba(0, 0, 0, 0.12);
+
+// Colored shadows
+$shadow-hover: 0 20px 50px rgba($color-primary, 0.15);
+$shadow-primary: 0 10px 30px rgba($color-primary, 0.3);
+$shadow-primary-lg: 0 15px 40px rgba($color-primary, 0.25);
+$shadow-secondary: 0 10px 30px rgba($color-secondary, 0.25);
+
+// Glass effect shadows
+$shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+$shadow-glass-hover: 0 12px 48px rgba(0, 0, 0, 0.12);
+
+// Inner shadows
+$shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+$shadow-inset-lg: inset 0 4px 8px rgba(0, 0, 0, 0.08);
+
+// ============================================================================
+// BLUR (для glassmorphism)
+// ============================================================================
+$blur-sm: 8px;
+$blur-md: 12px;
+$blur-lg: 16px;
+$blur-xl: 20px;
+
+// ============================================================================
+// BORDER RADIUS
+// ============================================================================
+$radius-xs: 4px;
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+$radius-2xl: 24px;
+$radius-full: 9999px;
+
+// ============================================================================
+// SPACING SYSTEM (8px base)
+// ============================================================================
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+$space-3xl: 64px;
+$space-4xl: 80px;
+$space-5xl: 96px;
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+// Font families
+$font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-secondary: 'Georgia', 'Times New Roman', serif;
+$font-mono: 'Fira Code', 'Consolas', 'Monaco', monospace;
+
+// Font sizes
+$font-xs: 0.75rem;    // 12px
+$font-sm: 0.875rem;   // 14px
+$font-base: 1rem;     // 16px
+$font-lg: 1.125rem;   // 18px
+$font-xl: 1.25rem;    // 20px
+$font-2xl: 1.5rem;    // 24px
+$font-3xl: 1.875rem;  // 30px
+$font-4xl: 2.25rem;   // 36px
+$font-5xl: 3rem;      // 48px
+
+// Font weights
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+$font-extrabold: 800;
+$font-black: 900;
+
+// Line heights
+$leading-none: 1;
+$leading-tight: 1.25;
+$leading-snug: 1.375;
+$leading-normal: 1.5;
+$leading-relaxed: 1.625;
+$leading-loose: 2;
+
+// Letter spacing
+$tracking-tighter: -0.05em;
+$tracking-tight: -0.025em;
+$tracking-normal: 0;
+$tracking-wide: 0.025em;
+$tracking-wider: 0.05em;
+$tracking-widest: 0.1em;
+
+// ============================================================================
+// BREAKPOINTS (Mobile-first approach)
+// ============================================================================
+$breakpoint-xs: 480px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Legacy support (можно удалить позже)
+$breakpoint-mobile: $breakpoint-md;
+$breakpoint-tablet: $breakpoint-lg;
+
+// ============================================================================
+// Z-INDEX SCALE (для управления слоями)
+// ============================================================================
+$z-dropdown: 1000;
+$z-sticky: 1020;
+$z-fixed: 1030;
+$z-modal-backdrop: 1040;
+$z-modal: 1050;
+$z-popover: 1060;
+$z-tooltip: 1070;
+
+// ============================================================================
+// TRANSITIONS & ANIMATIONS
+// ============================================================================
+$transition-fast: 150ms;
+$transition-base: 250ms;
+$transition-slow: 350ms;
+$transition-slower: 500ms;
+
+$ease-in: cubic-bezier(0.4, 0, 1, 1);
+$ease-out: cubic-bezier(0, 0, 0.2, 1);
+$ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ============================================================================
+// CONTAINER WIDTHS
+// ============================================================================
+$container-sm: 640px;
+$container-md: 768px;
+$container-lg: 1024px;
+$container-xl: 1280px;
+$container-2xl: 1536px;
+
+// ============================================================================
+// MIXINS - Enhanced
+// ============================================================================
+
+// Transitions
+@mixin transition($properties...) {
+  transition: $properties;
 }
 
-// ============================================
-// DARK MODE VARIABLES
-// ============================================
-
-[data-theme="dark"],
-.dark-mode {
-  // Semantic colors для тёмной темы
-  --color-background: #0f172a;
-  --color-background-secondary: #1e293b;
-  --color-background-tertiary: #334155;
-  --color-surface: #1e293b;
-  --color-surface-hover: #334155;
-  
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #cbd5e1;
-  --color-text-tertiary: #94a3b8;
-  --color-text-inverse: #0f172a;
-  
-  --color-border: #334155;
-  --color-border-hover: #475569;
-  --color-border-focus: #60a5fa;
-  
-  --color-overlay: rgba(0, 0, 0, 0.7);
-  
-  // Shadows для тёмной темы (более мягкие)
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
-  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  
-  // Scrollbar для тёмной темы
-  --scrollbar-track: var(--color-gray-800);
-  --scrollbar-thumb: var(--color-gray-600);
-  --scrollbar-thumb-hover: var(--color-gray-500);
+@mixin transition-all($duration: $transition-base, $easing: $ease-in-out) {
+  transition: all $duration $easing;
 }
 
-// Auto dark mode (system preference)
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-background: #0f172a;
-    --color-background-secondary: #1e293b;
-    --color-background-tertiary: #334155;
-    --color-surface: #1e293b;
-    --color-surface-hover: #334155;
-    
-    --color-text-primary: #f1f5f9;
-    --color-text-secondary: #cbd5e1;
-    --color-text-tertiary: #94a3b8;
-    --color-text-inverse: #0f172a;
-    
-    --color-border: #334155;
-    --color-border-hover: #475569;
-    --color-border-focus: #60a5fa;
-    
-    --color-overlay: rgba(0, 0, 0, 0.7);
+// Shadows
+@mixin box-shadow($blur: 40px, $opacity: 0.08) {
+  box-shadow: 0 10px $blur rgba(0, 0, 0, $opacity);
+}
+
+// Glassmorphism effect
+@mixin glass($blur: $blur-md, $opacity: 0.9) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $color-border-glass;
+}
+
+@mixin glass-colored($color, $opacity: 0.85, $blur: $blur-md) {
+  background: rgba($color, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+// Responsive breakpoints
+@mixin respond-to($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
   }
 }
 
-// ============================================
-// СОВРЕМЕННЫЕ SCSS МИКСИНЫ 2025
-// ============================================
-
-// --------------------------------------------
-// 1. RESPONSIVE DESIGN
-// --------------------------------------------
-
-$breakpoints: (
-  xs: 320px,
-  sm: 576px,
-  md: 768px,
-  lg: 1024px,
-  xl: 1280px,
-  xxl: 1536px,
-  xxxl: 1920px
-);
-
-@mixin respond($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
-      @content;
-    }
-  } @else {
-    @warn "Breakpoint #{$breakpoint} не найден в $breakpoints";
+@mixin respond-below($breakpoint) {
+  @media (max-width: $breakpoint - 1px) {
+    @content;
   }
 }
 
-
-
-// --------------------------------------------
-// 2. FLEXBOX УТИЛИТЫ
-// --------------------------------------------
-
-@mixin flex($justify: center, $align: center, $direction: row, $wrap: nowrap) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  flex-direction: $direction;
-  flex-wrap: $wrap;
+// Text truncation
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-@mixin flex-center {
+@mixin truncate-lines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Centering
+@mixin center-flex {
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
 }
 
-@mixin flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-@mixin flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-// --------------------------------------------
-// 3. GRID УТИЛИТЫ
-// --------------------------------------------
-
-@mixin grid($cols: 12, $gap: var(--spacing-4)) {
-  display: grid;
-  grid-template-columns: repeat($cols, 1fr);
-  gap: $gap;
-}
-
-@mixin grid-auto($min-width: 250px, $gap: var(--spacing-4)) {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
-  gap: $gap;
-}
-
-// --------------------------------------------
-// 4. ПОЗИЦИОНИРОВАНИЕ
-// --------------------------------------------
-
-@mixin absolute-center {
+@mixin center-absolute {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-@mixin absolute-full {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+// Focus states
+@mixin focus-ring($color: $color-primary, $width: 2px, $offset: 2px) {
+  outline: $width solid $color;
+  outline-offset: $offset;
 }
 
-@mixin fixed-full {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-// --------------------------------------------
-// 5. РАЗМЕРЫ
-// --------------------------------------------
-
-@mixin size($width, $height: $width) {
-  width: $width;
-  height: $height;
-}
-
-@mixin square($size) {
-  width: $size;
-  height: $size;
-}
-
-@mixin circle($size) {
-  width: $size;
-  height: $size;
-  border-radius: var(--radius-full);
-}
-
-// --------------------------------------------
-// 6. ТЕКСТ И ТИПОГРАФИКА
-// --------------------------------------------
-
-@mixin truncate($lines: 1) {
-  @if $lines == 1 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  } @else {
-    display: -webkit-box;
-    -webkit-line-clamp: $lines;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@mixin focus-visible {
+  &:focus-visible {
+    @include focus-ring;
   }
 }
 
-@mixin font-smooth {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-@mixin text-gradient($gradient) {
-  background: $gradient;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-// --------------------------------------------
-// 7. ЭФФЕКТЫ (с использованием CSS переменных)
-// --------------------------------------------
-
-@mixin glass-morphism($blur: var(--blur-lg), $opacity: 0.1) {
-  background: rgba(255, 255, 255, $opacity);
-  backdrop-filter: blur($blur);
-  -webkit-backdrop-filter: blur($blur);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-@mixin shadow($level: 'base') {
-  box-shadow: var(--shadow-#{$level});
-}
-
-// --------------------------------------------
-// 8. АНИМАЦИИ
-// --------------------------------------------
-
-@mixin transition($properties: all, $duration: var(--transition-base), $easing: var(--ease-out)) {
-  transition: $properties $duration $easing;
-}
-
-@mixin hover-lift($translate: -4px) {
-  transition: transform var(--transition-base) var(--ease-out), 
-              box-shadow var(--transition-base) var(--ease-out);
+// Hover lift effect
+@mixin hover-lift($distance: 8px, $shadow: $shadow-hover) {
+  transition: transform $transition-base $ease-out, box-shadow $transition-base $ease-out;
   
   &:hover {
-    transform: translateY($translate);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-$distance);
+    box-shadow: $shadow;
   }
 }
 
-// --------------------------------------------
-// 9. КНОПКИ (с CSS переменными)
-// --------------------------------------------
-
-@mixin button-base {
-  @include flex-center;
-  padding: var(--spacing-3) var(--spacing-6);
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: all var(--transition-base) var(--ease-out);
-  text-decoration: none;
-  user-select: none;
+// Aspect ratio
+@mixin aspect-ratio($width: 16, $height: 9) {
+  position: relative;
   
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  &::before {
+    content: '';
+    display: block;
+    padding-top: percentage($height / $width);
+  }
+  
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 
-@mixin button-variant($bg-var, $hover-transform: translateY(-2px)) {
-  @include button-base;
-  background-color: var($bg-var);
-  color: var(--color-text-inverse);
-  
-  &:hover:not(:disabled) {
-    filter: brightness(1.1);
-    transform: $hover-transform;
-  }
-  
-  &:active:not(:disabled) {
-    transform: translateY(0);
+
+
+// Print styles
+@mixin print-only {
+  @media print {
+    @content;
   }
 }
 
-// --------------------------------------------
-// 10. СКРОЛЛБАРЫ
-// --------------------------------------------
-
-@mixin custom-scrollbar {
-  &::-webkit-scrollbar {
-    width: var(--scrollbar-width);
-    height: var(--scrollbar-width);
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-    border-radius: var(--scrollbar-width);
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: var(--scrollbar-width);
-    
-    &:hover {
-      background: var(--scrollbar-thumb-hover);
-    }
-  }
-  
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-}
-
-@mixin hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
+@mixin no-print {
+  @media print {
+    display: none !important;
   }
 }
 
-// --------------------------------------------
-// 11. ФОРМЫ
-// --------------------------------------------
-
-@mixin input-base {
-  width: 100%;
-  padding: var(--spacing-3) var(--spacing-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-base);
-  transition: border-color var(--transition-base), 
-              box-shadow var(--transition-base);
-  
-  &:focus {
-    outline: none;
-    border-color: var(--color-border-focus);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-  
-  &::placeholder {
-    color: var(--color-text-tertiary);
-  }
-  
-  &:disabled {
-    background-color: var(--color-background-tertiary);
-    cursor: not-allowed;
+// Reduced motion
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
   }
 }
 
-// --------------------------------------------
-// 12. КАРТОЧКИ
-// --------------------------------------------
-
-@mixin card($padding: var(--spacing-6)) {
-  padding: $padding;
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-base);
-  border: 1px solid var(--color-border);
-}
-
-@mixin container($max-width: var(--container-xl), $padding: var(--spacing-4)) {
-  max-width: $max-width;
-  margin: 0 auto;
-  padding-left: $padding;
-  padding-right: $padding;
-  width: 100%;
-}
-
-// --------------------------------------------
-// 13. ASPECT RATIO
-// --------------------------------------------
-
-@mixin aspect-ratio($width, $height) {
-  aspect-ratio: $width / $height;
-}
-
-// --------------------------------------------
-// 14. DARK MODE UTILITIES
-// --------------------------------------------
-
+// Dark mode
 @mixin dark-mode {
   @media (prefers-color-scheme: dark) {
     @content;
   }
 }
-
-@mixin theme($light-value, $dark-value) {
-  color: $light-value;
-  
-  @include dark-mode {
-    color: $dark-value;
-  }
-}
-
-// --------------------------------------------
-// 15. ДОСТУПНОСТЬ
-// --------------------------------------------
-
-@mixin sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-@mixin focus-visible {
-  &:focus-visible {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 2px;
-  }
-}
-
-// --------------------------------------------
-// ПРИМЕРЫ ИСПОЛЬЗОВАНИЯ
-// --------------------------------------------
-
-/*
-// Пример 1: Карточка с переменными
-.card {
-  @include card;
-  @include hover-lift;
-  color: var(--color-text-primary);
-  
-  &:hover {
-    border-color: var(--color-border-hover);
-  }
-}
-
-// Пример 2: Кнопка primary
-.btn-primary {
-  @include button-variant(--color-primary-600);
-}
-
-// Пример 3: Input с темами
-.input {
-  @include input-base;
-}
-
-// Пример 4: Текст с градиентом
-.gradient-text {
-  @include text-gradient(
-    linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-500))
-  );
-}
-
-// Пример 5: Container
-.container {
-  @include container(var(--container-xl));
-}
-
-// Пример 6: Glassmorphism card
-.glass-card {
-  @include glass-morphism(var(--blur-xl), 0.15);
-  padding: var(--spacing-8);
-  border-radius: var(--radius-2xl);
-}
-
-// Пример 7: Grid responsive
-.gallery {
-  @include grid-auto(280px, var(--spacing-6));
-}
-
-// Пример 8: Custom scrollbar
-.content {
-  @include custom-scrollbar;
-  height: 400px;
-  overflow-y: auto;
-}
-*/

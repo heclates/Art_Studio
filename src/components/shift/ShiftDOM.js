@@ -1,48 +1,67 @@
 import { el } from '@/utils/createElement';
-import { shiftRU } from '@/i18n/shift/ru';
 import { createReservationForm } from '@/components/forms/ReservationForm';
 import { openModal } from '@/components/Modal';
+import { normalizeWeekday, getNextWeekdayDate } from '@/utils/dateUtils';
 
-export const lessonCard = (lesson, submitHandler) =>
+export const lessonCard = (lesson, meta, submitHandler) =>
   el('div', {
     class: 'shift-lesson__lesson-card',
     children: [
-      el('div', {
-        class: 'shift-lesson__lesson-details',
-        children: [
-          el('p', { class: 'shift-lesson__lesson-category', textContent: lesson.category }),
-          el('p', { class: 'shift-lesson__lesson-age', textContent: lesson.age }),
-          el('div', {
-            class: 'shift-lesson__lesson-time-teacher',
-            children: [
-              el('span', { class: 'shift-lesson__lesson-time', textContent: lesson.time }),
-              el('span', { class: 'shift-lesson__lesson-teacher', textContent: `, ${lesson.teacher}` })
-            ]
-          })
-        ]
-      }),
+      el('p', { textContent: lesson.category }),
+      el('p', { textContent: lesson.age }),
+      el('p', { textContent: `${lesson.time}, ${lesson.teacher}` }),
       el('button', {
-        class: 'shift-lesson__enroll',
-        type: 'button',
-        textContent: lesson.btnText || 'Записаться',
-        onclick: () => {
-          const formNode = createReservationForm(
-            { day: lesson.day, time: lesson.time, category: lesson.category },
-            (formData) => submitHandler(formData)
+        textContent: lesson.btnText,
+        onclick: (e) => {
+          e.stopPropagation(); // Предотвращаем всплытие к dayCard
+          
+          const weekday = normalizeWeekday(lesson.day);
+          const date = getNextWeekdayDate(weekday);
+
+          const payload = {
+            location: meta.location,
+            filter: meta.filter,
+            day: lesson.day,
+            date,
+            time: lesson.time,
+            category: lesson.category
+          };
+
+          openModal(
+            createReservationForm(payload, submitHandler)
           );
-          openModal(formNode);
         }
       })
     ]
   });
 
-export const dayCard = (day, lessons, submitHandler) =>
-  el('article', {
+export const dayCard = (dayKey, title, lessons, submitHandler, meta) => {
+  const weekday = normalizeWeekday(dayKey);
+  const date = getNextWeekdayDate(weekday);
+  
+  return el('article', {
     class: 'shift-lesson__day-card swiper-slide',
-    'data-day': day,
-    'aria-label': `Расписание на ${shiftRU.days?.[day] || day}`,
+    style: 'cursor: pointer;', // Показываем, что блок кликабельный
+    onclick: () => {
+      // Формируем данные для предзаполнения формы
+      const payload = {
+        location: meta.location,    // Прага 9 или Прага 2
+        filter: meta.filter,         // Активный фильтр (all, kids, adults и т.д.)
+        day: dayKey,                 // День недели (monday, tuesday и т.д.)
+        dayTitle: title,             // Название дня на текущем языке
+        date,                        // Точная дата (например, 2025-12-17)
+        time: '',                    // Время пустое, т.к. выбрали весь день
+        category: ''                 // Категория пустая
+      };
+
+      // Открываем модальное окно с формой
+      openModal(
+        createReservationForm(payload, submitHandler)
+      );
+    },
     children: [
-      el('h4', { class: 'shift-lesson__day-title', textContent: shiftRU.days?.[day] || day }),
-      el('div', { class: 'shift-lesson__lessons-container', children: lessons.map((lsn) => lessonCard(lsn, submitHandler)) })
+      el('h4', { textContent: title }),
+      ...lessons.map(l => lessonCard(l, meta, submitHandler))
     ]
   });
+};

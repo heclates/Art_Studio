@@ -1,14 +1,12 @@
 export const introductionEN = {
-  logoMiddleTop: 'ALEKSANDROVA',
-  logoMiddle: 'Art Studio',
-  logoMiddleBot: '𓅓',
-  aboutTitle: 'ABOUT US',
+  studioName: 'Alexandrova Art Studio',
+  aboutTitle: 'O NÁS',
   aboutText: `
-      Our art studio, founded in 2022 in Prague 9, is a space where everyone, regardless of age and experience, can immerse themselves in the world of art and creativity. Here, children take their first steps in drawing, and adults find moments of peace and inspiration amidst the everyday hustle.
-
-      <br><br>
-      We believe that art should be accessible to everyone — from children who are just beginning to discover the joy of creativity, to adults seeking new ways for self-expression. Every class in our studio is more than just learning. It's an opportunity to unlock your creative potential, feel supported, and experience joy from the process of creation itself.
-      <br><br>
-      Join us to find inspiration in creativity and make it a part of your daily life.
+      Naše art studio v Praze 9 vzniklo v roce 2022 s jednoduchým cílem — vytvořit prostor, kde se může každý, bez ohledu na věk a zkušenosti, ponořit do světa umění a kreativity. Jsme místo, kde děti objevují první tahy štětcem a dospělí nacházejí chvíle klidu a inspirace v každodenním shonu.
+      
+ <br>‌</br>
+Věříme, že umění by mělo být přístupné všem — od nejmladších, kteří teprve poznávají kouzlo tvoření, až po ty, kteří hledají nové způsoby, jak obohatit svůj život. V našem studiu se zaměřujeme na to, aby každá lekce byla nejen výukou, ale také zážitkem plným podpory a radosti z tvoření.
+‌<br>‌</br>
+Přijďte a objevte místo, kde se tvoření stává přirozenou součástí vašeho života.
     `
 };

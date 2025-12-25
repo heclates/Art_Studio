@@ -5,12 +5,12 @@ import { createPriceDOM } from './PriceDOM';
 import { initPriceSwiper } from './PriceEffect';
 import { subscribe, getLanguage } from '@/utils/languageManager';
 import { priceRU } from '@/i18n/price/ru.js';
-import { priceCZ } from '@/i18n/price/cz.js';
+import { priceEN } from '@/i18n/price/en.js';
 import { openModal } from '../Modal';
 
 const priceDataMap = {
     ru: priceRU,
-    cz: priceCZ,
+    en: priceEN,
     default: priceRU
 };
 

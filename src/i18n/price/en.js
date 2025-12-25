@@ -1,4 +1,4 @@
-export const priceCZ = {
+export const priceEN = {
     title: 'Ceník',
     text: 'Aktuální ceny našich kurzů a permanentek',
     slides: [

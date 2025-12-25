@@ -1,12 +1,12 @@
 export const headerEN = {
     navItems: [
-        { href: '#introduction', text: 'Introduction' },
-        { href: '#courses', text: 'Courses' },
-        { href: '#schedule', text: 'Schedule' },
-        { href: '#price-title', text: 'Price' },
-        { href: '#gallery-title', text: 'Gallery' },
-        { href: '#contacts', text: 'Contacts' },
-        { href: '#reservation-form-free__title', text: 'Reservation' }
+        { href: '#introduction', text: 'O nás' },
+        { href: '#courses', text: 'Kurzy' },
+        { href: '#schedule', text: 'Rozvrh' },
+        { href: '#price-title', text: 'Ceník' },
+        { href: '#gallery-title', text: 'Galerie' },
+        { href: '#contacts', text: 'Kontakty' },
+        { href: '#reservation-form-free', text: 'Rezervace' }
     ],
-    ariaLabel: 'Main site navigation'
+    ariaLabel: 'Hlavní navigace webu'
 };

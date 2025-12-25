@@ -1,3 +1,4 @@
+import { el } from '@/utils/createElement.js';
 import { createIntroduction } from './introduction/Introduction.js';
 import { createCourses } from './courses/Courses.js';
 import { createShiftLesson } from './shift/Shift.js';
@@ -6,7 +7,7 @@ import { createGallery } from './gallery/Gallery.js';
 import { createContacts } from './contacts/Contacts.js';
 import { createReservationFormFree } from './forms/freeRezervationForm.js';
 import { submitToGoogleSheets } from '@/utils/googleSheets.js';
-import { subscribe } from '@/utils/languageManager';
+import { getLanguage, subscribe } from '@/utils/languageManager';
 
 const buildLanguageDependentContent = () => {
     const container = document.createDocumentFragment();
@@ -22,7 +23,11 @@ export const createMainContent = async () => {
     const main = document.createElement('main');
     main.setAttribute('role', 'main');
     main.className = 'main-content';
+    const shape1 = el('div', { class: 'floating-shape shape1' });
+    const shape2 = el('div', { class: 'floating-shape shape2' });
 
+    main.appendChild(shape1);
+    main.appendChild(shape2);
     main.appendChild(createIntroduction());
 
     const dynamicContentContainer = document.createElement('div');
@@ -35,6 +40,7 @@ export const createMainContent = async () => {
     };
 
     subscribe(renderContent);
+    renderContent();
 
     main.appendChild(createReservationFormFree(submitToGoogleSheets));
     return main;

@@ -27,5 +27,6 @@ schemas/*
 schemas
 
 assets/img/
+assets/price_img/
 credentials.json
 .env

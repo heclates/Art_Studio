@@ -2,98 +2,85 @@
 const today = new Date().toISOString().split('T')[0];
 
 export const formsEN = {
-    // Поля для формы бесплатной/свободной резервации (freeRezervationForm.js)
+    // Pole pro volnou rezervaci (freeRezervationForm.js)
     freeFields: [
         {
-            label: 'Parent\'s Name, Surname:',
+            label: 'Jméno a příjmení rodiče:',
             name: 'surname',
             type: 'text',
             pattern: '[A-Za-z\\s]{2,}',
-            title: 'Latin letters only, minimum 2 characters',
-            placeholder: 'Ivanov Ivan (Latin letters only)'
+            title: 'Pouze latinka, minimálně 2 znaky',
+            placeholder: 'Ivan Ivanov (pouze latinka)'
         },
         {
-            label: 'Child\'s Name, Surname:',
+            label: 'Jméno a příjmení dítěte:',
             name: 'name',
             type: 'text',
             pattern: '[A-Za-z\\s]{2,}',
-            title: 'Latin letters only, minimum 2 characters',
-            placeholder: 'Anna Ivanova (Latin letters only)'
+            title: 'Pouze latinka, minimálně 2 znaky',
+            placeholder: 'Anna Ivanova (pouze latinka)'
         },
         { 
-            label: 'Contact Phone:', 
+            label: 'Kontaktní telefon:', 
             name: 'phone', 
             type: 'tel', 
-            title: 'Enter your contact phone number' 
+            title: 'Zadejte váš kontaktní telefon' 
         },
         { 
-            label: 'Child\'s Date of Birth:', 
+            label: 'Datum narození dítěte:', 
             name: 'birthdate', 
             type: 'date', 
             min: '2000-01-01', 
             max: today,
-            title: 'Select date of birth'
+            title: 'Vyberte datum narození'
         },
-        { 
-            label: 'Class Date:', 
-            name: 'day', 
-            type: 'date',
-            min: today,
-            title: 'Select class date'
-        },
-        { 
-            label: 'Class Time:', 
-            name: 'time', 
-            type: 'time',
-            title: 'Select class time'
-        }
     ],
 
-    // Поля для формы бронирования по расписанию (reservationForm.js)
+    // Pole pro rezervaci podle rozvrhu (reservationForm.js)
     fields: [
         {
-            label: 'Parent\'s Name, Surname:',
+            label: 'Jméno a příjmení rodiče:',
             name: 'surname',
             type: 'text',
             pattern: '[A-Za-z\\s]{2,}',
-            title: 'Latin letters only, minimum 2 characters',
-            placeholder: 'Ivanov Ivan (Latin letters only)'
+            title: 'Pouze latinka, minimálně 2 znaky',
+            placeholder: 'Ivan Ivanov (pouze latinka)'
         },
         {
-            label: 'Child\'s Name, Surname:',
+            label: 'Jméno a příjmení dítěte:',
             name: 'name',
             type: 'text',
             pattern: '[A-Za-z\\s]{2,}',
-            title: 'Latin letters only, minimum 2 characters',
-            placeholder: 'Anna Ivanova (Latin letters only)'
+            title: 'Pouze latinka, minimálně 2 znaky',
+            placeholder: 'Anna Ivanova (pouze latinka)'
         },
         { 
-            label: 'Contact Phone:', 
+            label: 'Kontaktní telefon:', 
             name: 'phone', 
             type: 'tel', 
-            title: 'Enter your contact phone number' 
+            title: 'Zadejte váš kontaktní telefon'
         },
         { 
-            label: 'Child\'s Date of Birth:', 
+            label: 'Datum narození dítěte:', 
             name: 'birthdate', 
             type: 'date', 
             min: '2000-01-01', 
             max: today,
-            title: 'Select date of birth'
+            title: 'Vyberte datum narození'
         },
-        // Скрытые поля: day, time, category
+        // Skrytá pole: day, time, category
         { name: 'day', type: 'hidden' },
         { name: 'time', type: 'hidden' },
         { name: 'category', type: 'hidden' }
     ],
 
-    // Названия курсов для <select> (используется в freeRezervationForm.js)
+    // Názvy kurzů pro <select>
     courseNames: [
-        { id: 'studio', name: 'Creative Workshop' },
-        { id: 'prep', name: 'Art School Preparation' },
-        { id: 'artcamp', name: 'Art Camp' },
-        { id: 'artcamp_junior', name: 'Art Camp (Junior Group)' },
-        { id: 'courses__card__ceramics', name: 'Ceramics Course' },
-        { id: 'drawing_kids', name: 'Drawing. Junior Group' }
+        { id: 'studio', name: 'Výtvarný ateliér' },
+        { id: 'prep', name: 'Příprava na talentové zkoušky' },
+        { id: 'artcamp', name: 'Příměstský tábor' },
+        { id: 'artcamp_junior', name: 'Příměstský tábor (mladší skupina)' },
+        { id: 'courses__card__ceramics', name: 'Kurz keramiky' },
+        { id: 'drawing_kids', name: 'Kreslení pro děti (mladší skupina)' }
     ]
 };

@@ -1,165 +1,192 @@
 @use "sass:color";
 @use "variables" as *;
-
-$background-contact-section: #f4f7f6;
-$shadow-heavy: rgba(0, 0, 0, 0.12);
+@use "animation" as *;
 
 .contacts {
-    width: 100%;
-    padding: 4rem 1rem;
-    background-color: $background-contact-section;
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Inter', sans-serif;
+  width: 100%;
+  padding: 4rem 2rem;
+  text-align: center;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow: hidden;
+  position: relative;
+  animation: zoom-in 0.7s ease-out forwards;
+  text-decoration: none;
 
-    &__title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: $text-color-dark;
-        margin-bottom: 0.5rem;
-        @media (max-width: 768px) { font-size: 2rem; }
+  &__title {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: $color-text-dark;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+
+    strong {
+      font-weight: 700;
+      color: $color-primary;
+    }
+  }
+
+  &__text {
+    font-size: 1.2rem;
+    color: $color-text-medium;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  // Переключатель в стиле кнопок из Shift Lesson
+  &__toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+
+    &-btn {
+      padding: 1rem 3rem;
+      border-radius: 8px;
+      border: 3px solid $color-primary;
+      background: $color-bg-white;
+      color: $color-primary;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.5rem;
+      @include transition(all 0.4s ease);
+      outline: none;
+
+      &:hover {
+        background: $color-bg-gradient; 
+        transform: translateY(-2px);
+      }
+
+      &.active {
+        background: linear-gradient(135deg, $color-primary, $color-primary-light);
+        color: $color-text-light;
+        box-shadow: 0 8px 25px rgba($color-primary, 0.3);
+        transform: scale(1.05);
+        border-color: transparent;
+      }
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    opacity: 0;
+    display: none;
+    
+    &.active {
+      display: grid;
+      opacity: 1;
+      animation: zoom-pop 0.5s ease-out both;
     }
 
-    &__text {
-        font-size: 1.15rem;
-        color: $text-color-medium;
-        margin-bottom: 3.5rem;
+    @media (max-width: $breakpoint-tablet) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Карта в стиле Day Card
+  &__map-container {
+    grid-column: span 2;
+    border-radius: 35px;
+    overflow: hidden;
+    height: 500px;
+    border: 2px solid transparent;
+    @include box-shadow(40px, 0.06);
+    @include transition(all 0.3s ease);
+
+    &:hover {
+      border-color: $color-primary;
+      transform: translateY(-5px);
+      box-shadow: $shadow-hover;
     }
 
-    &__content {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-        margin-bottom: 3rem;
+    iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-        @media (max-width: 992px) {
-            grid-template-columns: 1fr;
-        }
+    @media (max-width: $breakpoint-tablet) {
+      grid-column: span 1;
+      height: 400px;
     }
+  }
 
-    &__details {
-        grid-column: span 1;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        text-align: left;
-        padding: 0;
-        
-        @media (min-width: 992px) {
-            grid-column: 3 / 4;
-        }
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  // Карточки инфо и часов в стиле Day Card из расписания
+  &__info, &__hours {
+    background: $color-bg-white;
+    padding: 2.5rem;
+    border-radius: 35px;
+    text-align: left;
+    @include box-shadow(40px, 0.06);
+    @include transition(all 0.3s ease);
+    border: 2px solid transparent;
+
+    &:hover {
+      border-color: $color-primary;
+      transform: translateY(-5px);
+      box-shadow: $shadow-hover;
     }
+  }
 
-    &__map-container {
-        grid-column: 1 / -1;
-        border-radius: 0.75rem;
-        overflow: hidden;
-        box-shadow: 0 4px 20px $shadow-heavy;
-        height: 450px;
-        transition: box-shadow 0.3s ease;
+  // Заголовки как Day Title в расписании (плашки с градиентом)
+  &__label, &__hours-title {
+    display: inline-block;
+    background: linear-gradient(135deg, $color-accent-light, $color-accent-lighter);
+    color: $color-primary;
+    padding: 0.4rem 1.2rem;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
 
-        @media (min-width: 992px) {
-            grid-column: 1 / 3;
-            height: 100%;
-        }
-        
-        iframe {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+  &__hours-title {
+    font-size: 1.3rem;
+    text-transform: none;
+    display: block;
+    width: fit-content;
+  }
+
+  &__value {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: $color-text-dark;
+    margin-bottom: 1.5rem;
+    display: block;
+    text-decoration: none;
+    @include transition(all 0.2s ease);
+    margin-bottom: 1.5rem;
+
+    &.contacts__phone, &.contacts__email {
+      &:hover {
+        color: $color-primary;
+        transform: translateX(5px);
+      }
     }
     
-    &__info,
-    &__hours {
-        background-color: $text-color-light;
-        padding: 2rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        height: fit-content;
-    }
+    &:last-child { margin-bottom: 0; }
+  }
 
-    &__info {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        font-style: normal;
-    }
+  &__hours-list {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem;
+    
+    .contacts__day { font-weight: 600; color: $color-text-dark; }
+    .contacts__time { color: $color-text-medium; text-align: right; }
+  }
+}
 
-    &__item {
-        margin-bottom: 0;
-    }
-
-    &__label {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: $primary-color;
-        text-transform: uppercase;
-        margin-bottom: 0.25rem;
-        display: block;
-        letter-spacing: 0.05em;
-    }
-
-    &__value {
-        font-size: 1.1rem;
-        color: $text-color-dark;
-        line-height: 1.4;
-        transition: color 0.2s ease;
-
-        &.contacts__phone,
-        &.contacts__email {
-            color: $text-color-medium;
-            text-decoration: none;
-            font-weight: 500;
-
-            &:hover {
-                color: $primary-color;
-                text-decoration: underline;
-            }
-        }
-    }
-
-    &__hours {
-        &-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: $text-color-dark;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid $border-light;
-            padding-bottom: 0.75rem;
-        }
-
-        &-list {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 0.25rem 1rem;
-        }
-    }
-
-    &__day {
-        font-weight: 500;
-        color: $text-color-dark;
-        padding: 0.2rem 0;
-    }
-
-    &__time {
-        font-weight: 400;
-        color: $text-color-medium;
-        padding: 0.2rem 0;
-        text-align: right;
-    }
-
-    @media (max-width: 768px) {
-        padding: 2.5rem 1rem;
-        
-        &__details {
-            gap: 1.5rem;
-        }
-
-        &__map-container {
-            height: 350px;
-        }
-    }
+// Адаптив в стиле Shift Lesson
+@media (max-width: $breakpoint-mobile) {
+  .contacts {
+    padding: 2.5rem 1rem;
+    &__title { font-size: 2.5rem;font-weight: 500; margin-bottom: 2rem; }
+    &__toggle-btn { padding: 1.4rem 3.5rem; font-size: 1.2rem; border-width: 2px; }
+    &__info, &__hours, &__map-container { padding: 1.5rem; border-radius: 25px; }
+  }
 }

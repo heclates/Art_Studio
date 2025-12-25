@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'DM Sans', -apple-system, sans-serif;
 }
 
 html {
@@ -10,6 +10,12 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+}
+
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-dark);
 }
 
 #app {
