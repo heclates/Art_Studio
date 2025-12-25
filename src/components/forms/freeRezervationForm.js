@@ -65,7 +65,7 @@ export const createReservationFormFree = (submitHandler = null) => {
   // Update helpers
   const updateCategories = (lessons) => {
     categorySelect.innerHTML = '';
-    categorySelect.appendChild(el('option', { value: '', textContent: getLanguage() === 'en' ? 'Select category' : 'Выберите направление', disabled: true, selected: true }));
+    categorySelect.appendChild(el('option', { value: '', textContent: getLanguage() === 'en' ? 'Vyberte zaměření' : 'Выберите направление', disabled: true, selected: true }));
     getUnique(lessons, 'category').sort().forEach(cat => {
       categorySelect.appendChild(el('option', { value: cat, textContent: cat }));
     });
@@ -73,7 +73,7 @@ export const createReservationFormFree = (submitHandler = null) => {
 
   const updateDays = (lessons, selectedCategory) => {
     daySelect.innerHTML = '';
-    daySelect.appendChild(el('option', { value: '', textContent: getLanguage() === 'en' ? 'Select day' : 'Выберите день', disabled: true, selected: true }));
+    daySelect.appendChild(el('option', { value: '', textContent: getLanguage() === 'en' ? 'Vyberte den' : 'Выберите день', disabled: true, selected: true }));
     const scheduleTexts = scheduleMap[getLanguage()] || scheduleMap.default;
     const filtered = (lessons || []).filter(l => l.category === selectedCategory);
     const order = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
@@ -84,7 +84,7 @@ export const createReservationFormFree = (submitHandler = null) => {
 
   const updateTimes = (lessons, selectedCategory, selectedDay) => {
     timeSelect.innerHTML = '';
-    timeSelect.appendChild(el('option', { value: '', textContent: getLanguage() === 'en' ? 'Select time' : 'Выберите время', disabled: true, selected: true }));
+    timeSelect.appendChild(el('option', { value: '', textContent: getLanguage() === 'en' ? 'Vyberte čas' : 'Выберите время', disabled: true, selected: true }));
     const filtered = (lessons || []).filter(l => l.category === selectedCategory && l.day === selectedDay);
     getUnique(filtered, 'time').sort().forEach(t => {
       timeSelect.appendChild(el('option', { value: t, textContent: t.replace('–', ' - ') }));
@@ -122,7 +122,7 @@ export const createReservationFormFree = (submitHandler = null) => {
           const v = e.target.value.trim();
           const ok = /^[a-zA-Z\s\-']+$/.test(v) && v.length >= 2;
           if (!ok && v) {
-            errorMessage.textContent = lang === 'en' ? 'Please use Latin characters for names.' : 'Пожалуйста, используйте только латиницу для имен.';
+            errorMessage.textContent = lang === 'en' ? 'Pro jména prosím používejte pouze latinku.' : 'Пожалуйста, используйте только латиницу для имен.';
             errorMessage.style.display = 'block';
           } else {
             errorMessage.style.display = 'none';
@@ -138,7 +138,6 @@ export const createReservationFormFree = (submitHandler = null) => {
 
       group.appendChild(label);
       group.appendChild(input);
-      // Insert before submit button so submit stays last
       form.insertBefore(group, submitButton);
       dynamicFieldGroups.push(group);
     });
@@ -149,24 +148,23 @@ export const createReservationFormFree = (submitHandler = null) => {
     const lang = getLanguage();
     const scheduleTexts = scheduleMap[lang] || scheduleMap.default;
 
-    h2.textContent = lang === 'en' ? 'Reservation form' : 'Форма резервации';
-    successMessage.textContent = lang === 'en' ? 'Thank you! Your reservation was sent.' : 'Благодарим! Ваша резервация была успешно отправлена.';
-    submitButton.textContent = lang === 'en' ? 'Send reservation' : 'Отправить резервацию';
+    h2.textContent = lang === 'en' ? 'Rezervační formulář' : 'Форма резервации';
+    successMessage.textContent = lang === 'en' ? 'Děkujeme! Vaše rezervace byla úspěšně odeslána.' : 'Благодарим! Ваша резервация была успешно отправлена.';
+    submitButton.textContent = lang === 'en' ? 'Odeslat rezervaci' : 'Отправить резервацию';
 
-    locationLabel.textContent = lang === 'en' ? 'Select branch:' : 'Выберите филиал:';
-    categoryLabel.textContent = lang === 'en' ? 'Select category:' : 'Выберите направление:';
-    dayLabel.textContent = lang === 'en' ? 'Select day:' : 'Выберите день:';
-    timeLabel.textContent = lang === 'en' ? 'Select time:' : 'Выберите время:';
+    locationLabel.textContent = lang === 'en' ? 'Vyberte pobočku:' : 'Выберите филиал:';
+    categoryLabel.textContent = lang === 'en' ? 'Vyberte zaměření:' : 'Выберите направление:';
+    dayLabel.textContent = lang === 'en' ? 'Vyberte den:' : 'Выберите день:';
+    timeLabel.textContent = lang === 'en' ? 'Vyberte čas:' : 'Выберите время:';
 
     // populate locations
     locationSelect.innerHTML = '';
-    locationSelect.appendChild(el('option', { value: '', textContent: lang === 'en' ? 'Select branch' : 'Выберите филиал', disabled: true, selected: true }));
+    locationSelect.appendChild(el('option', { value: '', textContent: lang === 'en' ? 'Vyberte pobočku' : 'Выберите филиал', disabled: true, selected: true }));
     const locations = scheduleTexts.location || {};
     Object.entries(locations).forEach(([k, loc]) => {
       locationSelect.appendChild(el('option', { value: k, textContent: loc.label }));
     });
 
-    // clear and append groups
     form.innerHTML = '';
     form.appendChild(locationGroup);
     form.appendChild(categoryGroup);
@@ -186,7 +184,6 @@ export const createReservationFormFree = (submitHandler = null) => {
 
     buildDynamicFields();
 
-    // auto-select first location if present
     setTimeout(() => {
       if (locationSelect.options.length > 1 && !locationSelect.value) {
         locationSelect.value = locationSelect.options[1].value;
@@ -267,14 +264,12 @@ export const createReservationFormFree = (submitHandler = null) => {
     }
   });
 
-  // Minimal styles for intl-tel-input
   const style = el('style', { innerHTML: `
     .iti { width: 100%; }
     .iti__country-list { z-index: 1000; }
   `});
   document.head.appendChild(style);
 
-  // Robust intl-tel-input initialization
   const initIntlTel = () => {
     if (!phoneInput || !window.intlTelInput) return;
 
@@ -291,15 +286,15 @@ export const createReservationFormFree = (submitHandler = null) => {
           .then(d => cb(d.country_code || "ru"))
           .catch(() => cb("ru"));
       },
-      preferredCountries: ['ru','cz','de','ua','by','kz'],
-      localizedCountries: { ru: 'Россия', ua: 'Украина', by: 'Беларусь', kz: 'Казахстан', cz: 'Чехия', de: 'Германия' }
+      preferredCountries: ['cz','ru','de','ua','by','kz'],
+      localizedCountries: { ru: 'Rusko', ua: 'Ukrajina', by: 'Bělorusko', kz: 'Kazachstán', cz: 'Česko', de: 'Německo' }
     });
 
     let previousDigits = '';
 
     phoneInput.addEventListener('countrychange', () => {
       const countryData = iti.getSelectedCountryData();
-      phoneInput.placeholder = countryData ? `+${countryData.dialCode} XXX XXX XX XX` : '';
+      phoneInput.placeholder = countryData ? `774 310 299` : '';
       if (previousDigits) {
         setTimeout(() => { phoneInput.value = formatWithSpacesFallback(previousDigits); }, 0);
       }
@@ -308,7 +303,6 @@ export const createReservationFormFree = (submitHandler = null) => {
     phoneInput.addEventListener('input', (e) => {
       const raw = e.target.value.replace(/\D/g, '');
       previousDigits = raw;
-      // If utils not available, apply fallback formatting
       if (!window.intlTelInputUtils) {
         e.target.value = formatWithSpacesFallback(raw);
       }
@@ -316,7 +310,7 @@ export const createReservationFormFree = (submitHandler = null) => {
 
     phoneInput.addEventListener('focus', () => {
       const countryData = iti.getSelectedCountryData();
-      if (countryData && !phoneInput.value) phoneInput.placeholder = `+${countryData.dialCode} XXX XXX XX XX`;
+      if (countryData && !phoneInput.value) phoneInput.placeholder = `774 310 299`;
     });
 
     phoneInput.addEventListener('blur', () => {
@@ -325,38 +319,35 @@ export const createReservationFormFree = (submitHandler = null) => {
 
     setTimeout(() => {
       const countryData = iti.getSelectedCountryData();
-      if (countryData && !phoneInput.value) phoneInput.placeholder = `+${countryData.dialCode} XXX XXX XX XX`;
+      if (countryData && !phoneInput.value) phoneInput.placeholder = `774 310 299`;
     }, 100);
   };
 
-  // Form submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     errorMessage.style.display = 'none';
     successMessage.style.display = 'none';
 
     const lang = getLanguage();
-    const phoneErrorText = lang === 'en' ? 'Please enter a valid phone number.' : 'Пожалуйста, введите корректный номер телефона.';
-    const submitLoadingText = lang === 'en' ? 'Sending...' : 'Отправка...';
-    const submitDefaultText = lang === 'en' ? 'Send reservation' : 'Отправить резервацию';
-    const submitErrorText = lang === 'en' ? 'Submission failed. Try later.' : 'Ошибка отправки. Попробуйте позже.';
+    const phoneErrorText = lang === 'en' ? 'Prosím zadejte platné telefonní číslo.' : 'Пожалуйста, введите корректный номер телефона.';
+    const submitLoadingText = lang === 'en' ? 'Odesílání...' : 'Отправка...';
+    const submitDefaultText = lang === 'en' ? 'Odeslat rezervaci' : 'Отправить резервацию';
+    const submitErrorText = lang === 'en' ? 'Chyba při odesílání. Zkuste to později.' : 'Ошибка отправки. Попробуйте позже.';
 
     let isFormValid = form.checkValidity();
 
-    // Validate latin name fields
     const nameInputs = form.querySelectorAll('input[name="surname"], input[name="name"], input[name="parent_surname"], input[name="parent_name"]');
     for (const input of nameInputs) {
       const v = input.value.trim();
       if (v && !/^[a-zA-Z\s\-']+$/.test(v)) {
         isFormValid = false;
-        errorMessage.textContent = lang === 'en' ? 'Please use Latin characters for names.' : 'Пожалуйста, используйте только латиницу для имен.';
+        errorMessage.textContent = lang === 'en' ? 'Pro jména prosím používejte pouze latinku.' : 'Пожалуйста, используйте только латиницу для имен.';
         errorMessage.style.display = 'block';
         input.focus();
         break;
       }
     }
 
-    // Phone validation and E.164 extraction
     let phoneE164 = '';
     if (phoneInput) {
       const rawDigits = phoneInput.value.replace(/\D/g, '');
@@ -368,7 +359,6 @@ export const createReservationFormFree = (submitHandler = null) => {
       } else if (iti) {
         try {
           phoneE164 = iti.getNumber() || (`+${iti.getSelectedCountryData().dialCode}${rawDigits}`);
-          if (!iti.isValidNumber()) console.warn('Phone validation warning:', phoneE164);
         } catch (err) {
           phoneE164 = `+${iti.getSelectedCountryData().dialCode}${rawDigits}`;
         }
@@ -379,7 +369,7 @@ export const createReservationFormFree = (submitHandler = null) => {
 
     if (!locationSelect.value || !categorySelect.value || !daySelect.value || !timeSelect.value) {
       isFormValid = false;
-      errorMessage.textContent = lang === 'en' ? 'Please select all required fields.' : 'Пожалуйста, выберите все обязательные поля.';
+      errorMessage.textContent = lang === 'en' ? 'Prosím vyplňte všechna povinná pole.' : 'Пожалуйста, выберите все обязательные поля.';
       errorMessage.style.display = 'block';
     }
 
@@ -391,16 +381,16 @@ export const createReservationFormFree = (submitHandler = null) => {
 
     const formData = new FormData(form);
     const data = [
-        sanitize(formData.get('parent_name') || ''),         // A: Parent Name
-        sanitize(formData.get('surname') || ''),              // A: Parent Surname
-      sanitize(formData.get('name') || ''),                 // B: Child Name
-      sanitize(phoneE164 || ''),                           // C: Phone E.164
-      sanitize(formData.get('birthdate') || ''),           // D: Child Birthday
-      sanitize(selectedLessonData.date || ''),             // E: Lesson Date
-      sanitize(selectedLessonData.time || ''),             // F: Time
-      sanitize(selectedLessonData.category || ''),         // G: Category
-      sanitize(selectedLessonData.location || ''),         // H: Branch/Location
-      sanitize(selectedLessonData.dayTitle || ''),         // J: Day
+      sanitize(formData.get('parent_name') || ''), 
+      sanitize(formData.get('surname') || ''), 
+      sanitize(formData.get('name') || ''), 
+      sanitize(phoneE164 || ''), 
+      sanitize(formData.get('birthdate') || ''), 
+      sanitize(selectedLessonData.date || ''), 
+      sanitize(selectedLessonData.time || ''), 
+      sanitize(selectedLessonData.category || ''), 
+      sanitize(selectedLessonData.location || ''), 
+      sanitize(selectedLessonData.dayTitle || ''), 
     ];
 
     submitButton.disabled = true;
@@ -411,15 +401,12 @@ export const createReservationFormFree = (submitHandler = null) => {
       form.reset();
       if (iti) {
         try { iti.setNumber(''); } catch (err) { /* ignore */ }
-        const countryData = iti.getSelectedCountryData();
-        if (phoneInput) phoneInput.placeholder = countryData ? `+${countryData.dialCode} XXX XXX XX XX` : '';
       }
       selectedLessonData = {};
       locationSelect.value = '';
       categorySelect.value = '';
       daySelect.value = '';
       timeSelect.value = '';
-
       successMessage.style.display = 'block';
       errorMessage.style.display = 'none';
     } catch (err) {
@@ -431,13 +418,10 @@ export const createReservationFormFree = (submitHandler = null) => {
     }
   });
 
-  // Init
   composeForm();
   subscribe(composeForm);
-  // Ensure intl init runs after dynamic fields are built
   setTimeout(() => initIntlTel(), 250);
 
-  // Append static nodes
   section.appendChild(h2);
   section.appendChild(successMessage);
   section.appendChild(form);

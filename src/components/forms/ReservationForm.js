@@ -4,6 +4,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { subscribe, getLanguage } from '@/utils/languageManager'
 import { formsRU } from '@/i18n/forms/ru.js'
 import { formsEN } from '@/i18n/forms/en.js'
+
 gsap.registerPlugin(ScrollToPlugin)
 
 const languageMap = { ru: formsRU, en: formsEN, default: formsRU }
@@ -59,11 +60,11 @@ export const createReservationForm = (payload, submitHandler) => {
         const texts = languageMap[lang] || languageMap.default
         form.setAttribute('lang', lang)
 
-        h2.textContent = lang === 'en' ? 'Reservation Form' : 'Форма резервации'
+        h2.textContent = lang === 'en' ? 'Rezervační formulář' : 'Форма резервации'
         successMessage.textContent = lang === 'en'
-            ? 'Thank you! Your reservation has been successfully submitted.'
+            ? 'Děkujeme! Vaše rezervace byla úspěšně odeslána.'
             : 'Благодарим! Ваша резервация была успешно отправлена.'
-        submitButton.textContent = lang === 'en' ? 'Submit Reservation' : 'Отправить резервацию'
+        submitButton.textContent = lang === 'en' ? 'Odeslat rezervaci' : 'Отправить резервацию'
 
         currentFieldsGroups.forEach(g => g.remove())
         currentFieldsGroups = []
@@ -88,6 +89,7 @@ export const createReservationForm = (payload, submitHandler) => {
                 input.name = field.name
                 input.required = true
                 if (field.name === 'phone') phoneInput = input
+                
                 input.addEventListener('focus', () => {
                     if (window.innerWidth >= 768) {
                         gsap.to(window, { duration: 0.8, scrollTo: { y: section, offsetY: 80 } })
@@ -120,17 +122,38 @@ export const createReservationForm = (payload, submitHandler) => {
         iti = window.intlTelInput(phoneInput, {
             utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js',
             initialCountry: 'auto',
-            formatOnDisplay: true,
+            separateDialCode: true,
             nationalMode: false,
+            autoPlaceholder: 'aggressive',
             geoIpLookup: cb => {
-                fetch('https://ipapi.co/json').then(r => r.json()).then(d => cb(d.country_code || '')).catch(() => cb(''))
-            }
+                fetch('https://ipapi.co/json')
+                    .then(r => r.json())
+                    .then(d => cb(d.country_code || 'cz'))
+                    .catch(() => cb('cz'))
+            },
+            preferredCountries: ['cz', 'ru', 'ua']
         })
 
+        // Исправленная логика пробелов
         phoneInput.addEventListener('input', () => {
-            if (!iti.isValidNumber()) return
-            phoneInput.value = iti.getNumber(window.intlTelInputUtils.numberFormat.INTERNATIONAL)
-        })
+            const cursorPosition = phoneInput.selectionStart;
+            const originalValue = phoneInput.value;
+            
+            // Убираем всё кроме цифр для корректной работы setNumber
+            const digits = originalValue.replace(/\D/g, '');
+            
+            if (window.intlTelInputUtils && digits.length > 0) {
+                // setNumber автоматически отформатирует ввод согласно правилам страны
+                iti.setNumber(digits);
+                
+                // Восстанавливаем позицию курсора (примерно, так как добавились пробелы)
+                if (originalValue.length < phoneInput.value.length) {
+                    phoneInput.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+                } else {
+                    phoneInput.setSelectionRange(cursorPosition, cursorPosition);
+                }
+            }
+        });
     }
 
     form.addEventListener('submit', async e => {
@@ -138,7 +161,13 @@ export const createReservationForm = (payload, submitHandler) => {
         errorMessage.style.display = 'none'
         successMessage.style.display = 'none'
 
-        if (!form.checkValidity() || (iti && !iti.isValidNumber())) {
+        const lang = getLanguage()
+        const isPhoneValid = iti ? iti.isValidNumber() : true
+        
+        if (!form.checkValidity() || !isPhoneValid) {
+            errorMessage.textContent = lang === 'en' 
+                ? 'Prosím vyplňte správně všechna pole včetně telefonu.' 
+                : 'Пожалуйста, заполните все поля корректно, включая номер телефона.'
             errorMessage.style.display = 'block'
             return
         }
@@ -159,13 +188,21 @@ export const createReservationForm = (payload, submitHandler) => {
         ]
 
         submitButton.disabled = true
+        const originalBtnText = submitButton.textContent;
+        submitButton.textContent = lang === 'en' ? 'Odesílání...' : 'Отправка...'
+
         try {
             await submitHandler(data)
             form.reset()
-            iti && iti.setNumber('')
+            if (iti) iti.setNumber('')
             successMessage.style.display = 'block'
+            gsap.to(window, { duration: 0.5, scrollTo: { y: section, offsetY: 100 } })
+        } catch (err) {
+            errorMessage.textContent = lang === 'en' ? 'Chyba při odesílání.' : 'Ошибка при отправке.'
+            errorMessage.style.display = 'block'
         } finally {
             submitButton.disabled = false
+            submitButton.textContent = originalBtnText;
         }
     })
 

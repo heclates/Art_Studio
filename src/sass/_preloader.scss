@@ -1,0 +1,85 @@
+@use 'sass:color';
+@use 'variables' as *;
+
+#preloader {
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  background: $color-bg-cream; // Ваш мягкий кремовый фон
+  z-index: $z-modal + 100; // Выше всех модалок
+  transition: opacity $transition-slower $ease-smooth, 
+              visibility $transition-slower $ease-smooth;
+
+  &.preloader-hiding {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .loader-content {
+     display: flex;
+  align-items: center;
+  justify-content: center;
+    flex-direction: column;
+    gap: $space-lg;
+  }
+
+  .blobs {
+    filter: url('#goo');
+    position: relative;
+    width: 120px;
+    height: 50px;
+     display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+
+  .blob {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: $color-primary; // Терракотовый основной
+    border-radius: $radius-full;
+    animation: blob-move 2s infinite $ease-in-out;
+
+    // Используем ваши оттенки для капель
+    &:nth-child(1) { 
+      animation-delay: -0.8s; 
+      background: $color-primary-light; 
+    }
+    &:nth-child(2) { 
+      animation-delay: -0.4s; 
+      background: $color-primary; 
+    }
+    &:nth-child(3) { 
+      animation-delay: 0s; 
+      background: $color-primary-dark; 
+    }
+  }
+
+  .loader-text {
+    font-family: $font-primary;
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    color: $color-primary-dark;
+    text-transform: uppercase;
+    letter-spacing: $tracking-widest;
+    animation: pulse-text 1.5s infinite $ease-in-out;
+  }
+}
+
+@keyframes blob-move {
+  0%, 100% {
+    transform: translateX(-40px) scale(0.9);
+  }
+  50% {
+    transform: translateX(40px) scale(1.1);
+    background: $color-secondary; // Плавный переход в оранжевый при слиянии
+  }
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}

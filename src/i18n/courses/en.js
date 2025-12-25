@@ -1,10 +1,10 @@
 export const coursesEN = {
   list: [
     {
-      name: 'Kurz kreslení a malování',
+      name: 'Kurz malování',
       class: 'courses__card--drawing',
-      title: 'Lekce kreslení',
-      description: 'Lekce kreslení rozvíjející fantazii a vyučující různé výtvarné techniky. Lekce pro děti všech věkových kategorií: mladší skupina (3,5–6 let), střední (7–11 let) a starší (12+).',
+      title: 'Lekce malování',
+      description: 'Lekce malování rozvíjející fantazii a vyučující různé výtvarné techniky. Lekce pro děti všech věkových kategorií: mladší skupina (3,5–6 let), střední (7–11 let) a starší (12+).',
       time: ['Rozvrh podle věku: mladší, střední a starší skupina'],
       img: 'assets/img_cards/risovanie.jpg',
       button: 'Přihlásit se'
@@ -19,7 +19,7 @@ export const coursesEN = {
       button: 'Přihlásit se'
     },
     {
-      name: 'Výtvarný ateliér',
+      name: 'Kreativní dílna',
       class: 'courses__card--studio',
       title: 'Desítky neobvyklých technik',
       description: 'Koláže, mozaiky, vitráže, papírmašé, malba na dřevo, textil a mnoho dalšího.',
@@ -33,16 +33,16 @@ export const coursesEN = {
       title: 'Unikátní formát',
       description: 'Kombinace zaměření:',
       time: [
-        'Kreslení + keramika',
-        'Kreslení + výtvarný ateliér',
+        'malování + keramika',
+        'malování + výtvarný ateliér',
         'Keramika + výtvarný ateliér',
-        'Triple combo: kreslení + keramika + ateliér'
+        'Triple combo: malování + keramika + ateliér'
       ],
       img: 'assets/img_cards/kombo_lesson.jpg',
       button: 'Přihlásit se'
     },
     {
-      name: 'Příprava na umělecké školy',
+      name: 'Příprava na umělecké sš',
       class: 'courses__card--prep',
       title: 'Příprava k talentovým zkouškám',
       description: 'Intenzivní lekce pro přípravu na zkoušky, včetně práce na portfoliu.',
@@ -60,10 +60,10 @@ export const coursesEN = {
       button: 'Přihlásit se'
     },
     {
-      name: 'Workshopy',
+      name: 'DĚTSKÉ WORKSHOPY',
       class: 'courses__card--masterclass',
       title: 'Tvoření a sladkosti',
-      description: 'Kreativní workshopy, kde děti malují, tvoří a zdobí sladkosti. K dispozici občerstvení a nápoje',
+      description: 'Kreativní workshopy, kde děti malují, tvoří a zdobí sladkosti. K dispozici občerstvení a nápoje.',
       time: ['Dle rozvrhu'],
       img: 'assets/img_cards/maste_class.jpg',
       button: 'Přihlásit se'
