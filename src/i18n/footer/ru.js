@@ -2,7 +2,7 @@
 export const footerRU = {
   navItems: [
     { href: '#', text: 'Главная' },
-    { href: '#terms.html', text: 'Услуги' },
+    { href: 'terms.html', text: 'Услуги' },
     { href: '#courses', text: 'Курсы' },
     { href: '#contacts', text: 'Контакты' },
     { href: 'privacy.html', text: 'Политика конфиденциальности' }
