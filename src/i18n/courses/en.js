@@ -110,7 +110,7 @@ export const coursesEN = {
       title: 'ART-VEČÍRKY PRO DOSPĚLÉ',
       description: 'Uvolněné večery plné tvoření s občerstvením a nápoji, ideální pro relaxaci a zábavu',
       time: ['Sezónní rozvrh'],
-      img: ':D',
+      img: 'assets/img_cards/art_evening.JPG',
       button: 'Zjistit termíny'
     },
      {
@@ -119,7 +119,7 @@ export const coursesEN = {
       title: 'Lekce malování PRO DOSPĚLÉ',
       description: 'Lekce malování rozvíjející fantazii a vyučující různé výtvarné techniky. Lekce pro děti všech věkových kategorií: mladší skupina (3,5–6 let), střední (7–11 let) a starší (12+).',
       time: ['Sezónní rozvrh'],
-      img: ':D',
+      img: 'assets/img_cards/adults.jpg',
       button: 'Zjistit termíny'
     },
     {
@@ -128,7 +128,7 @@ export const coursesEN = {
       title: 'INDIVIDUÁLNÍ LEKCE PRO DOSPĚLÉ',
       description: 'Lekce na míru podle potřeb a úrovně studenta, zahrnující různé výtvarné techniky',
       time: ['Sezónní rozvrh'],
-      img: ':D',
+      img: 'assets/img_cards/adult_invdiv.jpg',
       button: 'Zjistit termíny'
     },
     {
@@ -137,7 +137,7 @@ export const coursesEN = {
       title: 'Eventy na míru',
       description: 'Organizujeme art-párty, firemní akce, narozeninové oslavy a art-rande — a to jak ve studiu, tak i formou mobilních eventů',
       time: ['Sezónní rozvrh'],
-      img: ':D',
+      img: 'assets/img_cards/special.jpg',
       button: 'Zjistit termíny'
     },
   ]
