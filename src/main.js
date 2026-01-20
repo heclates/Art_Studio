@@ -6,11 +6,11 @@ import { initGoogleApi } from '@/utils/googleSheets.js';
 import '@/sass/styles.scss';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Создаем контейнер прелоадера
+  // Создаем прелоадер
   const preloader = document.createElement('div');
   preloader.id = 'preloader';
   
-  // Вставляем структуру для анимации "жидких капель"
+  // Структура для анимации "жидких капель"
   preloader.innerHTML = `
     <div class="loader-content">
       <div class="blobs">
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } finally {
     // Плавно скрываем, используя CSS transition
     preloader.classList.add('preloader-hidden');
-    // Удаляем из DOM после завершения анимации (350ms из переменных)
+    // Удаляем из DOM после завершения анимации
     setTimeout(() => preloader.remove(), 500);
   }
 });

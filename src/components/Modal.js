@@ -1,6 +1,12 @@
 let modal;
 let previouslyFocusedElement = null;
 
+// Обработчик клавиатуры для закрытия модального окна и управления фокусом
+if (typeof document !== 'undefined') {
+    document.addEventListener('keydown', handleKeyDown);
+}
+
+
 function handleKeyDown(event) {
     if (event.key === 'Escape' && modal && modal.style.display !== 'none') {
         closeModal();

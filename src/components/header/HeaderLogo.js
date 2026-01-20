@@ -112,6 +112,7 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
         children: [el('span', { class: 'header__burger-icon' })]
     });
 
+
     const navControls = el('div', { class: 'header__nav-controls' });
     
     // Создаем bento контейнер который будет показываться в мобильном меню
@@ -137,6 +138,18 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
             } else {
                 navControls.appendChild(bentoContainer);
             }
+
+            requestAnimationFrame(() => {
+                const langSwitcher = navControls.querySelector('.lang-switcher');
+                if (langSwitcher) {
+                    // Убедимся, что элемент фокусируемый
+                    if (!langSwitcher.hasAttribute('tabindex')) {
+                        langSwitcher.setAttribute('tabindex', '0');
+                    }
+                    langSwitcher.focus();
+                }
+            });
+
         } else {
             // При закрытии возвращаем элементы обратно
             const bentoChildren = Array.from(bentoContainer.children);

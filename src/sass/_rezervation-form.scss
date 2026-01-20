@@ -14,6 +14,10 @@
   z-index: 1;
   @include transition(all 0.3s ease);
 
+   &__input iti__tel-input input[type='tel'] {
+    padding-left: 7011px !important;
+   }
+
   // Декоративные элементы
   &::before, &::after {
     content: '';
@@ -120,10 +124,10 @@
   // Специфические стили для контейнера телефона (Intl-Tel-Input)
   .iti {
     width: 100%;
-    
+
+
     &__country-container {
       border-radius: $radius-xl 0 0 $radius-xl;
-      padding: 2px;
     }
 
     &__selected-country {

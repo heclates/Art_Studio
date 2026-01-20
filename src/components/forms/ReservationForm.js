@@ -9,6 +9,10 @@ gsap.registerPlugin(ScrollToPlugin)
 
 const languageMap = { ru: formsRU, en: formsEN, default: formsRU }
 
+const formatPhoneWithSpaces = (digits) => {
+    return digits.replace(/(\d{3})(?=\d)/g, '$1 ');
+};
+
 export const createReservationForm = (payload, submitHandler) => {
     const section = document.createElement('section')
     section.className = 'reservation-form'
@@ -134,26 +138,16 @@ export const createReservationForm = (payload, submitHandler) => {
             preferredCountries: ['cz', 'ru', 'ua']
         })
 
-        // Исправленная логика пробелов
         phoneInput.addEventListener('input', () => {
-            const cursorPosition = phoneInput.selectionStart;
-            const originalValue = phoneInput.value;
-            
-            // Убираем всё кроме цифр для корректной работы setNumber
-            const digits = originalValue.replace(/\D/g, '');
-            
-            if (window.intlTelInputUtils && digits.length > 0) {
-                // setNumber автоматически отформатирует ввод согласно правилам страны
-                iti.setNumber(digits);
-                
-                // Восстанавливаем позицию курсора (примерно, так как добавились пробелы)
-                if (originalValue.length < phoneInput.value.length) {
-                    phoneInput.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
-                } else {
-                    phoneInput.setSelectionRange(cursorPosition, cursorPosition);
-                }
-            }
-        });
+    const cursor = phoneInput.selectionStart;
+    const digits = phoneInput.value.replace(/\D/g, '');
+
+    const formatted = formatPhoneWithSpaces(digits);
+    phoneInput.value = formatted;
+
+    const diff = formatted.length - digits.length;
+    phoneInput.setSelectionRange(cursor + diff, cursor + diff);
+});
     }
 
     form.addEventListener('submit', async e => {
