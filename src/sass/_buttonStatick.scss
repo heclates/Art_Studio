@@ -1,0 +1,37 @@
+@use "sass:color";
+@use "variables" as *;
+@use "animation" as *;
+
+#button-statick {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 100px;
+  height: 100px;
+  background: $color-primary;
+  border: none;
+  border-radius: 50%;
+  box-shadow: $shadow-md;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 3s infinite ease-in-out;
+
+  &:hover {
+    background: color.scale($color-primary, $lightness: -10%);
+    box-shadow: $shadow-hover;
+    transform: translateY(-3px);
+  }
+
+  .reservation-statick-text {
+    color: $color-bg-white; // Белый текст для контраста с primary
+    font-size: 14px; // Размер шрифта (можно уменьшить, если текст не влезает)
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2; // Для лучшего выравнивания в круге
+    white-space: nowrap; // Чтобы текст не переносился (если короткий)
+    animation: bounce-arrow 1.5s infinite; // Если хотите анимацию (как у стрелки), иначе удалите
+  }
+}

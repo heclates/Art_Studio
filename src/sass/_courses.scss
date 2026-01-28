@@ -2,15 +2,15 @@
 @use "variables" as *;
 @use "animation" as *;
 
-// ============================================================================
-// COURSES SECTION
-// ============================================================================
 .courses {
   width: 100%;
   padding: $space-4xl $space-lg;
   position: relative;
   overflow: hidden;
-  
+  background: linear-gradient(180deg, $color-bg-main 0%, $color-bg-gradient 100%);
+  text-align: center;
+  font-family: 'Inter', -apple-system, sans-serif;
+  animation: zoom-in 0.7s ease-out forwards;
 
   &__header {
     text-align: center;
@@ -40,20 +40,49 @@
     line-height: $leading-relaxed;
   }
 
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: $space-xl;
-    max-width: $container-xl;
-    margin: 0 auto;
+  &__swiper-container {
     position: relative;
-    z-index: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-bottom: 3rem;
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: $color-primary;
+      
+      @media (max-width: 1024px) {
+        display: none !important;
+      }
+
+      &:after {
+        font-size: 2rem;
+      }
+    }
+
+    .swiper-pagination-bullet {
+      background: $color-text-accent-light; // Или переменная для неактивного буллета
+      opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: $color-primary;
+    }
+  }
+
+  .swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .swiper-slide {
+    width: max-content;
+    flex-shrink: 0;
+    display: flex;
   }
 }
 
-// ============================================================================
-// COURSE CARD (ENHANCED GLASSMORPHISM)
-// ============================================================================
 .course-card {
   position: relative;
   border-radius: $radius-2xl;
@@ -63,7 +92,6 @@
   height: 100%;
   box-sizing: border-box;
   
-  // Прозрачное стекло как в introduction
   background: rgba($color-bg-white, 0.2);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -72,7 +100,6 @@
   
   @include transition-all($transition-slow, $ease-smooth);
 
-  // Эффект свечения при наведении
   &::before {
     content: '';
     position: absolute;
@@ -104,7 +131,6 @@
     }
   }
 
-  // Дополнительный эффект для глубины
   &::after {
     content: '';
     position: absolute;
@@ -116,7 +142,6 @@
       rgba(255, 255, 255, 0.8),
       rgba(255, 255, 255, 0.2)
     );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -138,7 +163,6 @@
     position: relative;
     z-index: 1;
 
-    // Добавляем легкий glass эффект на изображение
     &::before {
       content: '';
       position: absolute;
@@ -244,7 +268,6 @@
       box-shadow $transition-base $ease-out
     );
     
-    // Эффект свечения кнопки
     &::before {
       content: '';
       position: absolute;
@@ -273,31 +296,6 @@
 
     @include focus-visible;
   }
-}
-
-// ============================================================================
-// LOADING STATE (опционально)
-// ============================================================================
-.course-card--loading {
-  pointer-events: none;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.5) 50%,
-      transparent 100%
-    );
-    animation: shimmer 1.5s infinite;
-  }
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
 }
 
 // ============================================================================
@@ -334,11 +332,6 @@
     &__title {
       font-size: $font-3xl;
       font-weight: $font-medium;
-    }
-    
-    &__grid {
-      grid-template-columns: 1fr;
-      gap: $space-lg;
     }
   }
   
@@ -380,19 +373,3 @@
   }
 }
 
-// ============================================================================
-// PRINT STYLES
-// ============================================================================
-@include print-only {
-  .course-card {
-    background: $color-bg-white !important;
-    backdrop-filter: none;
-    border: 1px solid $color-border-dark;
-    box-shadow: none;
-    page-break-inside: avoid;
-    
-    &__button {
-      display: none;
-    }
-  }
-}

@@ -2,15 +2,15 @@ import { createHeader } from '@/components/header/Header.js';
 import { createMainContent } from '@/components/MainContent.js';
 import { createFooter } from '@/components/footer.js';
 import { initGoogleApi } from '@/utils/googleSheets.js';
+import { createStatickButton } from './components/StatickButton';
 
 import '@/sass/styles.scss';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Создаем прелоадер
+
   const preloader = document.createElement('div');
   preloader.id = 'preloader';
   
-  // Структура для анимации "жидких капель"
   preloader.innerHTML = `
     <div class="loader-content">
       <div class="blobs">
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="blob"></div>
         <div class="blob"></div>
       </div>
-      <span class="loader-text">Загрузка данных...</span>
+      <span class="loader-text">Loading...</span>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
       <defs>
@@ -33,24 +33,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   document.body.appendChild(preloader);
 
+  
   try {
-    // Ждем инициализацию API и контента
     await initGoogleApi();
     const mainContent = await createMainContent();
-
     document.body.appendChild(createHeader());
     document.body.appendChild(mainContent);
     document.body.appendChild(createFooter());
-    
+
   } catch (err) {
     console.error('Ошибка инициализации:', err);
-    // Находим текст внутри прелоадера и выводим ошибку
     const textElement = preloader.querySelector('.loader-text');
-    if (textElement) textElement.textContent = 'Ошибка загрузки';
+    if (textElement) textElement.textContent = 'Error loading';
   } finally {
-    // Плавно скрываем, используя CSS transition
     preloader.classList.add('preloader-hidden');
-    // Удаляем из DOM после завершения анимации
     setTimeout(() => preloader.remove(), 500);
   }
 });

@@ -146,7 +146,6 @@
     flex-shrink: 0;
     display: flex;
   }
-  // Day card with organic style
   &__day-card {
     background: linear-gradient(30deg, $color-bg-white 0%, $color-bg-main 100%);
     border-radius: 35px;
@@ -179,7 +178,6 @@
       width: fit-content;
     }
   }
-  // Individual lesson card
   &__lesson-card {
     padding: 1rem;
     background: linear-gradient(180deg, $color-bg-white 0%, $color-bg-main 100%);
@@ -190,7 +188,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       transform: translateX(5px);
     }
-    // Adapt to sequential p elements
     > p:nth-child(1) {
       font-size: 1.15rem;
       font-weight: 600;
@@ -209,7 +206,6 @@
       color: $color-text-medium;
       gap: 0.5rem;
     }
-    // Enroll button
     > button {
       display: block;
       width: 100%;
@@ -238,7 +234,6 @@
       }
     }
   }
-  // Hidden state
   &--hidden {
     display: none !important;
   }
@@ -307,7 +302,7 @@
     &__location-btn {
       padding: 1rem 1.5rem;
       font-size: 1.4rem;
-      border-width: 1px; // Тоньше рамка на мобилках
+      border-width: 1px;
     }
     &__filters {
       gap: 0.8rem;
@@ -448,38 +443,6 @@
     }
     &__lesson-card > button:hover {
       transform: none;
-    }
-  }
-}
-// ============================================================================
-// PRINT STYLES
-// ============================================================================
-@media print {
-  .shift-lesson {
-    padding: 20px;
-    animation: none;
-    &__filters,
-    &__locations { // Hide locations on print
-      display: none;
-    }
-    &__swiper-container {
-      .swiper-button-prev,
-      .swiper-button-next,
-      .swiper-pagination {
-        display: none;
-      }
-    }
-    &__day-card {
-      box-shadow: none;
-      border: 1px solid #ddd;
-      page-break-inside: avoid;
-      &:hover {
-        transform: none;
-        box-shadow: none;
-      }
-    }
-    &__lesson-card > button {
-      display: none;
     }
   }
 }

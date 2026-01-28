@@ -8,6 +8,8 @@ import { createContacts } from './contacts/Contacts.js';
 import { createReservationFormFree } from './forms/freeRezervationForm.js';
 import { submitToGoogleSheets } from '@/utils/googleSheets.js';
 import { getLanguage, subscribe } from '@/utils/languageManager';
+import { createStatickButton } from './StatickButton';
+
 
 const buildLanguageDependentContent = () => {
     const container = document.createDocumentFragment();
@@ -23,11 +25,13 @@ export const createMainContent = async () => {
     const main = document.createElement('main');
     main.setAttribute('role', 'main');
     main.className = 'main-content';
+    const buttonStatick = createStatickButton();
     const shape1 = el('div', { class: 'floating-shape shape1' });
     const shape2 = el('div', { class: 'floating-shape shape2' });
 
     main.appendChild(shape1);
     main.appendChild(shape2);
+    main.appendChild(buttonStatick);
     main.appendChild(createIntroduction());
 
     const dynamicContentContainer = document.createElement('div');

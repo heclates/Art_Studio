@@ -6,6 +6,7 @@
 @use './mixins' as mixins;
 @use './animation' as animation;
 @use './header' as header;  
+@use './buttonStatick' as buttonStatick;
 @use './introduction';
 @use './rezervation-form' as rezervation-form;
 @use './rezervation-form-free' as reservation-form-free;    

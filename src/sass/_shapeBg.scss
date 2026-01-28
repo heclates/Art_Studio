@@ -2,10 +2,10 @@
 @use 'variables' as *;  
 
 .floating-shape {
-    position: fixed; // Чтобы они оставались на месте при скролле
+    position: fixed; 
     border-radius: 50%;
     opacity: 0.08;
-    pointer-events: none; // Чтобы не мешали кликам
+    pointer-events: none;
     z-index: 0; 
 }
 

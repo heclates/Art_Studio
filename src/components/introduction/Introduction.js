@@ -14,9 +14,7 @@ const INTRO_TRANSLATIONS = {
 const getTexts = (lang) =>
   INTRO_TRANSLATIONS[lang] || INTRO_TRANSLATIONS.default;
 
-/**
- * Updates only translatable content (about section)
- */
+
 const updateIntroductionContent = (lang, aboutWrapper) => {
   const texts = getTexts(lang);
   const newAbout = createAbout(texts);
@@ -24,9 +22,7 @@ const updateIntroductionContent = (lang, aboutWrapper) => {
   aboutWrapper.replaceChildren(newAbout);
 };
 
-/**
- * Creates hero introduction section with logo + about text
- */
+
 export const createIntroduction = () => {
   const article = el('article', {
     class: 'introduction',
@@ -39,7 +35,6 @@ export const createIntroduction = () => {
     class: 'introduction__info'
   });
 
-  // === HERO LOGO ===
   const logo = el('img', {
     class: 'hero__logo',
     src: '/assets/ico/logo.png',
@@ -49,18 +44,43 @@ export const createIntroduction = () => {
     loading: 'eager'
   });
 
-  // === ABOUT WRAPPER (replaced on language change) ===
   const aboutWrapper = el('div', {
     class: 'hero__content'
+  });
+  const buttonContainer = el('div', {
+    class: 'hero__buttons'
+  });
+
+  const buttonRezervation = el('button', {
+    class: 'button-rezervation',
+    type: 'button',
+    textContent: 'Забронироваться',
+  });
+  const buttonShift = el('button', {
+    class: 'button-shift',
+    type: 'button',
+    textContent: 'Посмотреть расписание',
+  });
+  buttonRezervation.addEventListener('click', () => {
+    const rezervationSection = document.getElementsByClassName('reservation-form-free__title');
+    if (rezervationSection.length) {
+      rezervationSection[0].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+  buttonShift.addEventListener('click', () => {
+    const shiftSection = document.getElementsByClassName('shift-lesson');
+    if (shiftSection.length) {
+      shiftSection[0].scrollIntoView({ behavior: 'smooth' });
+    }
   });
 
   const lang = getLanguage();
   aboutWrapper.appendChild(createAbout(getTexts(lang)));
 
-  infoSection.append(logo, aboutWrapper);
+  infoSection.append(logo, aboutWrapper, buttonContainer);
+  buttonContainer.append(buttonRezervation,  buttonShift);
   article.appendChild(infoSection);
 
-  // language subscription
   const unsubscribe = subscribe((newLang) => {
     updateIntroductionContent(newLang, aboutWrapper);
   });
@@ -69,9 +89,6 @@ export const createIntroduction = () => {
   return article;
 };
 
-/**
- * Cleanup
- */
 export const destroyIntroduction = (article) => {
   article?._unsubscribe?.();
   delete article._unsubscribe;
