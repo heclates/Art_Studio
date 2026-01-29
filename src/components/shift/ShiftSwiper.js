@@ -8,6 +8,7 @@ export const initSwiper = (container, navNext, navPrev, pagination) => {
     spaceBetween: 20,
     grabCursor: true,
     watchOverflow: true,
+    loop: true,
     navigation: { nextEl: navNext, prevEl: navPrev },
     pagination: { el: pagination, clickable: true },
     a11y: { enabled: true },

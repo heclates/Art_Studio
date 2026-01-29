@@ -23,7 +23,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     
     @media (max-width: 1024px) {
-      display: none; // На мобилке топ скрыт, контент переедет в меню
+      display: none;
     }
 
     .header__container {
@@ -403,7 +403,7 @@
     }
   }
 
-  // Desktop версия в header__top - компактнее
+  // Desktop версия в header__top
   &__top &__contact-link {
     font-size: 0.9rem;
     font-weight: 500;
@@ -427,7 +427,7 @@
     }
   }
 
-  // Desktop версия в header__top - компактнее
+  // Desktop версия в header__top
   &__top &__address-link {
     font-size: 0.9rem;
     font-weight: 500;
@@ -523,7 +523,6 @@
   // Language Switcher - более видное положение и стилизация
   .lang-switcher {
     @media (min-width: 1025px) {
-      // На desktop - справа от навигации
       margin-left: auto;
       background: #fdf2f0;
       padding: 0.5rem 1rem;
@@ -540,7 +539,6 @@
     }
 
     @media (max-width: 1024px) {
-      // В мобильном меню - после навигации
       order: 3;
       margin-top: 2rem;
       width: 100%;

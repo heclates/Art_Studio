@@ -7,8 +7,8 @@
   justify-content: center;
   position: fixed;
   inset: 0;
-  background: $color-bg-cream; // Ваш мягкий кремовый фон
-  z-index: $z-modal + 100; // Выше всех модалок
+  background: $color-bg-cream;
+  z-index: $z-modal + 100;
   transition: opacity $transition-slower $ease-smooth, 
               visibility $transition-slower $ease-smooth;
 
@@ -39,11 +39,10 @@
     position: absolute;
     width: 32px;
     height: 32px;
-    background: $color-primary; // Терракотовый основной
+    background: $color-primary;
     border-radius: $radius-full;
     animation: blob-move 2s infinite $ease-in-out;
 
-    // Используем ваши оттенки для капель
     &:nth-child(1) { 
       animation-delay: -0.8s; 
       background: $color-primary-light; 
@@ -75,7 +74,7 @@
   }
   50% {
     transform: translateX(40px) scale(1.1);
-    background: $color-secondary; // Плавный переход в оранжевый при слиянии
+    background: $color-secondary;
   }
 }
 

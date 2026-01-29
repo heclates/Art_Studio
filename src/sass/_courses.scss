@@ -51,7 +51,7 @@
     .swiper-button-prev,
     .swiper-button-next {
       color: $color-primary;
-      
+
       @media (max-width: 1024px) {
         display: none !important;
       }
@@ -62,7 +62,7 @@
     }
 
     .swiper-pagination-bullet {
-      background: $color-text-accent-light; // Или переменная для неактивного буллета
+      background: $color-text-accent-light;
       opacity: 1;
     }
 
@@ -77,9 +77,10 @@
   }
 
   .swiper-slide {
-    width: max-content;
-    flex-shrink: 0;
+    width: 360px;
     display: flex;
+    height: auto;
+    flex-shrink: 0;
   }
 }
 
@@ -89,15 +90,15 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
+  min-height: 640px;
   box-sizing: border-box;
-  
   background: rgba($color-bg-white, 0.2);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 2px solid rgba($color-bg-white, 0.3);
   box-shadow: $shadow-lg;
-  
   @include transition-all($transition-slow, $ease-smooth);
 
   &::before {
@@ -107,11 +108,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(
-      circle,
-      rgba($color-primary, 0.1) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle, rgba($color-primary, 0.1) 0%, transparent 70%);
     opacity: 0;
     transition: opacity $transition-slow $ease-out;
     pointer-events: none;
@@ -123,9 +120,7 @@
     border-color: $color-primary;
     box-shadow: $shadow-hover;
     background: rgba($color-bg-white, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    
+
     &::before {
       opacity: 1;
     }
@@ -137,11 +132,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.2)
-    );
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -205,11 +196,6 @@
     color: $color-primary;
     margin: 0;
     line-height: $leading-tight;
-    @include transition(color $transition-base $ease-out);
-  }
-
-  &:hover &__title {
-    color: $color-primary-dark;
   }
 
   &__description {
@@ -247,11 +233,7 @@
   &__button {
     width: 100%;
     padding: $space-md $space-lg;
-    background: linear-gradient(
-      135deg,
-      $color-primary 0%,
-      $color-primary-light 100%
-    );
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
     color: $color-text-light;
     border: none;
     border-radius: $radius-xl;
@@ -262,32 +244,11 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-    
-    @include transition(
-      transform $transition-base $ease-out,
-      box-shadow $transition-base $ease-out
-    );
-    
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        transparent 50%
-      );
-      opacity: 0;
-      transition: opacity $transition-base $ease-out;
-    }
+    @include transition(transform $transition-base $ease-out, box-shadow $transition-base $ease-out);
 
     &:hover {
       box-shadow: $shadow-primary-lg;
       transform: translateY(-2px);
-      
-      &::before {
-        opacity: 1;
-      }
     }
 
     &:active {
@@ -298,78 +259,48 @@
   }
 }
 
-// ============================================================================
-// RESPONSIVE
-// ============================================================================
 @include respond-below($breakpoint-lg) {
-  .courses {
-    padding: $space-3xl $space-md;
-    
-    &__title {
-      font-size: $font-3xl;
-    }
-    
-    &__subtitle {
-      font-size: $font-lg;
-    }
-  }
-  
   .course-card {
+    min-height: 560px;
+
     &__image {
-      height: 200px;
-    }
-    
-    &__content {
-      padding: $space-lg;
+      height: 260px;
     }
   }
 }
 
 @include respond-below($breakpoint-md) {
-  .courses {
-    padding: $space-2xl $space-sm;
-    
-    &__title {
-      font-size: $font-3xl;
-      font-weight: $font-medium;
-    }
+  .courses .swiper-slide {
+    width: 300px;
   }
-  
+
   .course-card {
-    border-radius: $radius-xl;
-    
+    min-height: 520px;
+
     &__image {
-      height: 260px;
+      height: 240px;
     }
-    
-    &__content {
-      padding: $space-md;
-    }
-    
+
     &__title {
       font-size: $font-xl;
     }
   }
 }
 
-// ============================================================================
-// ACCESSIBILITY
-// ============================================================================
 @include reduced-motion {
   .course-card {
     transition: none;
-    
+
     &:hover {
       transform: none;
     }
-    
+
     &__image img {
       transition: none;
     }
-    
+
     &__button {
       transition: none;
     }
   }
 }
-

@@ -2,15 +2,19 @@
 @use "variables" as *;
 @use "animation" as *;
 
+/* ================= INTRO ================= */
+
 .introduction {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
-  align-items: center;
   justify-content: center;
   padding: 120px 20px 80px;
-  box-sizing: border-box;
-  background: linear-gradient(180deg, $color-bg-main 0%, $color-bg-gradient 100%);
+  background: linear-gradient(
+    180deg,
+    $color-bg-main 0%,
+    $color-bg-gradient 100%
+  );
 }
 
 .introduction__info {
@@ -21,43 +25,51 @@
   align-items: center;
   gap: 32px;
   text-align: center;
+  margin: auto;
 }
+
+/* ================= LOGO ================= */
 
 .hero__logo {
   width: min(700px, 80vw);
   height: auto;
-  display: block;
   margin: 2rem auto;
-
-  user-select: none;
   pointer-events: none;
+  user-select: none;
 }
+
+/* ================= CONTENT ================= */
 
 .hero__content {
   width: 100%;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .about {
   width: 100%;
-  max-width: 720px;
+  max-width: 1024px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
 }
 
+/* скрытый SEO-заголовок — корректно */
 .studio__title {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
-  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
+/* ================= TEXT ================= */
+
 .about__title {
-  width: 120%;
+  max-width: 100%;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -71,32 +83,37 @@
 .about__text {
   font-size: 1.6rem;
   line-height: 1.65;
-  margin-top: 0.5rem;
   color: $color-text-dark;
+
   strong {
     color: $color-primary;
     font-weight: 700;
   }
 }
 
+/* ================= BUTTONS ================= */
+
 .hero__buttons {
   display: flex;
   gap: 3rem;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 
-.button-rezervation {
+%hero-button {
   margin-top: 1.5rem;
   padding: 0.9rem 2.2rem;
+  width: 300px;
   font-size: 1.6rem;
   font-weight: $font-semibold;
   color: $color-bg-white;
+  background: $color-primary;
   border: 2px solid $color-primary;
   border-radius: 10px;
-  background: $color-primary;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
+
   &:hover {
     background: $color-bg-white;
     color: $color-primary;
@@ -104,63 +121,44 @@
     transform: translateY(-2px);
   }
 }
-.button-shift {
-  margin-top: 1.5rem;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.6rem;
-  font-weight: $font-semibold;
-  color: $color-bg-white;
-  border: 2px solid $color-primary;
-  border-radius: 10px;
-  background: $color-primary;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    background: $color-bg-white;
-    color: $color-primary;
-    box-shadow: $shadow-md;
-    transform: translateY(-2px);
-  }}
+
+.button-rezervation { @extend %hero-button; }
+.button-shift       { @extend %hero-button; }
+
+/* ================= BREAKPOINTS ================= */
 
 @media (max-width: $breakpoint-tablet) {
   .introduction {
     padding: 100px 16px 60px;
     min-height: auto;
   }
+
   .hero__logo {
     width: 60vw;
-    margin: 35px auto;
-  }
-  .about__container {
-    padding: 24px 20px;
-    border-radius: 20px;
   }
 }
 
 @media (max-width: $breakpoint-mobile) {
   .introduction {
     padding: 80px 12px 40px;
-    .hero__logo {
-      width: 100%;
-      height: auto;
-      margin: 2.5rem auto;
-    }
   }
-  .about__container {
-    padding: 20px 16px;
+
+  .hero__logo {
+    width: 100%;
   }
 }
 
+/* ================= ACCESSIBILITY ================= */
+
 @media (prefers-reduced-motion: reduce) {
-  .about { animation: none; }
-  .about__container { transition: none; }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @media print {
-  .introduction { background: #fff; }
-  .about__container {
-    box-shadow: none;
-    border: 1px solid #000;
-    backdrop-filter: none;
+  .introduction {
+    background: #fff;
   }
 }

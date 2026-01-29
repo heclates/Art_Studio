@@ -12,7 +12,7 @@ import { submitToGoogleSheets } from '@/utils/googleSheets';
 
 const COURSES_MAP = {
     ru: { list: coursesRU.list, title: 'Наши направления', text: 'Выберите подходящий курс' },
-    en: { list: coursesEN.list, title: 'Our courses', text: 'Choose the right course' }, // ← исправил на английский, если нужно
+    en: { list: coursesEN.list, title: 'Naše kurzy', text: 'Vyberte si ten správný kurz' },
     default: { list: coursesRU.list, title: 'Наши направления', text: 'Выберите подходящий курс' }
 };
 

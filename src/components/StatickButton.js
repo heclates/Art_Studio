@@ -1,23 +1,39 @@
-import { el } from '@/utils/createElement';
+import { el } from '@/utils/createElement.js';
+import { getLanguage, subscribe } from '@/utils/languageManager.js';
+import { signTextRU, signTextEN } from '@/i18n/signText.js';
+
+const SIGN = {
+  ru: signTextRU,
+  en: signTextEN
+};
+
+const updateButtonText = (lang, span) => {
+  const locale = SIGN[lang] ?? SIGN.ru;
+  span.textContent = locale.signUp;
+};
 
 export const createStatickButton = () => {
   const button = el('button', {
     id: 'button-statick',
-    title: 'Записаться',
+    type: 'button'
   });
 
   const textSpan = el('span', {
-    class: 'reservation-statick-text',
-    textContent: 'Записаться'
+    class: 'reservation-statick-text'
   });
 
-  button.appendChild(textSpan);
+  button.append(textSpan);
+
+  updateButtonText(getLanguage(), textSpan);
 
   button.addEventListener('click', () => {
-    const reservationSection = document.querySelector('.reservation-form-free__title');
-    if (reservationSection) {
-      reservationSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    document
+      .querySelector('.reservation-form-free__title')
+      ?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  button._unsubscribe = subscribe((lang) => {
+    updateButtonText(lang, textSpan);
   });
 
   return button;

@@ -5,7 +5,7 @@
 #button-statick {
   position: fixed;
   bottom: 30px;
-  left: 30px;
+  right: 30px;
   width: 100px;
   height: 100px;
   background: $color-primary;
@@ -13,7 +13,7 @@
   border-radius: 50%;
   box-shadow: $shadow-md;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,12 +26,11 @@
   }
 
   .reservation-statick-text {
-    color: $color-bg-white; // Белый текст для контраста с primary
-    font-size: 14px; // Размер шрифта (можно уменьшить, если текст не влезает)
+    color: $color-bg-white;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
-    line-height: 1.2; // Для лучшего выравнивания в круге
-    white-space: nowrap; // Чтобы текст не переносился (если короткий)
-    animation: bounce-arrow 1.5s infinite; // Если хотите анимацию (как у стрелки), иначе удалите
+    line-height: 1.2;
+    white-space: nowrap;
   }
 }

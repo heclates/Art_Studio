@@ -4,23 +4,36 @@ import { getLanguage, subscribe } from '@/utils/languageManager';
 
 import { introductionRU } from '@/i18n/introduction/ru.js';
 import { introductionEN } from '@/i18n/introduction/en.js';
+import { signTextRU, signTextEN } from '@/i18n/signText.js';
+
+
+const normalizeLang = (lang) => {
+  return lang;
+};
 
 const INTRO_TRANSLATIONS = {
   ru: introductionRU,
-  en: introductionEN,
-  default: introductionRU
+  en: introductionEN
 };
 
-const getTexts = (lang) =>
-  INTRO_TRANSLATIONS[lang] || INTRO_TRANSLATIONS.default;
-
-
-const updateIntroductionContent = (lang, aboutWrapper) => {
-  const texts = getTexts(lang);
-  const newAbout = createAbout(texts);
-
-  aboutWrapper.replaceChildren(newAbout);
+const getTexts = (lang) => {
+  return INTRO_TRANSLATIONS[lang] || introductionRU;
 };
+
+
+const updateIntroductionContent = (lang, aboutWrapper, buttonRezervation, buttonShift) => {
+  const normalized = normalizeLang(lang);
+  const texts = getTexts(normalized);
+
+  aboutWrapper.replaceChildren(createAbout(texts));
+
+  buttonRezervation.textContent =
+    normalized === 'ru' ? signTextRU.rezervation : signTextEN.rezervation;
+
+  buttonShift.textContent =
+    normalized === 'ru' ? signTextRU.schedule : signTextEN.schedule;
+};
+
 
 
 export const createIntroduction = () => {
@@ -31,9 +44,7 @@ export const createIntroduction = () => {
     'aria-label': 'Introduction'
   });
 
-  const infoSection = el('section', {
-    class: 'introduction__info'
-  });
+  const infoSection = el('section', { class: 'introduction__info' });
 
   const logo = el('img', {
     class: 'hero__logo',
@@ -44,52 +55,47 @@ export const createIntroduction = () => {
     loading: 'eager'
   });
 
-  const aboutWrapper = el('div', {
-    class: 'hero__content'
-  });
-  const buttonContainer = el('div', {
-    class: 'hero__buttons'
-  });
+  const aboutWrapper = el('div', { class: 'hero__content' });
+  const buttonContainer = el('div', { class: 'hero__buttons' });
 
   const buttonRezervation = el('button', {
     class: 'button-rezervation',
-    type: 'button',
-    textContent: 'Забронироваться',
+    type: 'button'
   });
+
   const buttonShift = el('button', {
     class: 'button-shift',
-    type: 'button',
-    textContent: 'Посмотреть расписание',
-  });
-  buttonRezervation.addEventListener('click', () => {
-    const rezervationSection = document.getElementsByClassName('reservation-form-free__title');
-    if (rezervationSection.length) {
-      rezervationSection[0].scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-  buttonShift.addEventListener('click', () => {
-    const shiftSection = document.getElementsByClassName('shift-lesson');
-    if (shiftSection.length) {
-      shiftSection[0].scrollIntoView({ behavior: 'smooth' });
-    }
+    type: 'button'
   });
 
-  const lang = getLanguage();
-  aboutWrapper.appendChild(createAbout(getTexts(lang)));
+  buttonRezervation.addEventListener('click', () => {
+    document
+      .getElementsByClassName('reservation-form-free__title')[0]
+      ?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  buttonShift.addEventListener('click', () => {
+    document
+      .getElementsByClassName('shift-lesson')[0]
+      ?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  const lang = normalizeLang(getLanguage());
+  updateIntroductionContent(lang, aboutWrapper, buttonRezervation, buttonShift);
 
   infoSection.append(logo, aboutWrapper, buttonContainer);
-  buttonContainer.append(buttonRezervation,  buttonShift);
+  buttonContainer.append(buttonRezervation, buttonShift);
   article.appendChild(infoSection);
 
   const unsubscribe = subscribe((newLang) => {
-    updateIntroductionContent(newLang, aboutWrapper);
+    updateIntroductionContent(
+      normalizeLang(newLang),
+      aboutWrapper,
+      buttonRezervation,
+      buttonShift
+    );
   });
 
   article._unsubscribe = unsubscribe;
   return article;
-};
-
-export const destroyIntroduction = (article) => {
-  article?._unsubscribe?.();
-  delete article._unsubscribe;
 };

@@ -1,12 +1,12 @@
 export const introductionEN = {
   studioName: 'Alexandrova Art Studio',
-  aboutTitle: 'O NÁS',
+  aboutTitle: 'Art studio v Praze pro děti i dospělé',
   aboutText: `
-      Naše art studio v Praze 9 vzniklo v roce 2022 s jednoduchým cílem — vytvořit prostor, kde se může každý, bez ohledu na věk a zkušenosti, ponořit do světa umění a kreativity. Jsme místo, kde děti objevují první tahy štětcem a dospělí nacházejí chvíle klidu a inspirace v každodenním shonu.
-      
+      Kreslení, keramika a další tvůrčí formáty pro děti, teenagery i dospělé
+
  <br>‌</br>
-Věříme, že umění by mělo být přístupné všem — od nejmladších, kteří teprve poznávají kouzlo tvoření, až po ty, kteří hledají nové způsoby, jak obohatit svůj život. V našem studiu se zaměřujeme na to, aby každá lekce byla nejen výukou, ale také zážitkem plným podpory a radosti z tvoření.
+Nabízíme kurzy, workshopy, individuální lekce, přípravu na talentové zkoušky na umělecké střední školy, art večery, plenéry, příměstské umělecké tábory a další aktivity
 ‌<br>‌</br>
-Přijďte a objevte místo, kde se tvoření stává přirozenou součástí vašeho života.
+Najdete nás na Praze 2 a Praze 9
     `
 };
