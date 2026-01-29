@@ -1,11 +1,11 @@
 export const signTextRU = {
-rezervation: 'Забронироваться',
+rezervation: 'Записаться',
 schedule: 'Расписание',
 signUp: 'Записаться',
 };
 
 export const signTextEN = {
-rezervation: 'Rezervovat',
+rezervation: 'Přihlásit se',
 schedule: 'Rozvrh',
 signUp: 'Přihlásit se',
 };
