@@ -52,7 +52,7 @@
 
   &__menu {
     width: 100%;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 
     @media (max-width: 1024px) {
       padding: 0.75rem 0;
@@ -193,6 +193,9 @@
   }
 
   &__nav-item {
+    &:nth-child(1) {
+      width: 60px;
+    }
     @media (max-width: 1024px) {
       width: 100%;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
