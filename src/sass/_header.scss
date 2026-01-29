@@ -193,9 +193,6 @@
   }
 
   &__nav-item {
-    &:nth-child(1) {
-      width: 60px;
-    }
     @media (max-width: 1024px) {
       width: 100%;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -525,6 +522,8 @@
 
   // Language Switcher - более видное положение и стилизация
   .lang-switcher {
+    display: flex;
+    flex-direction: row;
     @media (min-width: 1025px) {
       margin-left: auto;
       background: #fdf2f0;

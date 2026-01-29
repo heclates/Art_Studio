@@ -50,7 +50,6 @@ export const createPrice = () => {
         const images = article.querySelectorAll('.price__item__img');
         images.forEach(img => {
             img.addEventListener('click', () => {
-                if (window.innerWidth < 1024) return;
                 const slide = img.closest('.swiper-slide');
                 const index = parseInt(slide.dataset.index);
 

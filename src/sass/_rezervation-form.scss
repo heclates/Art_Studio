@@ -3,6 +3,7 @@
 @use "variables" as *;
 
 .reservation-form {
+  // width: 520px;
   max-width: 520px;
   margin: 2rem auto;
   padding: 2.5rem;
@@ -14,9 +15,6 @@
   z-index: 1;
   @include transition(all 0.3s ease);
 
-   &__input iti__tel-input input[type='tel'] {
-    padding-left: 7011px !important;
-   }
 
   // Декоративные элементы
   &::before, &::after {
@@ -133,7 +131,7 @@
     &__selected-country {
       background: transparent !important;
       border-radius: $radius-xl 0 0 $radius-xl;
-      padding: 0 10px 0 15px;
+      padding: 0;
     }
 
     &__country-list {
