@@ -1,13 +1,11 @@
-// gallery.js (обновлённый с интеграцией модалки для полноэкранного просмотра)
-
 import { el } from '@/utils/createElement';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 import Swiper from 'swiper';
-import { Navigation, Pagination, A11y, Zoom } from 'swiper/modules'; // Добавили Zoom для зума в модалке
+import { Navigation, Pagination, A11y, Zoom } from 'swiper/modules';
 
 import { createGalleryItem } from './GalleryItem';
 import { setupLazyLoad, setupHoverEffects } from './GalleryEffect';
-import { createGalleryDOM } from './galleryDOM';
+import { createGalleryDOM } from './GalleryDOM';
 
 import { galleryRU } from '@/i18n/gallery/ru';
 import { galleryEN } from '@/i18n/gallery/en';
