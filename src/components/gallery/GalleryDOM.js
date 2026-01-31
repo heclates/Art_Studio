@@ -1,7 +1,7 @@
 import { el } from '@/utils/createElement';
 
 export const createGalleryDOM = (texts) => {
-  const article = el('article', {
+  const section = el('section', {
     class: 'gallery',
     'aria-labelledby': 'gallery-title'
   });
@@ -33,9 +33,9 @@ export const createGalleryDOM = (texts) => {
   });
 
   swiper.append(wrapper, pagination, prev, next);
-  article.append(title);
-  if (text) article.append(text);
-  article.append(swiper);
+  section.append(title);
+  if (text) section.append(text);
+  section.append(swiper);
 
-  return { article, wrapper, swiper, prev, next, pagination };
+  return { section, wrapper, swiper, prev, next, pagination };
 };

@@ -132,7 +132,12 @@
     padding: 100px 16px 60px;
     min-height: auto;
   }
-
+  .about__title {
+  font-size: clamp(1.8rem, 6vw, 2.2rem);
+  }
+  .about__text {
+    font-size: 1.8rem;
+  }
   .hero__logo {
     width: 60vw;
   }
@@ -141,8 +146,14 @@
 @media (max-width: $breakpoint-mobile) {
   .introduction {
     padding: 80px 12px 40px;
-  }
 
+  }
+  .about__title {
+    font-size: 1.6rem;
+  }
+  .about__text {
+    font-size: 1.4rem;
+  }
   .hero__logo {
     width: 100%;
   }
