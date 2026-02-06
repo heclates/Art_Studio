@@ -26,7 +26,32 @@ dist-ssr
 schemas/*
 schemas
 
+# Assets and credentials
 assets/img/
 assets/price_img/
 credentials.json
 .env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+ENV/
+
+# BD
+*.sqlite3
+
+# Django-specific
+static/
+media/
+
+# Cache 
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
