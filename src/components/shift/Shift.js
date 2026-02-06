@@ -70,7 +70,7 @@ export const createShiftLesson = ({
   filters = shiftFilters,
   submitHandler = submitToGoogleSheets
 } = {}) => {
-  const root = el('section', { class: 'shift-lesson' });
+  const root = el('article', { class: 'shift-lesson' });
 
   // State
   const state = {

@@ -3,6 +3,7 @@ import { createIntroduction } from './introduction/Introduction.js';
 import { createCourses } from './courses/Courses.js';
 import { createShiftLesson } from './shift/Shift.js';
 import { createPrice } from './price/Price.js';
+import { createTeams } from './teams/Teams.js';
 import { createGallery } from './gallery/Gallery.js';
 import { createContacts } from './contacts/Contacts.js';
 import { createReservationFormFree } from './forms/freeRezervationForm.js';
@@ -15,6 +16,7 @@ const LANGUAGE_DEPENDENT_COMPONENTS = [
     createCourses,
     createShiftLesson,
     createPrice,
+    createTeams,
     createGallery,
     createContacts
 ];
@@ -37,7 +39,6 @@ export const createMainContent = async () => {
     let reservationForm = null;
 
     const renderDynamicContent = () => {
-        console.log('🔄 Re-rendering dynamic content...');
         
         // Cleanup предыдущих элементов
         currentDynamicElements.forEach(element => {
@@ -79,7 +80,6 @@ export const createMainContent = async () => {
             main.append(...newElements);
         }
 
-        console.log('✅ Dynamic content rendered:', currentDynamicElements.length, 'elements');
     };
 
     // Подписка на изменения языка

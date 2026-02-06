@@ -4,6 +4,7 @@ export const headerRU = {
         { href: '#courses', text: 'Курсы' },
         { href: '#schedule', text: 'Расписание' },
         { href: '#price-title', text: 'Цены' },
+        { href: '#teams-title', text: 'Команда' },
         { href: '#gallery-title', text: 'Галерея' },
         { href: '#contacts', text: 'Контакты' },
         { href: '#reservation-form-free', text: 'Резервация' }

@@ -1,7 +1,7 @@
 import { el } from '@/utils/createElement';
 
 export const createGalleryDOM = (texts) => {
-  const section = el('section', {
+  const section = el('article', {
     class: 'gallery',
     'aria-labelledby': 'gallery-title'
   });

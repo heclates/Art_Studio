@@ -14,14 +14,14 @@ export const createContacts = () => {
     const lang = getLanguage();
     const texts = languageMap[lang] || languageMap.default;
 
-    const section = el('section', {
+    const section = el('article', {
         class: 'contacts',
         id: 'contacts',
         role: 'region',
         'aria-labelledby': 'contacts-title'
     });
 
-    const header = el('header', {
+    const header = el('section', {
         children: [
             el('h2', {
                 id: 'contacts-title',

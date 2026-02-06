@@ -12,6 +12,7 @@ export const contactsRU = {
       phoneLabel: 'Телефон',
       emailLabel: 'Email',
       hoursLabel: 'Часы работы',
+      transportLabel: 'Как добраться',
       address: 'Na Harfě 203/1, 190 00 Praha 9-Vysočany',
       phoneDisplay: '+420 774 310 299',
       phoneLink: '+420774310299',
@@ -24,7 +25,11 @@ export const contactsRU = {
         { day: 'Четверг', time: '15:00–19:00' },
         { day: 'Пятница', time: '13:00–19:00' },
         { day: 'Суббота', time: '11:00–15:00' },
-        { day: 'Воскресенье', time: '12:00–17:00' },
+        { day: 'Воскресенье', time: '12:00–17:00' }
+      ],
+      transport: [
+        { icon: '🚋', type: 'Трамвай', name: 'Nádraží Libeň', time: '2 минуты пешком' },
+        { icon: '🚇', type: 'Метро', name: 'Vysočanská / Českomoravská', time: '13 минут пешком' }
       ]
     },
     praha2: {
@@ -32,6 +37,7 @@ export const contactsRU = {
       phoneLabel: 'Телефон',
       emailLabel: 'Email',
       hoursLabel: 'Часы работы',
+      transportLabel: 'Как добраться',
       address: 'Bělehradská 77, 120 00 Praha 2-Nové Město',
       phoneDisplay: '+420 774 310 299',
       phoneLink: '+420774310299',
@@ -44,7 +50,12 @@ export const contactsRU = {
         { day: 'Четверг', time: '15:00–18:30' },
         { day: 'Пятница', time: '15:00–19:30' },
         { day: 'Суббота', time: '11:00–15:30' },
-        { day: 'Воскресенье', time: 'выходной' },
+        { day: 'Воскресенье', time: 'выходной' }
+      ],
+      transport: [
+        { icon: '🚇', type: 'Метро', name: 'I. P. Pavlova', time: '4 минуты пешком' },
+        { icon: '🚇', type: 'Метро', name: 'Náměstí Míru', time: '6 минут пешком' },
+        { icon: '🚋', type: 'Трамвай', name: 'Bruselská', time: '1 минута пешком' }
       ]
     }
   }
