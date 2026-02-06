@@ -3,8 +3,8 @@
 @use "variables" as *;
 
 .reservation-form {
-  // width: 520px;
   max-width: 520px;
+  width: 100%;
   margin: 2rem auto;
   padding: 2.5rem;
   background: $color-bg-white;
@@ -15,9 +15,9 @@
   z-index: 1;
   @include transition(all 0.3s ease);
 
-
   // Декоративные элементы
-  &::before, &::after {
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     border-radius: 50%;
@@ -80,6 +80,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
+    min-width: 0; // Важно для предотвращения overflow
   }
 
   &__label {
@@ -87,6 +89,8 @@
     font-weight: $font-semibold;
     color: $color-text-dark;
     padding-left: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   // Общие стили для всех полей ввода
@@ -94,6 +98,8 @@
   &__textarea,
   &__select {
     width: 100%;
+    min-width: 0; // Предотвращает overflow
+    max-width: 100%;
     padding: 0.8rem 1.2rem;
     border: 2px solid $color-border-light;
     border-radius: $radius-xl;
@@ -101,6 +107,7 @@
     font-size: $font-base;
     color: $color-text-dark;
     font-family: inherit;
+    box-sizing: border-box;
     @include transition(all $transition-base $ease-out);
 
     &::placeholder {
@@ -119,10 +126,24 @@
     }
   }
 
+  &__textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
   // Специфические стили для контейнера телефона (Intl-Tel-Input)
   .iti {
     width: 100%;
+    display: block;
 
+    &__container {
+      width: 100%;
+    }
+
+    &__input {
+      width: 100% !important;
+      box-sizing: border-box;
+    }
 
     &__country-container {
       border-radius: $radius-xl 0 0 $radius-xl;
@@ -142,8 +163,6 @@
       z-index: $z-dropdown;
       @include glass($blur-md);
     }
-
-  
   }
 
   &__button {
@@ -184,6 +203,7 @@
     border-radius: $radius-lg;
     font-weight: $font-semibold;
     margin-top: 0.5rem;
+    word-wrap: break-word;
   }
 
   &__error {
@@ -201,15 +221,147 @@
   }
 }
 
-// Адаптив для мобильных
+// ============================================================================
+// АДАПТИВНОСТЬ
+// ============================================================================
+
+// Планшеты
+@media (max-width: $breakpoint-md) {
+  .reservation-form {
+    max-width: 480px;
+    padding: 2rem;
+    border-radius: 32px;
+    margin: 1.5rem auto;
+
+    &__title {
+      font-size: $font-xl;
+    }
+
+    &__input,
+    &__textarea,
+    &__select {
+      padding: 0.7rem 1rem;
+      font-size: $font-sm;
+    }
+
+    &__button {
+      font-size: $font-base;
+      padding: 0.9rem 1.75rem;
+    }
+  }
+}
+
+// Мобильные устройства
 @media (max-width: $breakpoint-sm) {
   .reservation-form {
     margin: 1rem;
     padding: 1.5rem;
     border-radius: $radius-2xl;
+    max-width: 100%;
+
+    &::before {
+      width: 50px;
+      height: 50px;
+      top: -10px;
+      right: -10px;
+    }
+
+    &::after {
+      width: 65px;
+      height: 65px;
+      bottom: -12px;
+      left: -12px;
+    }
 
     &__title {
       font-size: $font-xl;
+      margin-bottom: 1.5rem;
+    }
+
+    &__form {
+      gap: 1rem;
+    }
+
+    &__label {
+      font-size: $font-xs;
+    }
+
+    &__input,
+    &__textarea,
+    &__select {
+      padding: 0.65rem 0.9rem;
+      font-size: $font-sm;
+    }
+
+    &__button {
+      font-size: $font-base;
+      padding: 0.85rem 1.5rem;
+    }
+  }
+}
+
+// Маленькие телефоны
+@media (max-width: 400px) {
+  .reservation-form {
+    margin: 0.75rem;
+    padding: 1.25rem;
+
+    &::before {
+      width: 40px;
+      height: 40px;
+    }
+
+    &::after {
+      width: 55px;
+      height: 55px;
+    }
+
+    &__title {
+      font-size: $font-lg;
+    }
+
+    &__input,
+    &__textarea,
+    &__select {
+      padding: 0.6rem 0.8rem;
+    }
+  }
+}
+
+// ============================================================================
+// ДОСТУПНОСТЬ
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .reservation-form {
+    animation: none;
+
+    &::before,
+    &::after {
+      animation: none;
+    }
+
+    &:hover {
+      transform: none;
+    }
+
+    &__button:hover:not(:disabled) {
+      transform: none;
+    }
+
+    &__error,
+    &__success {
+      animation: none;
+    }
+  }
+}
+
+@media (prefers-contrast: high) {
+  .reservation-form {
+    &__input,
+    &__textarea,
+    &__select {
+      border-width: 3px;
     }
   }
 }

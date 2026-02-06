@@ -1,7 +1,7 @@
 import { el } from '@/utils/createElement';
 import { shiftRU } from '@/i18n/shift/ru';
 import { shiftEN } from '@/i18n/shift/en';
-import { shiftFilters } from '@/constants/shiftFilters';
+import { shiftFilters, filterGroups } from '@/constants/shiftFilters';
 import { submitToGoogleSheets } from '@/utils/googleSheets';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 
@@ -10,24 +10,100 @@ import { initSwiper } from './ShiftSwiper';
 
 const SHIFT_MAP = { ru: shiftRU, en: shiftEN };
 
+// === УТИЛИТЫ ===
+const combineFilters = (ageFilter, dayFilter) => {
+  // Если один из фильтров "all" - используем только другой
+  if (ageFilter === 'all' && dayFilter === 'all') {
+    return shiftFilters.find(f => f.name === 'all').filterFn;
+  }
+  
+  if (ageFilter === 'all') {
+    return shiftFilters.find(f => f.name === dayFilter).filterFn;
+  }
+  
+  if (dayFilter === 'all') {
+    return shiftFilters.find(f => f.name === ageFilter).filterFn;
+  }
+  
+  // Комбинируем оба фильтра (AND логика)
+  const ageFn = shiftFilters.find(f => f.name === ageFilter)?.filterFn;
+  const dayFn = shiftFilters.find(f => f.name === dayFilter)?.filterFn;
+  
+  return (lesson) => ageFn(lesson) && dayFn(lesson);
+};
+
+// === СОЗДАНИЕ UI ЭЛЕМЕНТОВ ===
+const createLocationButton = (key, loc, activeLocation, onClick) =>
+  el('button', {
+    class: `shift-lesson__location-btn ${key === activeLocation ? 'active' : ''}`,
+    textContent: loc.label,
+    onclick: onClick
+  });
+
+const createFilterButton = (filterName, isActive, label, onClick) =>
+  el('button', {
+    class: `shift-lesson__filter-btn ${isActive ? 'active' : ''}`,
+    textContent: label,
+    onclick: onClick
+  });
+
+const createFilterGroup = (group, activeFilters, texts, onFilterChange) => {
+  const groupFilters = shiftFilters.filter(f => group.filters.includes(f.name));
+  
+  const buttons = groupFilters.map(f => 
+    createFilterButton(
+      f.name,
+      activeFilters[f.filterType] === f.name,
+      texts.filterLabels[f.name],
+      () => onFilterChange(f.filterType, f.name)
+    )
+  );
+
+  return el('div', {
+    class: 'shift-lesson__filter-group',
+    children: buttons
+  });
+};
+
+// === ОСНОВНОЙ КОМПОНЕНТ ===
 export const createShiftLesson = ({
   filters = shiftFilters,
   submitHandler = submitToGoogleSheets
 } = {}) => {
-
   const root = el('section', { class: 'shift-lesson' });
 
-  let activeLocation = null;
-  let activeFilter = 'all';
-  let swiperCleanup = null;
+  // State
+  const state = {
+    location: null,
+    filters: {
+      all: 'all',    // Фильтр "все"
+      age: 'all',    // Возрастной фильтр (childs/adults/all)
+      day: 'all'     // Дневной фильтр (weekday/weekend/all)
+    },
+    swiperCleanup: null
+  };
+
+  const handleFilterChange = (filterType, filterName) => {
+    // Если выбран "all" - сбрасываем остальные фильтры
+    if (filterType === 'all') {
+      state.filters = { all: 'all', age: 'all', day: 'all' };
+    } else {
+      // Сбрасываем "all" и обновляем конкретный фильтр
+      state.filters.all = null;
+      state.filters[filterType] = filterName;
+    }
+    
+    render(getLanguage());
+  };
 
   const render = (lang) => {
-    swiperCleanup?.();
+    state.swiperCleanup?.();
     root.innerHTML = '';
 
     const texts = SHIFT_MAP[lang];
-    activeLocation ??= Object.keys(texts.location)[0];
+    state.location ??= Object.keys(texts.location)[0];
 
+    // Header
     const header = el('header', {
       class: 'shift-lesson__header',
       id: 'schedule',
@@ -37,64 +113,74 @@ export const createShiftLesson = ({
       ]
     });
 
+    // Locations
     const locations = el('div', {
       class: 'shift-lesson__locations',
       children: Object.entries(texts.location).map(([key, loc]) =>
-        el('button', {
-          class: `shift-lesson__location-btn ${key === activeLocation ? 'active' : ''}`,
-          textContent: loc.label,
-          onclick: () => {
-            activeLocation = key;
-            render(lang);
-          }
+        createLocationButton(key, loc, state.location, () => {
+          state.location = key;
+          render(lang);
         })
       )
     });
 
-    const filtersNode = el('div', {
+    // Filters (grouped)
+    const filtersContainer = el('div', {
       class: 'shift-lesson__filters',
-      children: filters.map(f =>
-        el('button', {
-          class: `shift-lesson__filter-btn ${f.name === activeFilter ? 'active' : ''}`,
-          textContent: texts.filterLabels[f.name],
-          onclick: () => {
-            activeFilter = f.name;
-            render(lang);
-          }
-        })
+      children: filterGroups.map(group =>
+        createFilterGroup(group, state.filters, texts, handleFilterChange)
       )
     });
 
+    // Swiper
     const swiperContainer = el('div', { class: 'shift-lesson__swiper-container' });
     const wrapper = el('div', { class: 'swiper-wrapper' });
     const pagination = el('div', { class: 'swiper-pagination' });
-    const prev = el('button', { class: 'swiper-button-prev' });
-    const next = el('button', { class: 'swiper-button-next' });
+    const prev = el('button', { 
+      class: 'swiper-button-prev',
+      'aria-label': texts.ariaLabelNavPrev
+    });
+    const next = el('button', { 
+      class: 'swiper-button-next',
+      'aria-label': texts.ariaLabelNavNext
+    });
 
     swiperContainer.append(wrapper, pagination, prev, next);
 
-    const lessons = texts.location[activeLocation].lessons;
-    const filterFn = filters.find(f => f.name === activeFilter)?.filterFn ?? (() => true);
+    // Получение уроков и применение фильтров
+    const lessons = texts.location[state.location].lessons;
+    
+    // Комбинируем активные фильтры
+    const activeAgeFilter = state.filters.all === 'all' ? 'all' : state.filters.age;
+    const activeDayFilter = state.filters.all === 'all' ? 'all' : state.filters.day;
+    const combinedFilterFn = combineFilters(activeAgeFilter, activeDayFilter);
 
     buildSlides(
       wrapper,
-      filterFn,
+      combinedFilterFn,
       lessons,
       texts.days,
       submitHandler,
       {
-        location: texts.location[activeLocation].label,
-        filter: activeFilter
+        location: texts.location[state.location].label,
+        filterAge: activeAgeFilter,
+        filterDay: activeDayFilter
       }
     );
 
-    swiperCleanup = initSwiper(swiperContainer, next, prev, pagination);
+    state.swiperCleanup = initSwiper(swiperContainer, next, prev, pagination);
 
-    root.append(header, locations, filtersNode, swiperContainer);
+    root.append(header, locations, filtersContainer, swiperContainer);
   };
 
   render(getLanguage());
-  subscribe(render);
+  const unsubscribe = subscribe(render);
+
+  // Cleanup
+  root.cleanup = () => {
+    state.swiperCleanup?.();
+    unsubscribe?.();
+  };
 
   return root;
 };

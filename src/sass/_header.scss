@@ -17,7 +17,7 @@
 
   &__top {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    
+
     @media (max-width: 1024px) {
       display: none;
     }
@@ -55,12 +55,24 @@
     }
   }
 
+  // === LOGO + LANG SWITCHER WRAPPER ===
+  &__logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+    z-index: 2000;
+    position: relative;
+
+    @media (max-width: 1024px) {
+      gap: 0.75rem;
+    }
+  }
+
   &__logo-link {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    z-index: 2000;
-    position: relative;
   }
 
   &__logo {
@@ -99,7 +111,7 @@
     }
 
     &:hover {
-      background:#fdf2f0;
+      background: #fdf2f0;
     }
 
     &:focus-visible {
@@ -235,7 +247,7 @@
       padding: 1.25rem 1rem;
       width: 100%;
       text-align: center;
-      
+
       &::after {
         display: none;
       }
@@ -307,7 +319,7 @@
       background: #f9f9f9;
       padding: 1.5rem;
       border-radius: 16px;
-      
+
       @media (max-width: 768px) {
         padding: 1.25rem;
       }
@@ -328,7 +340,7 @@
       justify-content: center;
       gap: 1rem;
       padding: 1.5rem;
-      
+
       @media (max-width: 768px) {
         gap: 0.75rem;
         padding: 1.25rem;
@@ -507,27 +519,30 @@
     height: 20px;
   }
 
-  // Language Switcher
+  // ============================================================================
+  // LANGUAGE SWITCHER (DESKTOP - рядом с логотипом, MOBILE - внизу меню)
+  // ============================================================================
   .lang-switcher {
     display: flex;
     flex-direction: row;
-    
+    gap: 0;
+
+    // Desktop версия - компактная, рядом с логотипом
     @media (min-width: 1025px) {
-      margin-left: auto;
       background: #fdf2f0;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
+      padding: 0.4rem 0.6rem;
+      border-radius: 10px;
       border: 2px solid transparent;
       transition: all 0.3s ease;
 
       &:hover {
-        background:#fdf2f0;
-        border-color: $color-primary;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background: #fceae6;
+        border-color: rgba($color-primary, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
     }
 
+    // Mobile версия - внизу меню
     @media (max-width: 1024px) {
       order: 3;
       margin-top: 2rem;
@@ -540,19 +555,25 @@
       border: 2px solid rgba(0, 0, 0, 0.05);
     }
 
-    button, a {
+    button,
+    a {
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 0.4rem 0.8rem;
+      letter-spacing: 0.3px;
+      padding: 0.35rem 0.7rem;
       border-radius: 8px;
       transition: all 0.3s ease;
       border: none;
       background: transparent;
       color: #666;
       position: relative;
+
+      @media (min-width: 1025px) {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+      }
 
       @media (max-width: 1024px) {
         font-size: 1.1rem;
@@ -566,11 +587,11 @@
 
       &.active,
       &.lang-switcher__btn--active,
-      &[aria-pressed="true"] {
+      &[aria-pressed='true'] {
         color: white;
         background: $color-primary;
         font-weight: 700;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 6px rgba($color-primary, 0.3);
       }
 
       &:focus-visible {
@@ -581,18 +602,21 @@
 
     span:not([class]) {
       color: rgba(0, 0, 0, 0.2);
-      margin: 0 0.25rem;
+      margin: 0 0.15rem;
       font-weight: 300;
+      align-self: center;
+
+      @media (max-width: 1024px) {
+        margin: 0 0.25rem;
+      }
     }
   }
 }
 
-
-
 // Предотвращаем скролл body когда меню открыто
 body.menu-open {
   overflow: hidden;
-  
+
   @media (min-width: 1025px) {
     overflow: auto;
   }

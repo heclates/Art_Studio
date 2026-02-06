@@ -4,6 +4,7 @@
 
 .reservation-form-free {
   max-width: 600px;
+  width: 100%;
   margin: $space-xl auto;
   padding: $space-xl;
   background: $color-bg-white;
@@ -12,6 +13,7 @@
   position: relative;
   animation: fade-in $transition-base $ease-out;
   font-family: $font-primary;
+  box-sizing: border-box;
 
   &::before {
     content: '';
@@ -20,11 +22,7 @@
     right: -12px;
     width: 56px;
     height: 56px;
-    background: linear-gradient(
-      135deg,
-      $color-accent-light,
-      $color-accent-lighter
-    );
+    background: linear-gradient(135deg, $color-accent-light, $color-accent-lighter);
     border-radius: $radius-full;
     opacity: 0.6;
     z-index: -1;
@@ -38,35 +36,47 @@
     color: $color-text-dark;
     margin-bottom: $space-lg;
     line-height: $leading-snug;
+    word-wrap: break-word;
   }
 
   &__form {
     display: flex;
     flex-direction: column;
     gap: $space-md;
+    width: 100%;
   }
 
   &__field-group {
     display: flex;
     flex-direction: column;
     gap: $space-xs;
+    width: 100%;
+    min-width: 0; // Критично для предотвращения overflow
   }
 
   &__label {
     font-size: $font-base;
     font-weight: $font-semibold;
     color: $color-text-dark;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   &__input,
-  &__select {
+  &__select,
+  &__textarea {
     width: 100%;
+    min-width: 0; // Предотвращает overflow в flex контейнере
+    max-width: 100%;
     padding: $space-sm $space-md;
     font-size: $font-base;
     color: $color-text-dark;
     background: $color-bg-main;
     border: 2px solid $color-border-light;
     border-radius: $radius-xl;
+    box-sizing: border-box;
+    font-family: inherit;
     @include transition-all;
 
     &::placeholder {
@@ -83,6 +93,30 @@
     &:invalid {
       border-color: $color-error-light;
     }
+
+    &:hover:not(:focus) {
+      border-color: $color-primary-light;
+    }
+  }
+
+  &__textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  // Для телефонного input с библиотекой intl-tel-input
+  .iti {
+    width: 100%;
+    display: block;
+
+    &__container {
+      width: 100%;
+    }
+
+    &__input {
+      width: 100% !important;
+      box-sizing: border-box;
+    }
   }
 
   &__button {
@@ -91,23 +125,21 @@
     font-size: $font-lg;
     font-weight: $font-semibold;
     color: $color-text-light;
-    background: linear-gradient(
-      135deg,
-      $color-primary,
-      $color-primary-light
-    );
+    background: linear-gradient(135deg, $color-primary, $color-primary-light);
     border: none;
     border-radius: $radius-full;
     cursor: pointer;
     box-shadow: $shadow-primary;
+    width: 100%;
+    box-sizing: border-box;
     @include transition-all;
 
-    &:hover {
+    &:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: $shadow-primary-lg;
     }
 
-    &:active {
+    &:active:not(:disabled) {
       transform: translateY(0);
       box-shadow: $shadow-primary;
     }
@@ -116,6 +148,11 @@
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
+    }
+
+    &:focus-visible {
+      outline: 3px solid rgba($color-primary, 0.5);
+      outline-offset: 2px;
     }
   }
 
@@ -128,6 +165,8 @@
     text-align: center;
     font-weight: $font-medium;
     animation: fade-in $transition-fast $ease-out;
+    word-wrap: break-word;
+    border: 1px solid rgba($color-error, 0.2);
   }
 
   &__success {
@@ -139,18 +178,28 @@
     text-align: center;
     font-weight: $font-semibold;
     animation: fade-in-up $transition-base $ease-out;
+    word-wrap: break-word;
+    border: 1px solid rgba($color-success, 0.2);
   }
 
+  // ============================================================================
+  // АДАПТИВНОСТЬ
+  // ============================================================================
+
+  // Планшеты
   @include respond-below($breakpoint-md) {
+    max-width: 540px;
     padding: $space-lg;
     border-radius: $radius-xl;
+    margin: $space-lg auto;
 
     &__title {
       font-size: $font-xl;
     }
 
     &__input,
-    &__select {
+    &__select,
+    &__textarea {
       font-size: $font-sm;
       padding: $space-sm $space-md;
     }
@@ -160,8 +209,49 @@
     }
   }
 
+  // Мобильные устройства
+  @include respond-below($breakpoint-sm) {
+    margin: $space-md;
+    padding: $space-md;
+    max-width: 100%;
+
+    &::before {
+      width: 48px;
+      height: 48px;
+      top: -10px;
+      right: -10px;
+    }
+
+    &__title {
+      font-size: $font-lg;
+      margin-bottom: $space-md;
+    }
+
+    &__form {
+      gap: $space-sm;
+    }
+
+    &__label {
+      font-size: $font-sm;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+      padding: $space-xs $space-sm;
+      font-size: $font-sm;
+    }
+
+    &__button {
+      font-size: $font-base;
+      padding: $space-xs $space-md;
+    }
+  }
+
+  // Маленькие телефоны
   @include respond-below($breakpoint-xs) {
     padding: $space-md;
+    margin: $space-sm;
 
     &::before {
       width: 44px;
@@ -169,7 +259,35 @@
       top: -8px;
       right: -8px;
     }
+
+    &__title {
+      font-size: $font-base;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+      padding: 0.6rem 0.75rem;
+    }
   }
+
+  // Очень маленькие экраны
+  @media (max-width: 360px) {
+    padding: $space-sm;
+    margin: $space-xs;
+
+    &__title {
+      font-size: $font-sm;
+    }
+
+    &__label {
+      font-size: $font-xs;
+    }
+  }
+
+  // ============================================================================
+  // ДОСТУПНОСТЬ
+  // ============================================================================
 
   @include reduced-motion {
     animation: none;
@@ -180,8 +298,33 @@
 
     &__button {
       transition: background-color $transition-fast $ease-out;
+
+      &:hover:not(:disabled) {
+        transform: none;
+      }
+    }
+
+    &__error,
+    &__success {
+      animation: none;
     }
   }
+
+  @media (prefers-contrast: high) {
+    &__input,
+    &__select,
+    &__textarea {
+      border-width: 3px;
+    }
+
+    &__button {
+      border: 2px solid $color-primary;
+    }
+  }
+
+  // ============================================================================
+  // ПЕЧАТЬ
+  // ============================================================================
 
   @include print-only {
     box-shadow: none;
@@ -193,6 +336,13 @@
 
     &__button {
       display: none;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+      border: 1px solid $color-border-medium;
+      background: transparent;
     }
   }
 }

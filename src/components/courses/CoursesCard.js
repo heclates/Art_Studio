@@ -1,80 +1,47 @@
 import { el } from '@/utils/createElement';
 
-// Кэш для placeholder'ов (оптимизация памяти)
-const placeholderCache = new Map();
+// === КОНСТАНТЫ ===
+const PLACEHOLDER_CACHE = new Map();
+const DEFAULT_BUTTON_TEXT = 'Записаться';
 
-// Создание placeholder для курсов без изображения
+// === УТИЛИТЫ ===
+const getFirstChar = (str) => str?.[0]?.toUpperCase() || '?';
+
 const createPlaceholder = (name) => {
-    const firstChar = name[0]?.toUpperCase() || '?';
+    const char = getFirstChar(name);
     
-    if (!placeholderCache.has(firstChar)) {
-        const placeholder = el('div', { 
-            class: 'course-card__placeholder', 
-            textContent: firstChar 
-        });
-        placeholderCache.set(firstChar, placeholder);
+    if (!PLACEHOLDER_CACHE.has(char)) {
+        PLACEHOLDER_CACHE.set(
+            char, 
+            el('div', { class: 'course-card__placeholder', textContent: char })
+        );
     }
     
-    // Клонируем для каждого использования
-    return placeholderCache.get(firstChar).cloneNode(true);
+    return PLACEHOLDER_CACHE.get(char).cloneNode(true);
 };
 
-// Создание изображения с оптимизацией
-const createImageContent = (type) => {
-    if (!type.img) {
-        return createPlaceholder(type.name);
-    }
-    
-    return el('img', { 
-        src: type.img, 
-        alt: type.name,
+const createImage = (img, name) => 
+    el('img', { 
+        src: img, 
+        alt: name,
         loading: 'lazy',
         decoding: 'async'
     });
-};
 
-// Создание списка времени
 const createTimeList = (timeArray) => {
-    if (!timeArray || timeArray.length === 0) {
-        return null;
-    }
+    if (!timeArray?.length) return null;
     
     const ul = el('ul', { class: 'course-card__time-list' });
-    
-    timeArray.forEach(time => {
-        ul.appendChild(
-            el('li', { 
-                class: 'course-card__time-item',
-                textContent: time 
-            })
-        );
-    });
+    const items = timeArray.map(time => 
+        el('li', { class: 'course-card__time-item', textContent: time })
+    );
+    ul.append(...items);
     
     return ul;
 };
 
-export const createCourseCard = (type) => {
-    // Валидация данных
-    if (!type || !type.name) {
-        console.error('Invalid course data:', type);
-        return el('div', { 
-            class: 'course-card course-card--error',
-            textContent: 'Ошибка загрузки курса'
-        });
-    }
-
-    // === IMAGE CONTAINER ===
-    const imageContent = createImageContent(type);
-    const imageContainer = el('div', { 
-        class: 'course-card__image'
-    });
-    imageContainer.appendChild(imageContent);
-
-    // === TIME LIST ===
-    const timeList = createTimeList(type.time);
-
-    // === CONTENT CONTAINER ===
-    const contentChildren = [
+const createContentElements = (type) => {
+    const elements = [
         el('h3', { 
             class: 'course-card__title', 
             textContent: type.name, 
@@ -83,7 +50,7 @@ export const createCourseCard = (type) => {
     ];
 
     if (type.description) {
-        contentChildren.push(
+        elements.push(
             el('p', { 
                 class: 'course-card__description', 
                 textContent: type.description 
@@ -91,30 +58,44 @@ export const createCourseCard = (type) => {
         );
     }
 
-    if (timeList) {
-        contentChildren.push(timeList);
-    }
+    const timeList = createTimeList(type.time);
+    if (timeList) elements.push(timeList);
 
-    contentChildren.push(
+    elements.push(
         el('button', {
             class: 'course-card__button',
-            textContent: type.button || 'Записаться',
+            textContent: type.button || DEFAULT_BUTTON_TEXT,
             type: 'button',
             'aria-label': `Записаться на курс: ${type.name}`
         })
     );
 
-    const contentContainer = el('div', {
-        class: 'course-card__content'
-    });
-    contentChildren.forEach(child => contentContainer.appendChild(child));
+    return elements;
+};
 
-    // === CARD ASSEMBLY ===
-    const card = el('div', {
-        class: `course-card ${type.class || ''}`.trim()
-    });
-    card.appendChild(imageContainer);
-    card.appendChild(contentContainer);
+// === ОСНОВНОЙ КОМПОНЕНТ ===
+export const createCourseCard = (type) => {
+    if (!type?.name) {
+        console.error('Invalid course data:', type);
+        return el('div', { 
+            class: 'course-card course-card--error',
+            textContent: 'Ошибка загрузки курса'
+        });
+    }
+
+    // Изображение
+    const imageContainer = el('div', { class: 'course-card__image' });
+    imageContainer.appendChild(
+        type.img ? createImage(type.img, type.name) : createPlaceholder(type.name)
+    );
+
+    // Контент
+    const contentContainer = el('div', { class: 'course-card__content' });
+    contentContainer.append(...createContentElements(type));
+
+    // Карточка
+    const card = el('div', { class: `course-card ${type.class || ''}`.trim() });
+    card.append(imageContainer, contentContainer);
 
     return card;
 };
