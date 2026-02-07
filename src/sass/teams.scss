@@ -278,10 +278,6 @@
     padding: 3rem 1.5rem;
   }
 
-  .teams__title {
-    font-size: 2.3rem;
-  }
-
   .teams__text {
     font-size: 1.1rem;
     margin-bottom: 2.5rem;
@@ -302,10 +298,6 @@
     padding: 2.5rem 1rem;
   }
 
-  .teams__title {
-    font-size: 2rem;
-  }
-
   .teams__text {
     font-size: 1rem;
     margin-bottom: 2rem;
@@ -322,9 +314,6 @@
     padding: 2rem 0.875rem;
   }
 
-  .teams__title {
-    font-size: 1.75rem;
-  }
 
   .teams__text {
     font-size: 0.95rem;
@@ -333,9 +322,7 @@
 
 /* Extra small mobile */
 @media (max-width: 360px) {
-  .teams__title {
-    font-size: 1.6rem;
-  }
+ 
 
   .teams__text {
     font-size: 0.9rem;
@@ -390,36 +377,5 @@
 @media (prefers-contrast: high) {
   .teams__card {
     border-width: 3px;
-  }
-}
-
-/* ================= PRINT STYLES (ПОЛНОСТЬЮ КАК В GALLERY) ================= */
-
-@media print {
-  .teams {
-    padding: 20px;
-    animation: none;
-    background: #fff;
-
-    .teams__swiper {
-      .swiper-button-prev,
-      .swiper-button-next,
-      .swiper-pagination {
-        display: none;
-      }
-    }
-  }
-
-  .teams__card {
-    box-shadow: none;
-    border: 1px solid #ddd;
-    page-break-inside: avoid;
-    max-width: 100%;
-    border-radius: 20px;
-
-    &:hover {
-      transform: none;
-      box-shadow: none;
-    }
   }
 }
