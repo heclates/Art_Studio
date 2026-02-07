@@ -115,16 +115,6 @@
     z-index: 0;
   }
 
-  &:hover {
-    transform: translateY(-5px);
-    border-color: $color-primary;
-    box-shadow: $shadow-hover;
-    background: rgba($color-bg-white, 0.95);
-
-    &::before {
-      opacity: 1;
-    }
-  }
 
   &::after {
     content: '';
@@ -176,9 +166,6 @@
     }
   }
 
-  &:hover &__image img {
-    transform: scale(1.08);
-  }
 
   &__content {
     padding: $space-lg;
@@ -245,11 +232,6 @@
     overflow: hidden;
     z-index: 1;
     @include transition(transform $transition-base $ease-out, box-shadow $transition-base $ease-out);
-
-    &:hover {
-      box-shadow: $shadow-primary-lg;
-      transform: translateY(-2px);
-    }
 
     &:active {
       transform: translateY(0);

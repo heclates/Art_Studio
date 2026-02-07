@@ -13,6 +13,13 @@ export const priceEN = {
         { src: '/assets/price_img/pic_price_cz_9.jpg', alt: 'Ceník. Strana 9' },
         { src: '/assets/price_img/pic_price_cz_10.jpg', alt: 'Ceník. Strana 10' },
         { src: '/assets/price_img/pic_price_cz_11.jpg', alt: 'Ceník. Strana 11' },
-        { src: '/assets/price_img/pic_price_cz_12.jpg', alt: 'Ceník. Strana 12' }
+        { src: '/assets/price_img/pic_price_cz_12.jpg', alt: 'Ceník. Strana 12' },
+        { src: '/assets/price_img/pic_price_cz_13.PNG', alt: 'Ceník. Strana 13' },
+        { src: '/assets/price_img/pic_price_cz_14.PNG', alt: 'Ceník. Strana 14' },
+        { src: '/assets/price_img/pic_price_cz_15.PNG', alt: 'Ceník. Strana 15' },
+        { src: '/assets/price_img/pic_price_cz_16.PNG', alt: 'Ceník. Strana 16' },
+        { src: '/assets/price_img/pic_price_cz_17.PNG', alt: 'Ceník. Strana 17' },
+        { src: '/assets/price_img/pic_price_cz_18.PNG', alt: 'Ceník. Strana 18' },
+        { src: '/assets/price_img/pic_price_cz_19.PNG', alt: 'Ceník. Strana 19' },
     ]
 };

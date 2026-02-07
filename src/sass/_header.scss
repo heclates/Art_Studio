@@ -213,14 +213,13 @@
 
   &__nav-link {
     text-decoration: none;
-    color: #222;
     font-weight: 600;
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
     position: relative;
-
+    
     &::after {
       content: '';
       position: absolute;
@@ -242,7 +241,6 @@
 
     @media (max-width: 1024px) {
       font-size: 1.5rem;
-      color: #000;
       display: block;
       padding: 1.25rem 1rem;
       width: 100%;
@@ -518,7 +516,15 @@
     width: 20px;
     height: 20px;
   }
+.header__nav-item:nth-child(8) {
+  @media (max-width: 768px) {
+  color: $color-bg-white;
+  background: $color-primary-light;
+  border: 2px solid $color-primary-light;
+  border-radius: 10px;
 
+}
+}
   // ============================================================================
   // LANGUAGE SWITCHER (DESKTOP - рядом с логотипом, MOBILE - внизу меню)
   // ============================================================================

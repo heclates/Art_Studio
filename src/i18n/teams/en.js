@@ -14,5 +14,11 @@ export const teamsEN = {
             name: 'Kristina',
             text: 'Lektorka Aleksandrova Art Studio.'
         },
+        {
+            img: '/assets/img_teams/none.jpg', 
+            alt: 'Irina, budoucí lektorka Aleksandrova Art Studio',
+            name: '???',
+            text: 'Budoucí lektorka Aleksandrova Art Studio.'
+        }
     ]
 }

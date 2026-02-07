@@ -83,7 +83,7 @@ export const coursesRU = {
       title: 'Рисуйте в любое время',
       description: 'Записанные онлайн-уроки.',
       time: ['Доступ 24/7'],
-      img: 'assets/img_cards/online.jpg',
+      img: 'assets/img_cards/online.PNG',
       button: 'Купить доступ'
     },
     {
@@ -139,6 +139,33 @@ export const coursesRU = {
       time: ['Сезонное расписание'],
       img: 'assets/img_cards/special.jpg',
       button: 'Узнать даты'
+    },
+    {
+      name: 'Подарочные сертификаты',
+      class: 'courses__card--gift',
+      title: 'Подарочные сертификаты',
+      description: 'Подарочные сертификаты на курсы и мастер-классы, идеальный подарок для творческих людей.',
+      time: ['Доступны онлайн'],
+      img: 'assets/img_cards/gift_sr.jpg',
+      button: 'Заказать'
+    },
+    {
+      name: 'Подарочный сертификат',
+      class: 'courses__card--gift-other',
+      title: 'Подарочный сертификат',  
+      description: 'Подарочный сертификат на онлайн-уроки.',
+      time: ['Доступ 24/7'],
+      img: 'assets/img_cards/podarok_other_ru.PNG',
+      button: 'Заказать'
+    },
+    {
+      name: 'Подарочный сертификат',
+      class: 'courses__card--gift-child',
+      title: 'Подарочный сертификат',
+      description: 'Подарочный сертификат на индивидуальные занятия для взрослых.',
+      time: ['Сезонное расписание'],
+      img: 'assets/img_cards/podarok_deti_ru.PNG',
+      button: 'Заказать'
     }
   ]
 };

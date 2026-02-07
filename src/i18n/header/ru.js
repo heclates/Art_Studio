@@ -1,11 +1,11 @@
 export const headerRU = {
     navItems: [
        { href: '#introduction', text: 'Главная' },
-    { href: '#courses', text: 'Наши направления' },
+    { href: '#courses', text: 'Направления' },
     { href: '#schedule', text: 'Расписание' },
     { href: '#price-title', text: 'Цены' },
     { href: '#gallery-title', text: 'Галерея' },
-    { href: '#teams-title', text: 'Наша команда' },
+    { href: '#teams-title', text: 'Команда' },
     { href: '#contacts', text: 'Контакты' },
         { href: '#reservation-form-free', text: 'Резервация' }
     ],

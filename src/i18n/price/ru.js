@@ -13,6 +13,13 @@ export const priceRU = {
         { src: '/assets/price_img/pic_price_ru_9.jpg', alt: 'Прайс-лист. Страница 9' },
         { src: '/assets/price_img/pic_price_ru_10.jpg', alt: 'Прайс-лист. Страница 10' },
         { src: '/assets/price_img/pic_price_ru_11.jpg', alt: 'Прайс-лист. Страница 11' },
-        { src: '/assets/price_img/pic_price_ru_12.jpg', alt: 'Прайс-лист. Страница 12' }
+        { src: '/assets/price_img/pic_price_ru_12.jpg', alt: 'Прайс-лист. Страница 12' },
+        { src: '/assets/price_img/pic_price_ru_13.PNG', alt: 'Прайс-лист. Страница 13' },
+        { src: '/assets/price_img/pic_price_ru_14.PNG', alt: 'Прайс-лист. Страница 14' },
+        { src: '/assets/price_img/pic_price_ru_15.PNG', alt: 'Прайс-лист. Страница 15' },
+        { src: '/assets/price_img/pic_price_ru_16.PNG', alt: 'Прайс-лист. Страница 16' },
+        { src: '/assets/price_img/pic_price_ru_17.PNG', alt: 'Прайс-лист. Страница 17' },
+        { src: '/assets/price_img/pic_price_ru_18.PNG', alt: 'Прайс-лист. Страница 18' },
+        { src: '/assets/price_img/pic_price_ru_19.PNG', alt: 'Прайс-лист. Страница 19' },
     ]
 };

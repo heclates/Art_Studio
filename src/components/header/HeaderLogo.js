@@ -10,7 +10,7 @@ const createNavMenu = (texts) => {
     const navList = el('ul', { 
         class: 'header__nav-list',
         children: texts.navItems.map(item => el('li', {
-            class: 'header__nav-item',
+            class: `header__nav-item`,
             children: [el('a', { 
                 href: item.href, 
                 textContent: item.text, 
