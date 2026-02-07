@@ -1,11 +1,14 @@
-// i18n/footer/en.js
 export const footerEN = {
   navItems: [
-    { href: '#', text: 'Home' },
-    { href: '#courses', text: 'Courses' },
-    { href: '#contacts', text: 'Contacts' },
-    { href: '/terms.html', text: 'Terms' },
-    { href: '/privacy.html', text: 'Privacy Policy' }
+    { href: '#introduction', text: 'Hlavní' },
+    { href: '#courses', text: 'Naše směry' },
+    { href: '#schedule', text: 'Rozvrh' },
+    { href: '#price-title', text: 'Ceník' },
+    { href: '#gallery-title', text: 'Galerie' },
+    { href: '#teams-title', text: 'Náš tým' },
+    { href: '#contacts', text: 'Naše kontakty' },
+    { href: '/terms.html', text: 'Podmínky použití' },
+    { href: '/privacy.html', text: 'Zásady ochrany osobních údajů' }
   ],
-  copyright: '© 2025 Your Company. All rights reserved.'
+  copyright: '© 2025 Vaše společnost. Všechna práva vyhrazena.'
 };

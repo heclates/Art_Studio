@@ -18,7 +18,14 @@
   align-items: center;
   justify-content: center;
   animation: pulse 3s infinite ease-in-out;
-
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+    bottom: 20px;
+    right: 20px;
+    
+    
+  }
   &:hover {
     background: color.scale($color-primary, $lightness: -10%);
     box-shadow: $shadow-hover;
@@ -27,10 +34,14 @@
 
   .reservation-statick-text {
     color: $color-bg-white;
-    font-size: 14px;
+    font-size: 0.8rem;
     font-weight: bold;
     text-align: center;
     line-height: 1.2;
     white-space: nowrap;
+    @media (max-width: 768px) {
+      font-size: 0.6rem;
+      
+    }
   }
 }

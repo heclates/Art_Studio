@@ -164,12 +164,9 @@
   .gallery {
     padding: 3rem 1.5rem;
 
-    &__title {
-      font-size: 2.3rem;
-    }
+
 
     &__text {
-      font-size: 1.1rem;
       margin-bottom: 2.5rem;
     }
 
@@ -216,7 +213,6 @@
     }
 
     &__text {
-      font-size: 1.5rem;
       margin-bottom: 2rem;
     }
 
@@ -261,14 +257,6 @@
 @media (max-width: 480px) {
   .gallery {
     padding: 2rem 0.875rem;
-
-    &__title {
-      font-size: 1.75rem;
-    }
-
-    &__text {
-      font-size: 0.95rem;
-    }
 
     &__item {
       max-width: 260px;

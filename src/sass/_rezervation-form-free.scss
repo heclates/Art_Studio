@@ -31,8 +31,8 @@
 
   &__title {
     text-align: center;
-    font-size: $font-2xl;
-    font-weight: $font-bold;
+    font-size: 2.5rem;
+    font-weight: 300;
     color: $color-text-dark;
     margin-bottom: $space-lg;
     line-height: $leading-snug;
@@ -193,10 +193,6 @@
     border-radius: $radius-xl;
     margin: $space-lg auto;
 
-    &__title {
-      font-size: $font-xl;
-    }
-
     &__input,
     &__select,
     &__textarea {
@@ -223,7 +219,7 @@
     }
 
     &__title {
-      font-size: $font-lg;
+      font-size: 2.5rem;
       margin-bottom: $space-md;
     }
 
@@ -261,8 +257,9 @@
     }
 
     &__title {
-      font-size: $font-base;
-    }
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: $space-sm;}
 
     &__input,
     &__select,
@@ -275,10 +272,6 @@
   @media (max-width: 360px) {
     padding: $space-sm;
     margin: $space-xs;
-
-    &__title {
-      font-size: $font-sm;
-    }
 
     &__label {
       font-size: $font-xs;

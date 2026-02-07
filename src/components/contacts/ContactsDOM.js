@@ -53,11 +53,39 @@ export const createLocationContent = (texts) => {
     ]
   });
 
+  // Как добраться (в стиле contacts__info)
+  const transportContainer = Array.isArray(texts.transport) && texts.transport.length > 0
+    ? el('div', {
+        class: 'contacts__transport',
+        children: [
+          el('p', { 
+            class: 'contacts__label', 
+            textContent: texts.transportLabel ?? 'Как добраться' 
+          }),
+          ...texts.transport.map(item =>
+            el('p', {
+              class: 'contacts__value contacts__transport-item',
+              children: [
+                el('span', {
+                  class: 'contacts__transport-icon',
+                  textContent: item.icon ?? ''
+                }),
+                el('span', {
+                  class: 'contacts__transport-text',
+                  textContent: `${item.type}: ${item.name} — ${item.time}`
+                })
+              ]
+            })
+          )
+        ]
+      })
+    : null;
+
   // Часы работы
   const hoursContainer = el('div', {
     class: 'contacts__hours',
     children: [
-      el('h3', { class: 'contacts__hours-title', textContent: texts.hoursLabel ?? '' }),
+      el('p', { class: 'contacts__label contacts__hours-title', textContent: texts.hoursLabel ?? '' }),
       el('dl', {
         class: 'contacts__hours-list',
         children: Array.isArray(texts.hours)
@@ -81,58 +109,17 @@ export const createLocationContent = (texts) => {
     ]
   });
 
-  // НОВЫЙ БЛОК: Как добраться
-  const transportContainer = Array.isArray(texts.transport) && texts.transport.length > 0
-    ? el('div', {
-        class: 'contacts__transport',
-        children: [
-          el('h3', { 
-            class: 'contacts__transport-title', 
-            textContent: texts.transportLabel ?? 'Как добраться' 
-          }),
-          el('ul', {
-            class: 'contacts__transport-list',
-            children: texts.transport.map(item =>
-              el('li', {
-                class: 'contacts__transport-item',
-                children: [
-                  el('span', {
-                    class: 'contacts__transport-icon',
-                    textContent: item.icon ?? ''
-                  }),
-                  el('div', {
-                    class: 'contacts__transport-info',
-                    children: [
-                      el('strong', {
-                        class: 'contacts__transport-type',
-                        textContent: `${item.type}: ${item.name}`
-                      }),
-                      el('span', {
-                        class: 'contacts__transport-time',
-                        textContent: item.time
-                      })
-                    ]
-                  })
-                ]
-              })
-            )
-          })
-        ]
-      })
-    : null;
-
   // Сборка контента
   content.appendChild(mapContainer);
 
   const detailsContainer = el('div', { class: 'contacts__details' });
   detailsContainer.appendChild(contactInfo);
   if (transportContainer) {
-      detailsContainer.appendChild(transportContainer);
-    }
-  content.appendChild(detailsContainer);
+    detailsContainer.appendChild(transportContainer);
+  }
   detailsContainer.appendChild(hoursContainer);
   
-
+  content.appendChild(detailsContainer);
 
   return content;
 };

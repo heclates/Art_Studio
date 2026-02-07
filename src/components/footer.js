@@ -77,7 +77,7 @@ export const createFooter = () => {
 
     // Copyright
     const copyright = el('div', { class: 'footer__copyright' });
-    const copyrightText = el('p', { textContent: '© 2025 Your Company. All rights reserved.' });
+    const copyrightText = el('p', { textContent: `© ${new Date().getFullYear()} Art Studio. All rights reserved.` });
     copyright.appendChild(copyrightText);
     container.appendChild(copyright);
 

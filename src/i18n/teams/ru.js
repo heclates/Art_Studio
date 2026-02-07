@@ -1,4 +1,3 @@
-import { list } from "postcss";
 
 export const teamsRU = {
     title: 'Наша команда',
