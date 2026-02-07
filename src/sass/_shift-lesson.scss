@@ -11,9 +11,9 @@
   background: linear-gradient(180deg, $color-bg-main 0%, $color-bg-gradient 100%);
   text-align: center;
   font-family: 'Inter', -apple-system, sans-serif;
-  overflow: hidden;
+  // overflow: hidden;
   animation: zoom-in 0.7s ease-out forwards;
-  position: relative;
+  // position: relative;
 
   // Section header
   &__header {

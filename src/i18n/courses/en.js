@@ -38,7 +38,7 @@ export const coursesEN = {
         'Keramika + tvůrčí dílna',
         'Triple combo: kreslení + keramika + dílna'
       ],
-      img: 'assets/img_cards/kombo_lesson.jpg',
+      img: 'assets/img_cards/kombo_lesson.PNG',
       button: 'Přihlásit se'
     },
     {
@@ -56,7 +56,7 @@ export const coursesEN = {
       title: 'Personální výuka',
       description: 'Lekce přizpůsobené zájmům a potřebám každého dítěte.',
       time: ['Rozvrh se sjednává individuálně'],
-      img: 'assets/img_cards/individual.png',
+      img: 'assets/img_cards/individual.JPG',
       button: 'Přihlásit se'
     },
     {
@@ -92,7 +92,7 @@ export const coursesEN = {
       title: 'Tvůrčí turnusy',
       description: 'ART-tábor spojuje kreativitu, hry a nové zážitky: kreslení, workshopy, vaření, návštěvy muzeí a galerií.',
       time: ['Sezónní rozvrh'],
-      img: 'assets/img_cards/camp.jpg',
+      img: 'assets/img_cards/camp.PNG',
       button: 'Zjistit termíny'
     },
     {
@@ -128,7 +128,7 @@ export const coursesEN = {
       title: 'Individuální výuka pro dospělé',
       description: 'Lekce plně přizpůsobené úrovni a zájmům studenta.',
       time: ['Sezónní rozvrh'],
-      img: 'assets/img_cards/adult_invdiv.jpg',
+      img: 'assets/img_cards/individual.JPG',
       button: 'Zjistit termíny'
     },
     {

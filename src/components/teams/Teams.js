@@ -1,6 +1,5 @@
 import { el } from '@/utils/createElement';
 import { getLanguage, subscribe } from '@/utils/languageManager';
-import { initSwiper } from '../shift/ShiftSwiper';
 
 import { teamsRU } from '@/i18n/teams/ru';
 import { teamsEN } from '@/i18n/teams/en';
@@ -12,13 +11,11 @@ const TRANSLATIONS = {
 };
 
 export const createTeams = () => {
-  let destroySwiper = null;
   let observer = null;
 
   const lang = getLanguage();
   const initialTexts = TRANSLATIONS[lang] || TRANSLATIONS.default;
 
-  // DOM структура
   const article = el('article', {
     class: 'teams',
     id: 'teams',
@@ -29,47 +26,30 @@ export const createTeams = () => {
 
   const title = el('h2', {
     id: 'teams-title',
-    class: 'teams__title'
-  });
-  title.innerHTML = initialTexts.title;
-
-  const subtitle = initialTexts.text
-    ? el('p', { class: 'teams__text', textContent: initialTexts.text })
-    : null;
-
-  header.append(title);
-  if (subtitle) header.append(subtitle);
-
-  // Swiper Container (как в ShiftSwiper)
-  const swiperContainer = el('div', { class: 'teams__swiper swiper' });
-  const wrapper = el('div', { class: 'swiper-wrapper' });
-
-  // Navigation (как в ShiftSwiper - button без дополнительных классов)
-  const navPrev = el('button', {
-    class: 'swiper-button-prev',
-    'aria-label': initialTexts.navPrev || 'Предыдущий слайд'
+    class: 'teams__title',
+    innerHTML: initialTexts.title
   });
 
-  const navNext = el('button', {
-    class: 'swiper-button-next',
-    'aria-label': initialTexts.navNext || 'Следующий слайд'
-  });
+  header.appendChild(title);
 
-  // Pagination (как в ShiftSwiper)
-  const pagination = el('div', { class: 'swiper-pagination' });
+  if (initialTexts.text) {
+    header.appendChild(
+      el('p', {
+        class: 'teams__text',
+        textContent: initialTexts.text
+      })
+    );
+  }
 
-  swiperContainer.append(wrapper, pagination, navPrev, navNext);
-  article.append(header, swiperContainer);
+  const list = el('div', { class: 'teams__list' });
 
-  const titleElement = article.querySelector('.teams__title');
-  const textElement = article.querySelector('.teams__text');
+  article.append(header, list);
 
-  // Функция создания карточки
   const createTeamCard = (member) => {
-    const slide = el('div', { class: 'swiper-slide' });
     const card = el('section', { class: 'teams__card' });
 
     const imageContainer = el('figure', { class: 'teams__card-image' });
+
     const img = el('img', {
       'data-src': member.img,
       src: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"/%3E',
@@ -83,23 +63,23 @@ export const createTeams = () => {
     imageContainer.appendChild(img);
 
     const content = el('figcaption', { class: 'teams__card-content' });
-    const name = el('h3', {
-      class: 'teams__card-name',
-      textContent: member.name
-    });
-    const description = el('p', {
-      class: 'teams__card-text',
-      textContent: member.text
-    });
 
-    content.append(name, description);
+    content.append(
+      el('h3', {
+        class: 'teams__card-name',
+        textContent: member.name
+      }),
+      el('p', {
+        class: 'teams__card-text',
+        textContent: member.text
+      })
+    );
+
     card.append(imageContainer, content);
-    slide.appendChild(card);
 
-    return slide;
+    return card;
   };
 
-  // Lazy Load
   const setupLazyLoad = (container) => {
     if (!('IntersectionObserver' in window)) {
       container.querySelectorAll('img[data-src]').forEach(img => {
@@ -110,31 +90,25 @@ export const createTeams = () => {
       return null;
     }
 
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
 
-          const img = entry.target.querySelector('img[data-src]');
-          if (img) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-            img.classList.add('loaded');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: '100px' }
-    );
+        const img = entry.target.querySelector('img[data-src]');
+        if (!img) return;
 
-    container.querySelectorAll('.swiper-slide').forEach(slide =>
-      observer.observe(slide)
-    );
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+        img.classList.add('loaded');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '100px' });
 
-    return observer;
+    container.querySelectorAll('.teams__card').forEach(card => io.observe(card));
+
+    return io;
   };
 
-  // Hover Effects
   const setupHoverEffects = (container) => {
     if (window.matchMedia('(pointer: coarse)').matches) return;
 
@@ -142,80 +116,48 @@ export const createTeams = () => {
 
     cards.forEach(card => {
       card.addEventListener('mouseenter', () => {
-        cards.forEach(c => {
-          if (c !== card) {
-            c.classList.add('dimmed');
-          }
-        });
+        cards.forEach(c => c !== card && c.classList.add('dimmed'));
       });
 
       card.addEventListener('mouseleave', () => {
-        cards.forEach(c => {
-          c.classList.remove('dimmed');
-        });
+        cards.forEach(c => c.classList.remove('dimmed'));
       });
     });
   };
 
-  // Обновление контента
   const updateTeamsContent = () => {
     const lang = getLanguage();
     const texts = TRANSLATIONS[lang] || TRANSLATIONS.default;
 
-    // Обновляем заголовки
-    if (titleElement) {
-      titleElement.innerHTML = texts.title;
-    }
+    title.innerHTML = texts.title;
 
-    if (textElement) {
-      if (texts.text) {
-        textElement.textContent = texts.text;
-        textElement.style.display = '';
+    const textNode = article.querySelector('.teams__text');
+    if (texts.text) {
+      if (textNode) {
+        textNode.textContent = texts.text;
+        textNode.style.display = '';
       } else {
-        textElement.style.display = 'none';
+        header.appendChild(
+          el('p', { class: 'teams__text', textContent: texts.text })
+        );
       }
-    } else if (texts.text) {
-      const newText = el('p', { class: 'teams__text', textContent: texts.text });
-      header.appendChild(newText);
+    } else if (textNode) {
+      textNode.style.display = 'none';
     }
 
-    // Уничтожаем предыдущий Swiper
-    if (destroySwiper) {
-      destroySwiper();
-      destroySwiper = null;
-    }
-
-    // Отключаем observer
     if (observer) {
       observer.disconnect();
       observer = null;
     }
 
-    // Очищаем wrapper
-    wrapper.innerHTML = '';
+    list.innerHTML = '';
 
-    // Создаем слайды
     const fragment = document.createDocumentFragment();
+    texts.list.forEach(member => fragment.appendChild(createTeamCard(member)));
+    list.appendChild(fragment);
 
-    texts.list.forEach(member => {
-      const slide = createTeamCard(member);
-      fragment.appendChild(slide);
-    });
-
-    wrapper.appendChild(fragment);
-
-    // Обновляем aria-labels
-    navPrev.setAttribute('aria-label', texts.navPrev || 'Предыдущий слайд');
-    navNext.setAttribute('aria-label', texts.navNext || 'Следующий слайд');
-
-    // Инициализируем Swiper (как в ShiftSwiper)
-    setTimeout(() => {
-      if (article.isConnected) {
-        destroySwiper = initSwiper(swiperContainer, navNext, navPrev, pagination);
-        observer = setupLazyLoad(wrapper);
-        setupHoverEffects(wrapper);
-      }
-    }, 100);
+    observer = setupLazyLoad(list);
+    setupHoverEffects(list);
   };
 
   const unsubscribe = subscribe(updateTeamsContent);
@@ -224,19 +166,14 @@ export const createTeams = () => {
 
   article.cleanup = () => {
     unsubscribe();
-    if (destroySwiper) {
-      destroySwiper();
-    }
-    if (observer) {
-      observer.disconnect();
-    }
+    if (observer) observer.disconnect();
   };
 
   return article;
 };
 
 export const destroyTeams = (teamsElement) => {
-  if (teamsElement && typeof teamsElement.cleanup === 'function') {
+  if (teamsElement?.cleanup) {
     teamsElement.cleanup();
   }
 };

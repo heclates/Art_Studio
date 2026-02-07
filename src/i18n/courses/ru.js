@@ -38,7 +38,7 @@ export const coursesRU = {
         'Керамика + творческая мастерская',
         'Тройное комбо: рисование + керамика + мастерская'
       ],
-      img: 'assets/img_cards/kombo_lesson.jpg',
+      img: 'assets/img_cards/kombo_lesson.PNG',
       button: 'Записаться'
     },
     {
@@ -56,7 +56,7 @@ export const coursesRU = {
       title: 'Персональные уроки',
       description: 'Занятия, адаптированные под интересы и потребности каждого ребёнка.',
       time: ['Расписание согласовывается индивидуально'],
-      img: 'assets/img_cards/individual.png',
+      img: 'assets/img_cards/individual.JPG',
       button: 'Записаться'
     },
     {
@@ -92,7 +92,7 @@ export const coursesRU = {
       title: 'Творческие смены',
       description: 'АРТ-лагерь объединяет творчество, игры и новые впечатления: рисование, мастер-классы, кулинарию, посещение музеев и галерей.',
       time: ['Сезонное расписание'],
-      img: 'assets/img_cards/camp.jpg',
+      img: 'assets/img_cards/camp.PNG',
       button: 'Узнать даты'
     },
     {

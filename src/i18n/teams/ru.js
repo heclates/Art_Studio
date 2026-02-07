@@ -15,10 +15,6 @@ export const teamsRU = {
             name: 'Кристина',
             text: 'Преподаватель Aleksandrova Art Studio.'
         },
-        {
-            img: '/assets/img_teams/none.jpg', 
-            alt: 'Ирина, будущий преподаватель Aleksandrova Art Studio',
-            name: '???',
-            text: 'Будущий преподователь Aleksandrova Art Studio.'}
+        
     ]
 }

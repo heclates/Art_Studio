@@ -1,8 +1,7 @@
-@use "sass:color";
 @use "variables" as *;
 @use "animation" as *;
 
-/* ================= TEAMS SECTION ================= */
+/* ================= TEAMS ================= */
 
 .teams {
   width: 100%;
@@ -13,115 +12,63 @@
     $color-bg-gradient 100%
   );
   text-align: center;
-  font-family: 'Inter', -apple-system, sans-serif;
-  overflow: hidden;
-  animation: fade-in 0.7s ease-out forwards;
-  position: relative;
 }
 
 /* ================= HEADER ================= */
 
 .teams__header {
-  margin-bottom: 3rem;
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 3rem;
 }
 
 .teams__title {
   font-size: 2.8rem;
   font-weight: 300;
-  color: $color-text-dark;
   margin-bottom: 1rem;
-  letter-spacing: -0.02em;
 
   strong {
-    font-weight: 700;
     color: $color-primary;
+    font-weight: 700;
   }
 }
 
 .teams__text {
   font-size: 1.2rem;
-  font-weight: 400;
   color: $color-text-medium;
-  line-height: 1.6;
-  margin-bottom: 0;
 }
 
-/* ================= SWIPER CONTAINER (ПОЛНОСТЬЮ КАК В GALLERY) ================= */
+/* ================= GRID ================= */
 
-.teams__swiper {
-  position: relative;
+.teams__list {
   max-width: 1400px;
   margin: 0 auto;
-  padding-bottom: 3rem;
-  height: auto;
-  overflow: hidden;
+  display: grid;
+  gap: 2.5rem;
+}
 
-  .swiper-wrapper {
-    display: flex;
-    align-items: stretch;
-    @include transition(all 0.4s ease);
-    height: 100%;
-  }
-
-  .swiper-slide {
-    display: flex;
-    justify-content: center;
-    width: auto;
-    flex-shrink: 0;
-    @include transition(transform 0.4s ease, filter 0.4s ease);
-    height: 100%;
-  }
-
-  // Активный zoom эффект (как в Gallery)
-  .swiper-slide.active-zoom {
-    transform: scale(1.05);
-    z-index: 2;
-  }
-
-  // Blur эффект для неактивных слайдов (как в Gallery)
-  .swiper-slide.blur-slide {
-    filter: blur(2px) brightness(0.9);
-    transform: scale(0.95);
-  }
-
-  // Скрыть навигацию на touch устройствах (как в Gallery)
-  @media (pointer: coarse) {
-    .swiper-button-prev,
-    .swiper-button-next {
-      display: none !important;
-    }
-  }
-
-  // Navigation buttons (как в Gallery)
-  .swiper-button-prev,
-  .swiper-button-next {
-    color: $color-primary;
-
-    @media (max-width: 1024px) {
-      display: none !important;
-    }
-
-    &:after {
-      font-size: 2rem;
-    }
-  }
-
-  // Pagination bullets (как в Gallery)
-  .swiper-pagination-bullet {
-    background: $color-text-medium;
-    opacity: 0.3;
-  }
-
-  .swiper-pagination-bullet-active {
-    background: $color-primary;
-    opacity: 1;
+/* Desktop */
+@media (min-width: 1025px) {
+  .teams__list {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* ================= TEAM CARD ================= */
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .teams__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .teams__list {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ================= CARD ================= */
 
 .teams__card {
   background: linear-gradient(
@@ -131,68 +78,34 @@
   );
   border-radius: 35px;
   overflow: hidden;
-  @include box-shadow(40px, 0.08);
-  @include transition(all 0.5s ease);
   border: 2px solid transparent;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
   width: 100%;
-  max-width: 380px;
-  animation: fade-in-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
 
-  &:hover {
-    border-color: $color-primary;
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 60px rgba($color-primary, 0.25);
-  }
+.teams__card:hover {
+  transform: translateY(-6px);
+  border-color: $color-primary;
+}
 
-  &.dimmed {
-    opacity: 0.6;
-    filter: grayscale(0.3);
-  }
-
-  @media (max-width: $breakpoint-tablet) {
-    max-width: 350px;
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    max-width: 320px;
-  }
-
-  @media (max-width: 480px) {
-    max-width: 280px;
-  }
-
-  @media (max-width: 360px) {
-    max-width: 260px;
+/* Disable hover on touch */
+@media (pointer: coarse) {
+  .teams__card:hover {
+    transform: none;
+    border-color: transparent;
   }
 }
 
 /* ================= IMAGE ================= */
 
 .teams__card-image {
-  width: 100%;
-  height: 500px;
+  height: 720px;
   overflow: hidden;
-  position: relative;
-  background: linear-gradient(
-    135deg,
-    $color-accent-light 0%,
-    $color-accent-lighter 50%,
-    $color-accent-peach 100%
-  );
+}
 
-  @media (max-width: $breakpoint-tablet) {
-    height: 420px;
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    height: 350px;
-  }
-
-  @media (max-width: 480px) {
-    height: 320px;
+@media (max-width: 768px) {
+  .teams__card-image {
+    height: 380px;
   }
 }
 
@@ -200,182 +113,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  @include transition(transform 0.4s ease, opacity 0.3s ease);
   opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-  &.loaded {
-    opacity: 1;
-  }
-
-  .teams__card:hover & {
-    transform: scale(1.08);
-  }
+.teams__card-img.loaded {
+  opacity: 1;
 }
 
 /* ================= CONTENT ================= */
 
 .teams__card-content {
   padding: 2rem;
-  text-align: center;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.75rem;
-  min-height: 120px;
-
-  @media (max-width: $breakpoint-mobile) {
-    padding: 1.5rem;
-    min-height: 100px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 1.25rem;
-  }
-
-  @media (max-width: 360px) {
-    padding: 1rem;
-  }
 }
 
 .teams__card-name {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.6rem;
   color: $color-primary;
-  margin: 0;
-  line-height: 1.2;
-
-  @media (max-width: $breakpoint-mobile) {
-    font-size: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.3rem;
-  }
 }
 
 .teams__card-text {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1.05rem;
   color: $color-text-dark;
-  margin: 0;
-  line-height: 1.5;
-
-  @media (max-width: $breakpoint-mobile) {
-    font-size: 1rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.95rem;
-  }
-}
-
-/* ================= BREAKPOINTS (КАК В GALLERY) ================= */
-
-/* Tablet */
-@media (max-width: $breakpoint-tablet) {
-  .teams {
-    padding: 3rem 1.5rem;
-  }
-
-  .teams__text {
-    font-size: 1.1rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .teams__header {
-    margin-bottom: 0;
-  }
-
-  .teams__swiper {
-    padding-bottom: 2.5rem;
-  }
-}
-
-/* Mobile */
-@media (max-width: $breakpoint-mobile) {
-  .teams {
-    padding: 2.5rem 1rem;
-  }
-
-  .teams__text {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .teams__swiper {
-    padding-bottom: 2rem;
-  }
-}
-
-/* Small mobile */
-@media (max-width: 480px) {
-  .teams {
-    padding: 2rem 0.875rem;
-  }
-
-
-  .teams__text {
-    font-size: 0.95rem;
-  }
-}
-
-/* Extra small mobile */
-@media (max-width: 360px) {
- 
-
-  .teams__text {
-    font-size: 0.9rem;
-  }
-}
-
-/* ================= ACCESSIBILITY (ПОЛНОСТЬЮ КАК В GALLERY) ================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .teams {
-    animation: none;
-  }
-
-  .teams__card {
-    animation: none;
-    @include transition(box-shadow 0.2s ease);
-
-    &:hover {
-      transform: none;
-    }
-
-    &.dimmed {
-      transition: opacity 0.2s ease, filter 0.2s ease;
-    }
-  }
-
-  .teams__card-img {
-    transition: opacity 0.2s ease;
-
-    .teams__card:hover & {
-      transform: none;
-    }
-  }
-
-  .teams__swiper {
-    .swiper-wrapper {
-      transition: none;
-    }
-
-    .swiper-slide {
-      transition: none;
-
-      &.active-zoom,
-      &.blur-slide {
-        transform: none;
-        filter: none;
-      }
-    }
-  }
-}
-
-@media (prefers-contrast: high) {
-  .teams__card {
-    border-width: 3px;
-  }
 }
