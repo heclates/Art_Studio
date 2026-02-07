@@ -40,11 +40,11 @@ export const createTeams = () => {
   header.append(title);
   if (subtitle) header.append(subtitle);
 
-  // Swiper Container
+  // Swiper Container (как в ShiftSwiper)
   const swiperContainer = el('div', { class: 'teams__swiper swiper' });
   const wrapper = el('div', { class: 'swiper-wrapper' });
 
-  // Navigation
+  // Navigation (как в ShiftSwiper - button без дополнительных классов)
   const navPrev = el('button', {
     class: 'swiper-button-prev',
     'aria-label': initialTexts.navPrev || 'Предыдущий слайд'
@@ -55,7 +55,7 @@ export const createTeams = () => {
     'aria-label': initialTexts.navNext || 'Следующий слайд'
   });
 
-  // Pagination
+  // Pagination (как в ShiftSwiper)
   const pagination = el('div', { class: 'swiper-pagination' });
 
   swiperContainer.append(wrapper, pagination, navPrev, navNext);
@@ -208,10 +208,10 @@ export const createTeams = () => {
     navPrev.setAttribute('aria-label', texts.navPrev || 'Предыдущий слайд');
     navNext.setAttribute('aria-label', texts.navNext || 'Следующий слайд');
 
-    // Инициализируем Swiper, передавая кол-во слайдов
+    // Инициализируем Swiper (как в ShiftSwiper)
     setTimeout(() => {
       if (article.isConnected) {
-        destroySwiper = initSwiper(swiperContainer, navNext, navPrev, pagination, texts.list.length);
+        destroySwiper = initSwiper(swiperContainer, navNext, navPrev, pagination);
         observer = setupLazyLoad(wrapper);
         setupHoverEffects(wrapper);
       }
