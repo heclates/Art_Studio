@@ -137,7 +137,7 @@ export const coursesRU = {
       title: 'Индивидуальные арт-мероприятия',
       description: 'Организуем арт-вечеринки, корпоративы, дни рождения и арт-свидания — как в студии, так и в формате выездных мероприятий.',
       time: ['Сезонное расписание'],
-      img: 'assets/img_cards/special.jpg',
+      img: 'assets/img_cards/special.PNG',
       button: 'Узнать даты'
     },
     {

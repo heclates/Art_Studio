@@ -1,6 +1,6 @@
 // src/i18n/contacts/ru.js
 export const contactsRU = {
-  title: 'Наши Контакты',
+  title: 'Наши контакты',
   introText: 'Свяжитесь с нами или посетите нашу студию.',
   locationLabels: {
     praha9: 'Прага 9',

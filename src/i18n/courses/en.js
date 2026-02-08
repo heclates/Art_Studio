@@ -137,7 +137,7 @@ export const coursesEN = {
       title: 'Individuální art-akce',
       description: 'Organizujeme art-party, teambuildingy, narozeniny a art-rande – v našem studiu i jako výjezdní akce.',
       time: ['Sezónní rozvrh'],
-      img: 'assets/img_cards/special.jpg',
+      img: 'assets/img_cards/special.PNG',
       button: 'Zjistit termíny'
     },
     {
