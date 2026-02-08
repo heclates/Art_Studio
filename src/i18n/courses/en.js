@@ -128,7 +128,7 @@ export const coursesEN = {
       title: 'Individuální výuka pro dospělé',
       description: 'Lekce plně přizpůsobené úrovni a zájmům studenta.',
       time: ['Sezónní rozvrh'],
-      img: 'assets/img_cards/individual.JPG',
+      img: 'assets/img_cards/adult_invdiv.jpg',
       button: 'Zjistit termíny'
     },
     {
