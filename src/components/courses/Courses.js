@@ -6,7 +6,6 @@ import { coursesEN } from '@/i18n/courses/en';
 import { createCourseCard } from './CoursesCard';
 import { createReservationForm } from '@/components/forms/ReservationForm';
 import { openModal } from '@/components/Modal';
-import { submitToGoogleSheets } from '@/utils/googleSheets';
 
 // === КОНСТАНТЫ ===
 const COURSES_MAP = {
@@ -17,11 +16,18 @@ const COURSES_MAP = {
 // === УТИЛИТЫ ===
 const getCourseContent = (lang) => COURSES_MAP[lang] || COURSES_MAP.ru;
 
-const createCourseClickHandler = (type) => async () => {
-    const form = createReservationForm(
-        { courseName: type.name, courseClass: type.class },
-        (data) => submitToGoogleSheets([...data, type.name, type.class])
-    );
+// --- ИСПРАВЛЕННЫЙ ОБРАБОТЧИК ---
+const createCourseClickHandler = (courseData) => async () => {
+    // Подготавливаем payload для формы
+    const payload = { 
+        courseName: courseData.name, 
+        courseClass: courseData.class 
+    };
+
+    // Создаем форму. Она сама подтянет TimeSlots по courseName
+    const form = createReservationForm(payload);
+    
+    // Открываем модалку с заголовком
     openModal(form, 'reservation-form__title');
 };
 
@@ -47,6 +53,7 @@ const createSlide = (type, handlers) => {
     const button = card.querySelector('.course-card__button');
     
     if (button) {
+        // Привязываем новый обработчик к кнопке
         handlers.set(button, createCourseClickHandler(type));
     }
     
@@ -128,34 +135,28 @@ export const createCourses = () => {
             return;
         }
 
-        // Создание слайдов
         const slides = content.list.map(type => createSlide(type, state.handlers));
-        
-        // Сборка и вставка
         const swiperContainer = createSwiperContainer(slides);
+        
         article.append(
             createHeader(content),
             swiperContainer
         );
 
-        // Event delegation
         article.addEventListener('click', handleCourseClick, {
             signal: state.abortController.signal,
             passive: false
         });
 
-        // Инициализация Swiper
         initializeSwiper(swiperContainer);
     };
 
-    // Инициализация
     render(getLanguage());
-    const unsubscribe = subscribe(render);
+    const unsubscribeFunc = subscribe(render);
 
-    // Cleanup метод
     article.cleanup = () => {
         cleanup();
-        unsubscribe?.();
+        unsubscribeFunc?.();
     };
 
     return article;

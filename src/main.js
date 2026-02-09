@@ -1,7 +1,7 @@
 import { createHeader } from '@/components/header/Header.js';
 import { createMainContent } from '@/components/MainContent.js';
 import { createFooter } from '@/components/footer.js';
-import { initGoogleApi } from '@/utils/googleSheets.js';
+// Удалили импорт initGoogleApi
 import { createStatickButton } from './components/StatickButton';
 
 import '@/sass/styles.scss';
@@ -33,13 +33,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   document.body.appendChild(preloader);
 
-  
   try {
-    await initGoogleApi();
+    // Удалили await initGoogleApi();
     const mainContent = await createMainContent();
     document.body.appendChild(createHeader());
     document.body.appendChild(mainContent);
     document.body.appendChild(createFooter());
+    
+    // Если нужно добавить статичную кнопку:
+    // document.body.appendChild(createStatickButton());
 
   } catch (err) {
     console.error('Ошибка инициализации:', err);

@@ -3,6 +3,7 @@ import { createLanguageSwitcher, destroyLanguageSwitcher } from '../LanguageSwit
 import { getLanguage, subscribe } from '@/utils/languageManager';
 import { headerRU } from '@/i18n/header/ru.js';
 import { headerEN } from '@/i18n/header/en.js';
+import { createUserMenu } from './UserMenu';
 
 const HEADER_TRANSLATIONS = { ru: headerRU, en: headerEN, default: headerRU };
 
@@ -48,7 +49,6 @@ const createBurgerController = (headerRef, burgerButton, navControls, bentoConta
         burgerButton.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
         
-        // Убираем обработчик клика вне меню
         setTimeout(() => {
             document.removeEventListener('click', handleOutsideClick);
         }, 100);
@@ -62,7 +62,6 @@ const createBurgerController = (headerRef, burgerButton, navControls, bentoConta
         burgerButton.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
         
-        // Добавляем обработчик клика вне меню с задержкой
         setTimeout(() => {
             document.addEventListener('click', handleOutsideClick);
         }, 100);
@@ -115,17 +114,14 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
 
     const navControls = el('div', { class: 'header__nav-controls' });
     
-    // Создаем bento контейнер который будет показываться в мобильном меню
     const bentoContainer = el('div', { class: 'header__bento-grid' });
     
     const burgerController = createBurgerController(headerRef, burgerButton, navControls, bentoContainer);
 
-    // Обработчик клика по бургеру
     burgerButton.addEventListener('click', (e) => {
         e.stopPropagation();
         burgerController.toggle();
         
-        // При открытии переносим элементы из header__top в bento-grid
         if (burgerController.isOpen()) {
             bentoContainer.innerHTML = '';
             const topChildren = Array.from(headerTopContainerElement.children);
@@ -189,10 +185,13 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
     menuWrapper.appendChild(container);
 
     const languageSwitcher = createLanguageSwitcher();
+    const userMenu = createUserMenu();
+
     updateNavigation(getLanguage(), navControls);
     
     // Добавляем переключатель языка ПОСЛЕ навигации
     navControls.appendChild(languageSwitcher);
+    navControls.appendChild(userMenu);
 
     const unsubscribe = subscribe((lang) => updateNavigation(lang, navControls));
     
