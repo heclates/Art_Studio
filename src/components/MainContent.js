@@ -6,14 +6,12 @@ import { createPrice } from './price/Price.js';
 import { createTeams } from './teams/Teams.js';
 import { createGallery } from './gallery/Gallery.js';
 import { createContacts } from './contacts/Contacts.js';
-import { createReservationForm } from './forms/freeRezervationForm.js'; // Используем обновленную функцию
+import { createReservationForm } from './forms/freeRezervationForm.js';
 import { subscribe } from '@/utils/languageManager';
 import { createStatickButton } from './StatickButton';
-import { createCabinet } from './pAccount/Account.js';
 
 const LANGUAGE_DEPENDENT_COMPONENTS = [
     createCourses,
-    createCabinet,
     createShiftLesson,
     createPrice,
     createTeams,
@@ -32,13 +30,12 @@ export const createMainContent = async () => {
     const buttonStatick = createStatickButton();
     const introduction = createIntroduction();
 
-
     main.append(shape1, shape2, buttonStatick, introduction);
 
     let currentDynamicElements = [];
     let reservationForm = null;
 
-    const renderDynamicContent = () => {
+    const renderDynamicContent = async () => {  // Ensure async
         // Cleanup предыдущих элементов
         currentDynamicElements.forEach(element => {
             if (element && element.parentNode === main) {
@@ -54,14 +51,17 @@ export const createMainContent = async () => {
         });
         currentDynamicElements = [];
 
-        const newElements = LANGUAGE_DEPENDENT_COMPONENTS.map(createComponent => {
+        // Await all component creations (handle async ones like createShiftLesson)
+        const componentPromises = LANGUAGE_DEPENDENT_COMPONENTS.map(async (createComponent) => {
             try {
-                return createComponent();
+                return await createComponent();  // Await each creation
             } catch (error) {
                 console.error('Error creating component:', error);
                 return null;
             }
-        }).filter(Boolean);
+        });
+
+        const newElements = (await Promise.all(componentPromises)).filter(Boolean);  // Await all and filter nulls
 
         currentDynamicElements = newElements;
 
@@ -75,10 +75,10 @@ export const createMainContent = async () => {
     };
 
     // Подписка на изменения языка
-    const unsubscribeLanguage = subscribe(renderDynamicContent);
+    const unsubscribeLanguage = subscribe(async () => await renderDynamicContent());  // Make callback async
 
     // Первичный рендер динамического контента
-    renderDynamicContent();
+    await renderDynamicContent();  // Await initial render
 
     reservationForm = createReservationForm(); 
     main.appendChild(reservationForm);

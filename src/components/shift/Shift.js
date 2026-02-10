@@ -2,9 +2,7 @@ import { el } from '@/utils/createElement';
 import { shiftRU } from '@/i18n/shift/ru';
 import { shiftEN } from '@/i18n/shift/en';
 import { shiftFilters, filterGroups } from '@/constants/shiftFilters';
-import { submitToGoogleSheets } from '@/utils/googleSheets';
 import { getLanguage, subscribe } from '@/utils/languageManager';
-
 import { buildSlides } from './ShiftHelpers';
 import { initSwiper } from './ShiftSwiper';
 
@@ -12,7 +10,6 @@ const SHIFT_MAP = { ru: shiftRU, en: shiftEN };
 
 // === УТИЛИТЫ ===
 const combineFilters = (ageFilter, dayFilter) => {
-  // Если один из фильтров "all" - используем только другой
   if (ageFilter === 'all' && dayFilter === 'all') {
     return shiftFilters.find(f => f.name === 'all').filterFn;
   }
@@ -25,7 +22,6 @@ const combineFilters = (ageFilter, dayFilter) => {
     return shiftFilters.find(f => f.name === ageFilter).filterFn;
   }
   
-  // Комбинируем оба фильтра (AND логика)
   const ageFn = shiftFilters.find(f => f.name === ageFilter)?.filterFn;
   const dayFn = shiftFilters.find(f => f.name === dayFilter)?.filterFn;
   
@@ -66,29 +62,26 @@ const createFilterGroup = (group, activeFilters, texts, onFilterChange) => {
 };
 
 // === ОСНОВНОЙ КОМПОНЕНТ ===
-export const createShiftLesson = ({
-  filters = shiftFilters,
-  submitHandler = submitToGoogleSheets
+export const createShiftLesson = async ({
+  filters = shiftFilters
 } = {}) => {
   const root = el('article', { class: 'shift-lesson' });
 
   // State
   const state = {
-    location: null,
+    location: 'praha9', // Устанавливаем Прагу 9 по умолчанию
     filters: {
-      all: 'all',    // Фильтр "все"
-      age: 'all',    // Возрастной фильтр (childs/adults/all)
-      day: 'all'     // Дневной фильтр (weekday/weekend/all)
+      all: 'all',
+      age: 'all',
+      day: 'all'
     },
     swiperCleanup: null
   };
 
   const handleFilterChange = (filterType, filterName) => {
-    // Если выбран "all" - сбрасываем остальные фильтры
     if (filterType === 'all') {
       state.filters = { all: 'all', age: 'all', day: 'all' };
     } else {
-      // Сбрасываем "all" и обновляем конкретный фильтр
       state.filters.all = null;
       state.filters[filterType] = filterName;
     }
@@ -96,12 +89,31 @@ export const createShiftLesson = ({
     render(getLanguage());
   };
 
+  // Функция для получения данных из локализации
+  const getLocationData = (lang, locationKey) => {
+    const texts = SHIFT_MAP[lang];
+    if (!texts?.location?.[locationKey]) {
+      return { label: locationKey, lessons: [] };
+    }
+    
+    return {
+      label: texts.location[locationKey].label,
+      lessons: texts.location[locationKey].lessons.map(lesson => ({
+        ...lesson,
+        locationKey: locationKey
+      }))
+    };
+  };
+
   const render = (lang) => {
     state.swiperCleanup?.();
     root.innerHTML = '';
 
     const texts = SHIFT_MAP[lang];
-    state.location ??= Object.keys(texts.location)[0];
+    if (!texts) {
+      root.textContent = 'Loading...';
+      return;
+    }
 
     // Header
     const header = el('header', {
@@ -113,15 +125,19 @@ export const createShiftLesson = ({
       ]
     });
 
+    // Получаем доступные локации из данных
+    const availableLocations = texts.location ? Object.keys(texts.location) : ['praha9'];
+    
     // Locations
     const locations = el('div', {
       class: 'shift-lesson__locations',
-      children: Object.entries(texts.location).map(([key, loc]) =>
-        createLocationButton(key, loc, state.location, () => {
+      children: availableLocations.map((key) => {
+        const locData = getLocationData(lang, key);
+        return createLocationButton(key, locData, state.location, () => {
           state.location = key;
           render(lang);
-        })
-      )
+        });
+      })
     });
 
     // Filters (grouped)
@@ -132,51 +148,43 @@ export const createShiftLesson = ({
       )
     });
 
-    // Swiper
+    // Swiper Container
     const swiperContainer = el('div', { class: 'shift-lesson__swiper-container' });
     const wrapper = el('div', { class: 'swiper-wrapper' });
     const pagination = el('div', { class: 'swiper-pagination' });
-    const prev = el('button', { 
-      class: 'swiper-button-prev',
-      'aria-label': texts.ariaLabelNavPrev
-    });
-    const next = el('button', { 
-      class: 'swiper-button-next',
-      'aria-label': texts.ariaLabelNavNext
-    });
+    const prev = el('button', { class: 'swiper-button-prev' });
+    const next = el('button', { class: 'swiper-button-next' });
 
     swiperContainer.append(wrapper, pagination, prev, next);
 
-    // Получение уроков и применение фильтров
-    const lessons = texts.location[state.location].lessons;
+    // Получаем уроки для текущей локации
+    const locationData = getLocationData(lang, state.location);
+    const lessons = locationData.lessons;
     
-    // Комбинируем активные фильтры
     const activeAgeFilter = state.filters.all === 'all' ? 'all' : state.filters.age;
     const activeDayFilter = state.filters.all === 'all' ? 'all' : state.filters.day;
     const combinedFilterFn = combineFilters(activeAgeFilter, activeDayFilter);
 
+    // Создаем слайды с уроками
     buildSlides(
       wrapper,
       combinedFilterFn,
       lessons,
       texts.days,
-      submitHandler,
       {
-        location: texts.location[state.location].label,
+        location: locationData.label,
         filterAge: activeAgeFilter,
         filterDay: activeDayFilter
       }
     );
 
     state.swiperCleanup = initSwiper(swiperContainer, next, prev, pagination);
-
     root.append(header, locations, filtersContainer, swiperContainer);
   };
 
   render(getLanguage());
   const unsubscribe = subscribe(render);
 
-  // Cleanup
   root.cleanup = () => {
     state.swiperCleanup?.();
     unsubscribe?.();

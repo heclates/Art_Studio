@@ -70,14 +70,14 @@ export const createLocationContent = (texts) => {
                   class: 'contacts__transport-icon',
                   textContent: item.icon ?? ''
                 }),
-                el('span', {
-                  class: 'contacts__transport-text',
-                  textContent: `${item.type}: ${item.name}:`
-                }),
                 el('p', {
                   class: 'contacts__transport-time',
                   textContent: item.time ? ` ${item.time}` : ''
-                })
+                }),
+                el('span', {
+                  class: 'contacts__transport-text',
+                  textContent: `${item.type} ${item.name}`
+                }),
               ]
             })
           )

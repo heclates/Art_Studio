@@ -1,142 +1,190 @@
-// src/modal.js (оптимизированный для мобильных)
+// src/components/Modal.js
 
-let modal;
-let previouslyFocusedElement = null;
+let modal = null
+let previouslyFocusedElement = null
+let isOpen = false
+let closingFromPopState = false
 
-// Глобальный обработчик popstate для закрытия модалки при "назад" (включая свайп на мобильных)
+/* ================= POPSTATE ================= */
+
 if (typeof window !== 'undefined') {
-  window.addEventListener('popstate', handlePopState);
+  window.addEventListener('popstate', () => {
+    if (isOpen) {
+      closingFromPopState = true
+      closeModal()
+      closingFromPopState = false
+    }
+  })
 }
 
-function handlePopState(event) {
-  if (modal && modal.style.display !== 'none') {
-    closeModal();
-    // Предотвращаем дальнейшую обработку, если нужно (но обычно не требуется)
-  }
-}
+/* ================= KEYBOARD ================= */
 
-// Обработчик клавиатуры для закрытия модального окна и управления фокусом
 if (typeof document !== 'undefined') {
-  document.addEventListener('keydown', handleKeyDown);
-}
+  document.addEventListener('keydown', (event) => {
+    if (!isOpen) return
 
-function handleKeyDown(event) {
-  if (event.key === 'Escape' && modal && modal.style.display !== 'none') {
-    closeModal();
-    return;
-  }
-
-  if (event.key === 'Tab' && modal && modal.style.display !== 'none') {
-    trapFocus(event);
-  }
-}
-
-function trapFocus(event) {
-  const focusableElements = getFocusableElements(modal);
-  if (focusableElements.length === 0) return;
-
-  const firstFocusableEl = focusableElements[0];
-  const lastFocusableEl = focusableElements[focusableElements.length - 1];
-
-  if (event.shiftKey) {
-    if (document.activeElement === firstFocusableEl) {
-      lastFocusableEl.focus();
-      event.preventDefault();
+    if (event.key === 'Escape') {
+      closeModal()
+      return
     }
-  } else {
-    if (document.activeElement === lastFocusableEl) {
-      firstFocusableEl.focus();
-      event.preventDefault();
+
+    if (event.key === 'Tab') {
+      trapFocus(event)
     }
+  })
+}
+/* ================= TOUCH (MOBILE SWIPE) ================= */
+
+let touchStartX = 0
+let touchStartY = 0
+let isSwiping = false
+
+const SWIPE_THRESHOLD = 80 // px
+
+function onTouchStart(e) {
+  if (!isOpen) return
+
+  const touch = e.touches[0]
+  touchStartX = touch.clientX
+  touchStartY = touch.clientY
+  isSwiping = true
+}
+
+function onTouchMove(e) {
+  if (!isOpen || !isSwiping) return
+
+  const touch = e.touches[0]
+  const dx = touch.clientX - touchStartX
+  const dy = touch.clientY - touchStartY
+
+  // свайп вниз или вправо
+  if (dx > SWIPE_THRESHOLD || dy > SWIPE_THRESHOLD) {
+    isSwiping = false
+    closeModal()
   }
 }
+
+function onTouchEnd() {
+  isSwiping = false
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('touchstart', onTouchStart, { passive: true })
+  document.addEventListener('touchmove', onTouchMove, { passive: true })
+  document.addEventListener('touchend', onTouchEnd)
+}
+
+/* ================= FOCUS ================= */
 
 function getFocusableElements(container) {
   return Array.from(
     container.querySelectorAll(
       'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
     )
-  ).filter(el => el.offsetParent !== null);
+  ).filter(el => el.offsetParent !== null)
 }
+
+function trapFocus(event) {
+  const focusable = getFocusableElements(modal)
+  if (!focusable.length) return
+
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+
+  if (event.shiftKey) {
+    if (document.activeElement === first) {
+      last.focus()
+      event.preventDefault()
+    }
+  } else {
+    if (document.activeElement === last) {
+      first.focus()
+      event.preventDefault()
+    }
+  }
+}
+
+/* ================= OPEN ================= */
 
 export function openModal(contentNode, titleId = 'modal-title') {
-  previouslyFocusedElement = document.activeElement;
+  if (isOpen) return
+
+  previouslyFocusedElement = document.activeElement
 
   if (!modal) {
-    modal = document.createElement('div');
-    modal.className = 'modal';
+    modal = document.createElement('div')
+    modal.className = 'modal'
+    modal.setAttribute('role', 'dialog')
+    modal.setAttribute('aria-modal', 'true')
+    modal.setAttribute('tabindex', '-1')
+    modal.setAttribute('aria-labelledby', titleId)
 
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-modal', 'true');
-    modal.setAttribute('aria-labelledby', titleId);
-    modal.setAttribute('tabindex', '-1');
+    const overlay = document.createElement('div')
+    overlay.className = 'modal__overlay'
+    overlay.addEventListener('click', closeModal)
 
-    const overlay = document.createElement('div');
-    overlay.className = 'modal__overlay';
-    overlay.addEventListener('click', closeModal);
+    const content = document.createElement('div')
+    content.className = 'modal__content'
 
-    const content = document.createElement('div');
-    content.className = 'modal__content';
+    const closeBtn = document.createElement('button')
+    closeBtn.className = 'modal__close'
+    closeBtn.setAttribute('aria-label', 'Закрыть')
+    closeBtn.textContent = '×'
+    closeBtn.addEventListener('click', closeModal)
 
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'modal__close';
-    closeBtn.textContent = '×';
-    closeBtn.setAttribute('aria-label', 'Закрыть модальное окно');
-    closeBtn.addEventListener('click', closeModal);
-
-    content.appendChild(closeBtn);
-    modal.appendChild(overlay);
-    modal.appendChild(content);
-
-    document.body.appendChild(modal);
-
-    document.addEventListener('keydown', handleKeyDown);
+    content.appendChild(closeBtn)
+    modal.append(overlay, content)
+    document.body.appendChild(modal)
   }
 
-  const modalContent = modal.querySelector('.modal__content');
-  Array.from(modalContent.children).forEach(c => {
-    if (!c.classList.contains('modal__close')) c.remove();
-  });
-  modalContent.appendChild(contentNode);
+  const contentContainer = modal.querySelector('.modal__content')
 
-  modal.style.display = 'flex';
+  Array.from(contentContainer.children).forEach(el => {
+    if (!el.classList.contains('modal__close')) el.remove()
+  })
 
-  const firstFocus = getFocusableElements(modal)[0] || modal;
-  firstFocus.focus();
+  // 🔴 ВАЖНО: БЕЗ cloneNode
+  contentContainer.appendChild(contentNode)
+
+  modal.style.display = 'flex'
+  isOpen = true
+
+  document.body.style.overflow = 'hidden'
 
   document.querySelectorAll('body > *:not(.modal)').forEach(el => {
-    el.setAttribute('aria-hidden', 'true');
-  });
+    el.setAttribute('aria-hidden', 'true')
+  })
 
-  document.body.style.overflow = 'hidden';
+  const focusTarget = getFocusableElements(modal)[0] || modal
+  focusTarget.focus()
 
-  // Добавляем состояние в историю для обработки "назад" (свайп/кнопка)
-  history.pushState({ modalOpen: true }, '');
+  history.pushState({ modal: true }, '')
 }
 
+/* ================= CLOSE ================= */
+
 export function closeModal() {
-  if (modal && modal.style.display !== 'none') {
-    modal.style.display = 'none';
+  if (!isOpen || !modal) return
 
-    if (previouslyFocusedElement) {
-      previouslyFocusedElement.focus();
-      previouslyFocusedElement = null;
-    }
+  modal.style.display = 'none'
+  isOpen = false
 
-    document.querySelectorAll('body > *[aria-hidden="true"]').forEach(el => {
-      el.removeAttribute('aria-hidden');
-    });
+  document.body.style.overflow = ''
 
-    document.body.style.overflow = '';
+  document.querySelectorAll('[aria-hidden="true"]').forEach(el => {
+    el.removeAttribute('aria-hidden')
+  })
 
-    // Если закрыто вручную (не popstate), возвращаем историю назад
-    if (history.state && history.state.modalOpen) {
-      history.back();
-    }
+  previouslyFocusedElement?.focus()
+  previouslyFocusedElement = null
+
+  if (!closingFromPopState && history.state?.modal) {
+    history.back()
   }
 }
 
-// Экспортируем closeModal глобально для использования в формах
+/* ================= GLOBAL ================= */
+
 if (typeof window !== 'undefined') {
-  window.closeModal = closeModal;
+  window.closeModal = closeModal
 }

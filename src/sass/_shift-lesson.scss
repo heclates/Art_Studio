@@ -11,9 +11,7 @@
   background: linear-gradient(180deg, $color-bg-main 0%, $color-bg-gradient 100%);
   text-align: center;
   font-family: 'Inter', -apple-system, sans-serif;
-  // overflow: hidden;
   animation: zoom-in 0.7s ease-out forwards;
-  // position: relative;
 
   // Section header
   &__header {
@@ -154,6 +152,36 @@
     overflow: hidden;
     padding-bottom: 3rem;
 
+    .swiper-wrapper {
+      display: flex;
+      align-items: stretch;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      
+      &.courses-transition-out {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      &.courses-transition-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .swiper-slide {
+      width: 360px; /* Фиксированная ширина для совместимости */
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      
+      &.courses-transition-in {
+        animation: slideIn 0.5s ease forwards;
+        animation-delay: calc(var(--slide-index, 0) * 0.1s);
+      }
+    }
+
     .swiper-button-prev,
     .swiper-button-next {
       color: $color-primary;
@@ -177,25 +205,16 @@
     }
   }
 
-  .swiper-wrapper {
-    display: flex;
-    align-items: stretch;
-  }
-
-  .swiper-slide {
-    width: max-content;
-    flex-shrink: 0;
-    display: flex;
-  }
-
   // ==========================================================================
-  // Day & Lesson Cards
+  // УНИФИЦИРОВАННЫЕ СТИЛИ ДЛЯ КАРТОЧЕК (совместимость старых и новых)
   // ==========================================================================
-  &__day-card {
+
+  // Day Card - объединенный стиль для заголовка дня
+  &__day-card,
+  &__day-title {
     background: linear-gradient(30deg, $color-bg-white 0%, $color-bg-main 100%);
     border-radius: 35px;
     padding: 2.5rem;
-    gap: 1rem;
     text-align: left;
     @include box-shadow(40px, 0.06);
     @include transition(all 0.3s ease);
@@ -203,6 +222,9 @@
     animation: zoom-pop 0.5s ease-out both;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 380px;
+    margin-bottom: 1.5rem;
 
     &:hover {
       border-color: $color-primary;
@@ -210,10 +232,7 @@
       box-shadow: $shadow-hover;
     }
 
-    @media (min-width: $breakpoint-tablet) {
-      max-width: 400px;
-    }
-
+    h3,
     h4 {
       display: inline-block;
       background: linear-gradient(135deg, $color-accent-light, $color-accent-lighter);
@@ -224,75 +243,199 @@
       margin-bottom: 1.5rem;
       width: fit-content;
     }
+
+    // Поддержка нового стиля day-title
+    &.shift-lesson__day-title {
+      background: linear-gradient(135deg, rgba($color-primary, 0.1), rgba($color-accent-light, 0.1));
+      padding: 0.5rem 0;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: $color-primary;
+      border-radius: 15px;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      
+      &:hover {
+        transform: none;
+        border-color: transparent;
+      }
+    }
   }
 
-  &__lesson-card {
-    padding: 1rem;
+  // Lesson Card - объединенный стиль для карточек уроков
+  &__lesson-card,
+  &__card {
     background: linear-gradient(180deg, $color-bg-white 0%, $color-bg-main 100%);
     border-radius: 15px;
     border-left: 4px solid $color-primary;
     @include transition(all 0.2s ease);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
 
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       transform: translateX(5px);
     }
 
-    > p:nth-child(1) {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: $color-text-dark;
-      margin-bottom: 0.3rem;
+    // Стили для разных типов карточек
+    &-ceramics {
+      border-left: 4px solid $color-accent-peach;
     }
 
-    > p:nth-child(2) {
-      font-size: 0.95rem;
-      color: $color-text-medium;
-      margin-bottom: 0.6rem;
+    &-child {
+      border-left: 4px solid $color-accent-light;
     }
 
-    > p:nth-child(3) {
-      display: flex;
-      align-items: center;
+    &-creative {
+      border-left: 4px solid $color-accent-lighter;
+    }
+
+    &-junior {
+      border-left: 4px solid $color-primary;
+    }
+
+    &-middle {
+      border-left: 4px solid $color-primary-light;
+    }
+
+    &-mixed {
+      border-left: 4px solid mix($color-primary, $color-accent-light, 50%);
+    }
+  }
+
+  // Совместимость для нового стиля __card
+  &__card {
+    border: 2px solid rgba($color-primary, 0.1);
+    @include box-shadow(20px, 0.05);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+
+    &:hover {
+      border-color: $color-primary;
+      transform: translateY(-5px);
+      box-shadow: $shadow-hover;
+    }
+  }
+
+  // Универсальные стили для содержимого карточек
+  &__card-time,
+  &__lesson-card > p:nth-child(1) {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $color-text-dark;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &::before {
+      content: '🕒';
       font-size: 0.9rem;
-      color: $color-text-medium;
-      gap: 0.5rem;
+    }
+  }
+
+  &__card-category,
+  &__lesson-card > p:nth-child(2) {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: $color-text-dark;
+    line-height: 1.3;
+  }
+
+  &__card-age,
+  &__lesson-card > p:nth-child(3) {
+    font-size: 0.95rem;
+    color: $color-text-medium;
+    background: rgba($color-border-light, 0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  &__card-teacher,
+  &__lesson-card > p:nth-child(4) {
+    font-size: 0.9rem;
+    color: $color-text-medium;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__card-btn,
+  &__lesson-card > button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(135deg, $color-primary, $color-primary-light);
+    color: $color-text-light;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    @include transition(all 0.3s ease);
+    border: none;
+    outline: none;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 12px rgba($color-primary, 0.2);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-primary;
     }
 
-    > button {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 0.9rem 1.5rem;
-      background: linear-gradient(135deg, $color-primary, $color-primary-light);
-      color: $color-text-light;
-      font-weight: 600;
-      border-radius: 20px;
-      cursor: pointer;
-      @include transition(all 0.3s ease);
-      border: none;
-      outline: none;
-      margin-top: 0.5rem;
-      box-shadow: 0 4px 12px rgba($color-primary, 0.2);
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: $shadow-primary;
-      }
-
-      &:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 8px rgba($color-primary, 0.2);
-      }
-
-      &:focus-visible {
-        box-shadow: 0 0 0 3px rgba($color-primary, 0.5);
-      }
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba($color-primary, 0.2);
     }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.5);
+    }
+  }
+
+  // Поддержка нового стиля кнопки
+  &__card-btn {
+    border-radius: 12px;
+  }
+
+  // Поддержка старого стиля кнопки
+  &__lesson-card > button {
+    border-radius: 20px;
   }
 
   &--hidden {
     display: none !important;
+  }
+}
+
+// ============================================================================
+// Анимации для переходов
+// ============================================================================
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -316,6 +459,29 @@
       padding: 0.75rem 2rem;
       font-size: 1rem;
     }
+
+    &__swiper-container .swiper-slide {
+      width: 300px;
+    }
+
+    &__day-card,
+    &__day-title,
+    &__lesson-card,
+    &__card {
+      max-width: 350px;
+      padding: 1.25rem;
+    }
+
+    &__card-category,
+    &__lesson-card > p:nth-child(2) {
+      font-size: 1.1rem;
+    }
+
+    &__day-card h3,
+    &__day-card h4,
+    &__day-title {
+      font-size: 1.4rem;
+    }
   }
 }
 
@@ -325,7 +491,6 @@
     padding: 3rem 1.5rem;
 
     &__header {
-
       p {
         font-size: 1.1rem;
       }
@@ -351,19 +516,45 @@
       font-size: 0.95rem;
     }
 
-    &__day-card {
-      padding: 2rem;
-
-      h4 {
-        font-size: 1.4rem;
-        padding: 0.5rem 1.3rem;
-      }
+    &__swiper-container .swiper-slide {
+      width: 280px;
     }
 
-    &__lesson-card {
-      > p:nth-child(1) {
-        font-size: 1.1rem;
-      }
+    &__day-card,
+    &__day-title,
+    &__lesson-card,
+    &__card {
+      max-width: 320px;
+      padding: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    &__day-card h3,
+    &__day-card h4,
+    &__day-title {
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      padding: 0.5rem 1.3rem;
+    }
+
+    &__card-category,
+    &__lesson-card > p:nth-child(2) {
+      font-size: 1.05rem;
+    }
+
+    &__card-time,
+    &__lesson-card > p:nth-child(1),
+    &__card-age,
+    &__lesson-card > p:nth-child(3),
+    &__card-teacher,
+    &__lesson-card > p:nth-child(4) {
+      font-size: 0.9rem;
+    }
+
+    &__card-btn,
+    &__lesson-card > button {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.95rem;
     }
   }
 }
@@ -444,39 +635,59 @@
       min-width: 100px;
     }
 
-    &__day-card {
-      padding: 1.5rem;
-      border-radius: 25px;
-
-      h4 {
-        font-size: 1.3rem;
-        padding: 0.5rem 1.2rem;
-        margin-bottom: 1.2rem;
-      }
+    &__swiper-container .swiper-slide {
+      width: 100%;
+      max-width: 100%;
     }
 
-    &__lesson-card {
-      padding: 0.9rem;
-      border-radius: 12px;
-      margin-bottom: 1rem;
+    &__day-card,
+    &__day-title,
+    &__lesson-card,
+    &__card {
+      max-width: 100%;
+      padding: 1rem;
+      border-radius: 25px;
+      margin-bottom: 0.7rem;
+    }
 
-      > p:nth-child(1) {
-        font-size: 1.05rem;
-      }
+    &__day-card h3,
+    &__day-card h4,
+    &__day-title {
+      font-size: 1.3rem;
+      padding: 0.5rem 1.2rem;
+      margin-bottom: 1.2rem;
+      border-radius: 15px;
+    }
 
-      > p:nth-child(2) {
-        font-size: 0.9rem;
-      }
+    &__day-title {
+      padding: 0.4rem 0;
+      border-radius: 10px;
+      font-size: 1.4rem;
+    }
 
-      > p:nth-child(3) {
-        font-size: 0.85rem;
-      }
+    &__card-category,
+    &__lesson-card > p:nth-child(2) {
+      font-size: 1.05rem;
+    }
 
-      > button {
-        padding: 0.8rem 1.2rem;
-        font-size: 0.95rem;
-        border-radius: 15px;
-      }
+    &__card-time,
+    &__lesson-card > p:nth-child(1),
+    &__card-age,
+    &__lesson-card > p:nth-child(3),
+    &__card-teacher,
+    &__lesson-card > p:nth-child(4) {
+      font-size: 0.85rem;
+    }
+
+    &__card-btn,
+    &__lesson-card > button {
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 10px;
+    }
+
+    &__lesson-card > button {
+      border-radius: 15px;
     }
   }
 }
@@ -505,26 +716,33 @@
       font-size: 0.85rem;
     }
 
-    &__day-card {
-      padding: 1.25rem;
-
-      h4 {
-        font-size: 1.2rem;
-        padding: 0.45rem 1rem;
-      }
+    &__day-card,
+    &__day-title,
+    &__lesson-card,
+    &__card {
+      padding: 0.9rem;
     }
 
-    &__lesson-card {
-      padding: 0.8rem;
+    &__day-card h3,
+    &__day-card h4,
+    &__day-title {
+      font-size: 1.2rem;
+      padding: 0.45rem 1rem;
+    }
 
-      > p:nth-child(1) {
-        font-size: 1rem;
-      }
+    &__day-title {
+      font-size: 1.3rem;
+    }
 
-      > button {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
-      }
+    &__card-category,
+    &__lesson-card > p:nth-child(2) {
+      font-size: 1rem;
+    }
+
+    &__card-btn,
+    &__lesson-card > button {
+      padding: 0.65rem 0.9rem;
+      font-size: 0.85rem;
     }
   }
 }
@@ -552,16 +770,26 @@
       font-size: 0.8rem;
     }
 
-    &__day-card {
-      h4 {
-        font-size: 1.15rem;
-      }
+    &__day-card,
+    &__day-title,
+    &__lesson-card,
+    &__card {
+      padding: 0.8rem;
     }
 
-    &__lesson-card {
-      > p:nth-child(1) {
-        font-size: 0.95rem;
-      }
+    &__day-card h3,
+    &__day-card h4,
+    &__day-title {
+      font-size: 1.15rem;
+    }
+
+    &__day-title {
+      font-size: 1.2rem;
+    }
+
+    &__card-category,
+    &__lesson-card > p:nth-child(2) {
+      font-size: 0.95rem;
     }
   }
 }
@@ -572,6 +800,11 @@
 @media (prefers-contrast: high) {
   .shift-lesson__filter-btn,
   .shift-lesson__location-btn {
+    border-width: 3px;
+  }
+
+  .shift-lesson__lesson-card,
+  .shift-lesson__card {
     border-width: 3px;
   }
 }
@@ -594,21 +827,38 @@
       }
     }
 
-    &__day-card {
+    &__day-card,
+    &__day-title,
+    &__lesson-card,
+    &__card {
       animation: none;
+      @include transition(background-color 0.2s ease, border-color 0.2s ease);
 
       &:hover {
         transform: none;
       }
     }
 
-    &__lesson-card {
+    &__card-btn,
+    &__lesson-card > button {
       &:hover {
         transform: none;
       }
+    }
 
-      > button:hover {
-        transform: none;
+    // Анимации переходов
+    &__swiper-container {
+      .swiper-wrapper {
+        &.courses-transition-out,
+        &.courses-transition-in {
+          transition: none;
+        }
+      }
+      
+      .swiper-slide {
+        &.courses-transition-in {
+          animation: none;
+        }
       }
     }
   }

@@ -36,6 +36,91 @@
     color: $color-text-medium;
     font-weight: $font-normal;
     line-height: $leading-relaxed;
+    margin-bottom: 2.5rem;
+  }
+
+  // Контейнер для фильтров
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 0 auto 3rem;
+    max-width: 900px;
+    padding: 0 1rem;
+    animation: fade-in-up 0.4s ease-out;
+
+    @media (min-width: 769px) {
+      flex-direction: row;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+  }
+
+  &__filter-btn {
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    border: 2px solid $color-border-light;
+    background: $color-bg-white;
+    color: $color-text-dark;
+    font-weight: 600;
+    cursor: pointer;
+    @include transition(all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
+    font-size: 1.1rem;
+    outline: none;
+    white-space: nowrap;
+    user-select: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+    &:hover:not(.courses__filter-btn--active) {
+      border-color: $color-primary;
+      background: $color-bg-main;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba($color-primary, 0.15);
+    }
+
+    &.courses__filter-btn--active {
+      background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+      color: $color-text-light;
+      border-color: $color-primary;
+      box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+      transform: translateY(-1px);
+    }
+
+    // Анимации активации/деактивации
+    &--activating {
+      animation: filterActivate 0.3s ease forwards;
+    }
+
+    &--deactivating {
+      animation: filterDeactivate 0.3s ease forwards;
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus-visible {
+      outline: 3px solid rgba($color-primary, 0.5);
+      outline-offset: 2px;
+    }
+
+    // Адаптив для кнопок
+    @media (max-width: 1024px) {
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+    }
+
+    @media (max-width: $breakpoint-tablet) {
+      padding: 0.65rem 1.75rem;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      flex: 1 1 calc(50% - 0.5rem);
+      min-width: 120px;
+      padding: 0.6rem 1rem;
+    }
   }
 
   &__swiper-container {
@@ -45,6 +130,34 @@
     margin: 0 auto;
     overflow: hidden;
     padding-bottom: 3rem;
+
+    .swiper-wrapper {
+      display: flex;
+      align-items: stretch;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      
+      &.courses-transition-out {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      &.courses-transition-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .swiper-slide {
+      width: 360px;
+      display: flex;
+      height: auto;
+      flex-shrink: 0;
+      
+      &.courses-transition-in {
+        animation: slideIn 0.5s ease forwards;
+        animation-delay: calc(var(--slide-index, 0) * 0.1s);
+      }
+    }
 
     .swiper-button-prev,
     .swiper-button-next {
@@ -69,16 +182,12 @@
     }
   }
 
-  .swiper-wrapper {
-    display: flex;
-    align-items: stretch;
-  }
-
-  .swiper-slide {
-    width: 360px;
-    display: flex;
-    height: auto;
-    flex-shrink: 0;
+  // Анимация для новых карточек при загрузке
+  .course-card-loading {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardAppear 0.5s ease forwards;
+    animation-delay: calc(var(--card-index, 0) * 0.1s);
   }
 }
 
@@ -112,7 +221,6 @@
     pointer-events: none;
     z-index: 0;
   }
-
 
   &::after {
     content: '';
@@ -163,7 +271,6 @@
       @include transition(transform $transition-slower $ease-out);
     }
   }
-
 
   &__content {
     padding: $space-lg;
@@ -237,6 +344,76 @@
 
     @include focus-visible;
   }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-xl;
+
+    &::before {
+      opacity: 1;
+    }
+
+    .course-card__image img {
+      transform: scale(1.05);
+    }
+
+    .course-card__button {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba($color-primary, 0.25);
+    }
+  }
+}
+
+// Анимации для фильтров
+@keyframes filterActivate {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes filterDeactivate {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @include respond-below($breakpoint-lg) {
@@ -284,5 +461,47 @@
     &__button {
       transition: none;
     }
+  }
+  
+  .courses__filter-btn {
+    transition: none;
+    
+    &:hover:not(.courses__filter-btn--active) {
+      transform: none;
+    }
+    
+    &.courses__filter-btn--active {
+      transform: none;
+    }
+    
+    &.courses__filter-btn--activating,
+    &.courses__filter-btn--deactivating {
+      animation: none;
+    }
+    
+    &:active {
+      transform: none;
+    }
+  }
+  
+  .courses__swiper-container {
+    .swiper-wrapper {
+      &.courses-transition-out,
+      &.courses-transition-in {
+        transition: none;
+      }
+    }
+    
+    .swiper-slide {
+      &.courses-transition-in {
+        animation: none;
+      }
+    }
+  }
+  
+  .course-card-loading {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

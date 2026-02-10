@@ -21,7 +21,82 @@
         color: $color-text-medium;
         margin-bottom: 3rem;
     }
+// ==========================================================================
+    // ФИЛЬТРЫ (Аналогично shift-lesson)
+    // ==========================================================================
+    &__filters {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        margin: 0 auto 3rem;
+        max-width: 900px;
+        padding: 0 1rem;
+        animation: fade-in-up 0.4s ease-out;
 
+        @media (min-width: 769px) {
+            flex-direction: row;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+    }
+
+    &__filter-btn {
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        border: 2px solid $color-border-light;
+        background: $color-bg-white;
+        color: $color-text-dark;
+        font-weight: 600;
+        cursor: pointer;
+        @include transition(all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
+        font-size: 1.1rem;
+        outline: none;
+        white-space: nowrap;
+        user-select: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+        &:hover:not(.active) {
+            border-color: $color-primary;
+            background: $color-bg-main;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba($color-primary, 0.15);
+        }
+
+        &.active {
+            background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+            color: $color-text-light;
+            border-color: $color-primary;
+            box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        &:focus-visible {
+            outline: 3px solid rgba($color-primary, 0.5);
+            outline-offset: 2px;
+        }
+
+        // Адаптив для кнопок
+        @media (max-width: 1024px) {
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+        }
+
+        @media (max-width: $breakpoint-tablet) {
+            padding: 0.65rem 1.75rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: $breakpoint-mobile) {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: 120px;
+            padding: 0.6rem 1rem;
+        }
+    }
     .price-swiper {
         position: relative;
         max-width: 1440px;

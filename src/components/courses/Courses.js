@@ -1,163 +1,182 @@
-import { initSwiper } from '@/components/shift/ShiftSwiper';
-import { el } from '@/utils/createElement';
-import { getLanguage, subscribe } from '@/utils/languageManager';
-import { coursesRU } from '@/i18n/courses/ru';
-import { coursesEN } from '@/i18n/courses/en';
-import { createCourseCard } from './CoursesCard';
-import { createReservationForm } from '@/components/forms/ReservationForm';
-import { openModal } from '@/components/Modal';
+import { initSwiper } from '@/components/shift/ShiftSwiper'
+import { el } from '@/utils/createElement'
+import { getLanguage, subscribe } from '@/utils/languageManager'
+import { coursesRU } from '@/i18n/courses/ru'
+import { coursesEN } from '@/i18n/courses/en'
+import { createCourseCard } from './CoursesCard'
+import { createCourseDetailsModal } from './CoursesModal'
+import { openModal } from '@/components/Modal'
 
-// === КОНСТАНТЫ ===
+/* =======================
+   DATA
+======================= */
+
 const COURSES_MAP = {
-    ru: { list: coursesRU.list, title: 'Наши направления', text: 'Выберите подходящий курс' },
-    en: { list: coursesEN.list, title: 'Naše kurzy', text: 'Vyberte si ten správný kurz' }
-};
+  ru: coursesRU,
+  en: coursesEN
+}
 
-// === УТИЛИТЫ ===
-const getCourseContent = (lang) => COURSES_MAP[lang] || COURSES_MAP.ru;
+const getCourseContent = (lang) => COURSES_MAP[lang] || COURSES_MAP.ru
 
-// --- ИСПРАВЛЕННЫЙ ОБРАБОТЧИК ---
-const createCourseClickHandler = (courseData) => async () => {
-    // Подготавливаем payload для формы
-    const payload = { 
-        courseName: courseData.name, 
-        courseClass: courseData.class 
-    };
+/* =======================
+   HANDLERS
+======================= */
 
-    // Создаем форму. Она сама подтянет TimeSlots по courseName
-    const form = createReservationForm(payload);
-    
-    // Открываем модалку с заголовком
-    openModal(form, 'reservation-form__title');
-};
+const createCourseClickHandler = (course) => () => {
+  const modalContent = createCourseDetailsModal(course)
+  openModal(modalContent, 'modal-title')
+}
 
-// === СОЗДАНИЕ ЭЛЕМЕНТОВ ===
-const createHeader = (content) => {
-    const header = el('section', { class: 'courses__header' });
-    header.append(
-        el('h2', { class: 'courses__title', textContent: content.title }),
-        el('p', { class: 'courses__subtitle', textContent: content.text })
-    );
-    return header;
-};
 
-const createNavigationButton = (className, label) => 
-    el('button', { 
-        class: className,
-        type: 'button',
-        'aria-label': label
-    });
+const filterCourses = (courses, filter) => {
+  if (filter === 'all') return courses
+  return courses.filter(course => course.category === filter)
+}
 
-const createSlide = (type, handlers) => {
-    const card = createCourseCard(type);
-    const button = card.querySelector('.course-card__button');
-    
-    if (button) {
-        // Привязываем новый обработчик к кнопке
-        handlers.set(button, createCourseClickHandler(type));
-    }
-    
-    const slide = el('div', { class: 'swiper-slide' });
-    slide.appendChild(card);
-    return slide;
-};
+/* =======================
+   UI HELPERS
+======================= */
 
-const createSwiperContainer = (slides) => {
-    const wrapper = el('div', { class: 'swiper-wrapper' });
-    wrapper.append(...slides);
-    
-    const container = el('div', { class: 'courses__swiper-container' });
+const createFilterButtons = (labels, active = 'all') => {
+  const container = el('div', { class: 'courses__filters' })
+
+  Object.entries(labels).forEach(([key, label]) => {
     container.append(
-        wrapper,
-        el('div', { class: 'swiper-pagination' }),
-        createNavigationButton('swiper-button-prev', 'Предыдущий слайд'),
-        createNavigationButton('swiper-button-next', 'Следующий слайд')
-    );
-    
-    return container;
-};
+      el('button', {
+        class: `courses__filter-btn ${key === active ? 'courses__filter-btn--active' : ''}`,
+        textContent: label,
+        'data-filter': key,
+        type: 'button'
+      })
+    )
+  })
 
-// === ОСНОВНОЙ КОМПОНЕНТ ===
+  return container
+}
+
+const animateCoursesTransition = (wrapper, courses, done) => {
+  wrapper.classList.add('courses-transition-out')
+
+  setTimeout(() => {
+    wrapper.innerHTML = ''
+
+    courses.forEach((course, index) => {
+      const slide = el('div', { class: 'swiper-slide' })
+      slide.style.setProperty('--slide-index', index)
+      slide.append(createCourseCard(course))
+      wrapper.appendChild(slide)
+    })
+
+    wrapper.classList.remove('courses-transition-out')
+    wrapper.classList.add('courses-transition-in')
+
+    setTimeout(() => {
+      wrapper.classList.remove('courses-transition-in')
+      done?.()
+    }, 300)
+  }, 300)
+}
+
+/* =======================
+   MAIN COMPONENT
+======================= */
+
 export const createCourses = () => {
-    const article = el('article', { class: 'courses', id: 'courses' });
-    
-    const state = {
-        swiperCleanup: null,
-        abortController: null,
-        handlers: new WeakMap()
-    };
+  const article = el('article', { class: 'courses', id: 'courses' })
 
-    const handleCourseClick = (e) => {
-        const button = e.target.closest('.course-card__button');
-        if (!button) return;
-        
-        const handler = state.handlers.get(button);
-        if (handler) {
-            e.preventDefault();
-            handler();
-        }
-    };
+  let swiperCleanup = null
+  let currentFilter = 'all'
+  let isAnimating = false
+  const handlers = new WeakMap()
 
-    const cleanup = () => {
-        state.swiperCleanup?.();
-        state.abortController?.abort();
-        state.swiperCleanup = null;
-        state.abortController = null;
-    };
+  const render = (lang) => {
+    swiperCleanup?.()
+    article.innerHTML = ''
 
-    const initializeSwiper = (container) => {
-        const [wrapper, pagination, prev, next] = [
-            container.querySelector('.swiper-wrapper'),
-            container.querySelector('.swiper-pagination'),
-            container.querySelector('.swiper-button-prev'),
-            container.querySelector('.swiper-button-next')
-        ];
+    const content = getCourseContent(lang)
+    if (!content?.list?.length) return
 
-        if (!wrapper?.children.length) return;
+    /* header */
 
-        requestAnimationFrame(() => {
-            if (article.isConnected) {
-                state.swiperCleanup = initSwiper(container, next, prev, pagination);
-            }
-        });
-    };
+    const header = el('section', { class: 'courses__header' })
+    header.append(
+      el('h2', { class: 'courses__title', textContent: content.title }),
+      el('p', { class: 'courses__subtitle', textContent: content.text })
+    )
 
-    const render = (lang) => {
-        cleanup();
-        
-        state.abortController = new AbortController();
-        article.innerHTML = '';
+    if (content.filterLabels) {
+      const filters = createFilterButtons(content.filterLabels, currentFilter)
+      filters.onclick = (e) => handleFilterClick(e, lang)
+      header.append(filters)
+    }
 
-        const content = getCourseContent(lang);
-        
-        if (!content.list?.length) {
-            article.innerHTML = '<p style="padding: 2rem; text-align: center;">Нет доступных курсов</p>';
-            return;
-        }
+    /* slider */
 
-        const slides = content.list.map(type => createSlide(type, state.handlers));
-        const swiperContainer = createSwiperContainer(slides);
-        
-        article.append(
-            createHeader(content),
-            swiperContainer
-        );
+    const container = el('div', { class: 'courses__swiper-container' })
+    const wrapper = el('div', { class: 'swiper-wrapper' })
+    const pagination = el('div', { class: 'swiper-pagination' })
+    const prev = el('button', { class: 'swiper-button-prev' })
+    const next = el('button', { class: 'swiper-button-next' })
 
-        article.addEventListener('click', handleCourseClick, {
-            signal: state.abortController.signal,
-            passive: false
-        });
+    const filtered = filterCourses(content.list, currentFilter)
 
-        initializeSwiper(swiperContainer);
-    };
+    filtered.forEach((course, i) => {
+      const slide = el('div', { class: 'swiper-slide' })
+      slide.style.setProperty('--slide-index', i)
+      slide.append(createCourseCard(course))
+      wrapper.appendChild(slide)
+    })
 
-    render(getLanguage());
-    const unsubscribeFunc = subscribe(render);
+    container.append(wrapper, pagination, prev, next)
+    article.append(header, container)
 
-    article.cleanup = () => {
-        cleanup();
-        unsubscribeFunc?.();
-    };
+    filtered.forEach((course, i) => {
+      const btn = wrapper.children[i]?.querySelector('.course-card__button')
+      if (btn) handlers.set(btn, createCourseClickHandler(course))
+    })
 
-    return article;
-};
+    article.onclick = (e) => {
+      const btn = e.target.closest('.course-card__button')
+      if (btn && handlers.has(btn)) handlers.get(btn)()
+    }
+
+    swiperCleanup = initSwiper(container, next, prev, pagination)
+  }
+
+  const handleFilterClick = (e, lang) => {
+    const btn = e.target.closest('.courses__filter-btn')
+    if (!btn || isAnimating) return
+
+    const filter = btn.dataset.filter
+    if (filter === currentFilter) return
+
+    currentFilter = filter
+    isAnimating = true
+
+    document.querySelectorAll('.courses__filter-btn')
+      .forEach(b => b.classList.toggle(
+        'courses__filter-btn--active',
+        b.dataset.filter === filter
+      ))
+
+    const content = getCourseContent(lang)
+    const filtered = filterCourses(content.list, filter)
+    const wrapper = article.querySelector('.swiper-wrapper')
+
+    animateCoursesTransition(wrapper, filtered, () => {
+      swiperCleanup?.()
+      swiperCleanup = initSwiper(
+        article.querySelector('.courses__swiper-container'),
+        article.querySelector('.swiper-button-next'),
+        article.querySelector('.swiper-button-prev'),
+        article.querySelector('.swiper-pagination')
+      )
+      isAnimating = false
+    })
+  }
+
+  render(getLanguage())
+  subscribe(render)
+
+  return article
+}

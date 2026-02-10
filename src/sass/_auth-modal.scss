@@ -134,7 +134,7 @@
         margin-top: 8px;
 
         &:hover {
-            background: darken($color-primary, 10%);
+            background: $color-primary;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba($color-primary, 0.3);
         }
@@ -178,7 +178,7 @@
     }
 
     &:hover {
-        background: darken($color-primary, 10%);
+        background: $color-primary;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba($color-primary, 0.3);
     }
@@ -192,7 +192,7 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, $color-primary, darken($color-primary, 15%));
+    background: linear-gradient(135deg, $color-primary, $color-primary);
     color: white;
     border: 3px solid white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
