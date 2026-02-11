@@ -10,6 +10,7 @@ export const createPriceDOM = () => {
 
     const article = el('article', {
         class: 'price',
+        id: 'price',
         children: [
             el('h3', { class: 'price__title' }),
             el('p', { class: 'price__text' }),

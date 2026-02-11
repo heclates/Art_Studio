@@ -1,7 +1,7 @@
 const categories = {
-    kids: [1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 15],
-    adults: [14, 17],
-    extra: [6, 7, 8, 16, 18, 19, 20]
+    kids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 13, 15, 16],
+    adults: [17, 14, 20],
+    extra: [19, 15, 20]
 };
 
 const getCategory = (num) => {
@@ -14,7 +14,10 @@ const getCategory = (num) => {
 export const priceEN = {
     title: 'Ceník',
     text: 'Aktuální ceny našich kurzů a permanentek',
-    filterLabels: { all: 'Vše', kids: 'Děti', adults: 'Dospělí', extra: 'Další služby' },
+    filterLabels: { 
+         kids: 'Děti',
+         adults: 'Dospělí', 
+         extra: 'Další služby' },
     slides: Array.from({ length: 20 }, (_, i) => {
         const num = i + 1;
         const ext = num >= 13 && num <= 19 ? 'PNG' : 'jpg';

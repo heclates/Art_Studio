@@ -10,8 +10,9 @@
   padding: 4rem 2rem;
   background: linear-gradient(180deg, $color-bg-main 0%, $color-bg-gradient 100%);
   text-align: center;
-  font-family: 'Inter', -apple-system, sans-serif;
   animation: zoom-in 0.7s ease-out forwards;
+  overflow: hidden;
+  position: relative;
 
   // Section header
   &__header {
@@ -350,7 +351,7 @@
   &__card-age,
   &__lesson-card > p:nth-child(3) {
     font-size: 0.95rem;
-    color: $color-text-medium;
+    color: $color-text-light;
     background: rgba($color-border-light, 0.3);
     padding: 0.25rem 0.75rem;
     border-radius: 12px;

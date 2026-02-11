@@ -3,7 +3,7 @@ export const headerEN = {
         { href: '#introduction', text: 'Hlavní' },
     { href: '#courses', text: 'Naše směry' },
     { href: '#schedule', text: 'Rozvrh' },
-    { href: '#price-title', text: 'Ceník' },
+    { href: '#price', text: 'Ceník' },
     { href: '#gallery-title', text: 'Galerie' },
     { href: '#teams-title', text: 'Náš tým' },
     { href: '#contacts', text: 'Naše kontakty' },

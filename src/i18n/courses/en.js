@@ -2,7 +2,6 @@ export const coursesEN = {
     title: 'Naše směry',
     text: 'Vyberte si oblast, která vás zajímá',
     filterLabels: { 
-        all: 'Vše', 
         kids: 'Děti', 
         adults: 'Dospělí', 
         extra: 'Doplňkové služby' 

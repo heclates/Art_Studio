@@ -27,8 +27,8 @@ export const contactsEN = {
         { day: 'Neděle', time: '12:00–16:00' }
       ],
       transport: [
-        { icon: '🚋', type: 'Tramvaj', name: 'Nádraží Libeň', time: '2 min chůze' },
-        { icon: '🚇', type: 'Metro', name: 'Vysočanská / Českomoravská', time: '13 min chůze' }
+        { icon: '🚋', name: 'Nádraží Libeň', time: '(2 min chůze)' },
+        { icon: '🚇',name: 'Vysočanská / Českomoravská', time: '(13 min chůze)' }
       ]
     },
     praha2: {
@@ -52,9 +52,9 @@ export const contactsEN = {
         { day: 'Neděle', time: 'zavřeno' }
       ],
       transport: [
-        { icon: '🚇', type: 'Metro', name: 'I. P. Pavlova', time: '4 min chůze' },
-        { icon: '🚇', type: 'Metro', name: 'Náměstí Míru', time: '6 min chůze' },
-        { icon: '🚋', type: 'Tramvaj', name: 'Bruselská', time: '1 min chůze' }
+        { icon: '🚇',name: 'I. P. Pavlova', time: '(4 min chůze)' },
+        { icon: '🚇',name: 'Náměstí Míru', time: '(6 min chůze)' },
+        { icon: '🚋', name: 'Bruselská', time: '(1 min chůze)' }
       ]
     }
   }

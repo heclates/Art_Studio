@@ -7,10 +7,6 @@ import { createCourseCard } from './CoursesCard'
 import { createCourseDetailsModal } from './CoursesModal'
 import { openModal } from '@/components/Modal'
 
-/* =======================
-   DATA
-======================= */
-
 const COURSES_MAP = {
   ru: coursesRU,
   en: coursesEN
@@ -18,24 +14,117 @@ const COURSES_MAP = {
 
 const getCourseContent = (lang) => COURSES_MAP[lang] || COURSES_MAP.ru
 
-/* =======================
-   HANDLERS
-======================= */
+export const createCourses = () => {
+  const article = el('article', { class: 'courses', id: 'courses' })
 
-const createCourseClickHandler = (course) => () => {
-  const modalContent = createCourseDetailsModal(course)
-  openModal(modalContent, 'modal-title')
+  let swiperCleanup = null
+  let currentFilter = 'all'
+  let currentCourses = []
+  let isAnimating = false
+
+  const render = (lang) => {
+    swiperCleanup?.()
+    article.innerHTML = ''
+
+    const content = getCourseContent(lang)
+    if (!content?.list?.length) return
+
+    const header = el('section', { class: 'courses__header' })
+
+    header.append(
+      el('h2', { class: 'courses__title', textContent: content.title }),
+      el('p', { class: 'courses__subtitle', textContent: content.text })
+    )
+
+    if (content.filterLabels) {
+      const filters = createFilterButtons(content.filterLabels, currentFilter)
+      filters.onclick = (e) => handleFilterClick(e, lang)
+      header.append(filters)
+    }
+
+    const container = el('div', { class: 'courses__swiper-container' })
+    const wrapper = el('div', { class: 'swiper-wrapper' })
+    const pagination = el('div', { class: 'swiper-pagination' })
+    const prev = el('button', { class: 'swiper-button-prev' })
+    const next = el('button', { class: 'swiper-button-next' })
+
+    currentCourses = filterCourses(content.list, currentFilter)
+
+    currentCourses.forEach((course, i) => {
+      const slide = el('div', { class: 'swiper-slide' })
+      slide.style.setProperty('--slide-index', i)
+      slide.append(createCourseCard(course))
+      wrapper.appendChild(slide)
+    })
+
+    container.append(wrapper, pagination, prev, next)
+    article.append(header, container)
+
+    swiperCleanup = initSwiper(container, next, prev, pagination)
+  }
+
+  const handleFilterClick = (e, lang) => {
+    const btn = e.target.closest('.courses__filter-btn')
+    if (!btn || isAnimating) return
+
+    const filter = btn.dataset.filter
+    if (filter === currentFilter) return
+
+    currentFilter = filter
+    isAnimating = true
+
+    document.querySelectorAll('.courses__filter-btn')
+      .forEach(b => b.classList.toggle(
+        'courses__filter-btn--active',
+        b.dataset.filter === filter
+      ))
+
+    const content = getCourseContent(lang)
+    currentCourses = filterCourses(content.list, filter)
+
+    const wrapper = article.querySelector('.swiper-wrapper')
+
+    animateCoursesTransition(wrapper, currentCourses, () => {
+      swiperCleanup?.()
+      swiperCleanup = initSwiper(
+        article.querySelector('.courses__swiper-container'),
+        article.querySelector('.swiper-button-next'),
+        article.querySelector('.swiper-button-prev'),
+        article.querySelector('.swiper-pagination')
+      )
+      isAnimating = false
+    })
+  }
+
+  const filterCourses = (courses, filter) => {
+    if (filter === 'all') return courses
+    return courses.filter(course => course.category === filter)
+  }
+
+  /* 🔥 ГЛАВНАЯ ЧАСТЬ — ДЕЛЕГАЦИЯ */
+
+  article.addEventListener('click', (e) => {
+    const btn = e.target.closest('.course-card__button')
+    if (!btn) return
+
+    const slide = btn.closest('.swiper-slide')
+    if (!slide) return
+
+    const index = [...slide.parentNode.children].indexOf(slide)
+    const course = currentCourses[index]
+    if (!course) return
+
+    const modalContent = createCourseDetailsModal(course)
+    openModal(modalContent, 'modal-title')
+  })
+
+  render(getLanguage())
+  subscribe(render)
+
+  return article
 }
 
-
-const filterCourses = (courses, filter) => {
-  if (filter === 'all') return courses
-  return courses.filter(course => course.category === filter)
-}
-
-/* =======================
-   UI HELPERS
-======================= */
+/* ======================= UI HELPERS ======================= */
 
 const createFilterButtons = (labels, active = 'all') => {
   const container = el('div', { class: 'courses__filters' })
@@ -75,108 +164,4 @@ const animateCoursesTransition = (wrapper, courses, done) => {
       done?.()
     }, 300)
   }, 300)
-}
-
-/* =======================
-   MAIN COMPONENT
-======================= */
-
-export const createCourses = () => {
-  const article = el('article', { class: 'courses', id: 'courses' })
-
-  let swiperCleanup = null
-  let currentFilter = 'all'
-  let isAnimating = false
-  const handlers = new WeakMap()
-
-  const render = (lang) => {
-    swiperCleanup?.()
-    article.innerHTML = ''
-
-    const content = getCourseContent(lang)
-    if (!content?.list?.length) return
-
-    /* header */
-
-    const header = el('section', { class: 'courses__header' })
-    header.append(
-      el('h2', { class: 'courses__title', textContent: content.title }),
-      el('p', { class: 'courses__subtitle', textContent: content.text })
-    )
-
-    if (content.filterLabels) {
-      const filters = createFilterButtons(content.filterLabels, currentFilter)
-      filters.onclick = (e) => handleFilterClick(e, lang)
-      header.append(filters)
-    }
-
-    /* slider */
-
-    const container = el('div', { class: 'courses__swiper-container' })
-    const wrapper = el('div', { class: 'swiper-wrapper' })
-    const pagination = el('div', { class: 'swiper-pagination' })
-    const prev = el('button', { class: 'swiper-button-prev' })
-    const next = el('button', { class: 'swiper-button-next' })
-
-    const filtered = filterCourses(content.list, currentFilter)
-
-    filtered.forEach((course, i) => {
-      const slide = el('div', { class: 'swiper-slide' })
-      slide.style.setProperty('--slide-index', i)
-      slide.append(createCourseCard(course))
-      wrapper.appendChild(slide)
-    })
-
-    container.append(wrapper, pagination, prev, next)
-    article.append(header, container)
-
-    filtered.forEach((course, i) => {
-      const btn = wrapper.children[i]?.querySelector('.course-card__button')
-      if (btn) handlers.set(btn, createCourseClickHandler(course))
-    })
-
-    article.onclick = (e) => {
-      const btn = e.target.closest('.course-card__button')
-      if (btn && handlers.has(btn)) handlers.get(btn)()
-    }
-
-    swiperCleanup = initSwiper(container, next, prev, pagination)
-  }
-
-  const handleFilterClick = (e, lang) => {
-    const btn = e.target.closest('.courses__filter-btn')
-    if (!btn || isAnimating) return
-
-    const filter = btn.dataset.filter
-    if (filter === currentFilter) return
-
-    currentFilter = filter
-    isAnimating = true
-
-    document.querySelectorAll('.courses__filter-btn')
-      .forEach(b => b.classList.toggle(
-        'courses__filter-btn--active',
-        b.dataset.filter === filter
-      ))
-
-    const content = getCourseContent(lang)
-    const filtered = filterCourses(content.list, filter)
-    const wrapper = article.querySelector('.swiper-wrapper')
-
-    animateCoursesTransition(wrapper, filtered, () => {
-      swiperCleanup?.()
-      swiperCleanup = initSwiper(
-        article.querySelector('.courses__swiper-container'),
-        article.querySelector('.swiper-button-next'),
-        article.querySelector('.swiper-button-prev'),
-        article.querySelector('.swiper-pagination')
-      )
-      isAnimating = false
-    })
-  }
-
-  render(getLanguage())
-  subscribe(render)
-
-  return article
 }

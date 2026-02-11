@@ -12,7 +12,6 @@ export const initSwiper = (container, navNext, navPrev, pagination) => {
     grabCursor: true,
     watchOverflow: true,
 
-    loop: true,
     initialSlide: 0,
 
     navigation: {

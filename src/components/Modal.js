@@ -33,8 +33,6 @@ if (typeof document !== 'undefined') {
     }
   })
 }
-/* ================= TOUCH (MOBILE SWIPE) ================= */
-
 let touchStartX = 0
 let touchStartY = 0
 let isSwiping = false
@@ -57,8 +55,14 @@ function onTouchMove(e) {
   const dx = touch.clientX - touchStartX
   const dy = touch.clientY - touchStartY
 
-  // свайп вниз или вправо
-  if (dx > SWIPE_THRESHOLD || dy > SWIPE_THRESHOLD) {
+  const absX = Math.abs(dx)
+  const absY = Math.abs(dy)
+
+  // 👉 Если пользователь скроллит вертикально — ничего не делаем
+  if (absY > absX) return
+
+  // 👉 Закрываем ТОЛЬКО при горизонтальном свайпе вправо
+  if (dx > SWIPE_THRESHOLD) {
     isSwiping = false
     closeModal()
   }
@@ -73,7 +77,6 @@ if (typeof document !== 'undefined') {
   document.addEventListener('touchmove', onTouchMove, { passive: true })
   document.addEventListener('touchend', onTouchEnd)
 }
-
 /* ================= FOCUS ================= */
 
 function getFocusableElements(container) {

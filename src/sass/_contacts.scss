@@ -115,7 +115,6 @@
     gap: 2rem;
   }
 
-  // Единый стиль для всех карточек (инфо, часы, транспорт)
   &__info, &__hours, &__transport {
     background: $color-bg-white;
     padding: 2.5rem;
@@ -132,14 +131,13 @@
     }
   }
 
-  // Единый стиль заголовков (плашки с градиентом)
   &__label, &__hours-title {
     display: inline-block;
     background: linear-gradient(135deg, $color-accent-light, $color-accent-lighter);
     color: $color-primary;
     padding: 0.4rem 1.2rem;
     border-radius: 15px;
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-weight: 600;
     margin-bottom: 0.8rem;
   }
@@ -168,7 +166,6 @@
     &:last-child { margin-bottom: 0; }
   }
 
-  // Транспорт в стиле contacts__value
   &__transport-item {
     display: flex;
     align-items: center;

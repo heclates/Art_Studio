@@ -1,10 +1,10 @@
 @use './app' as app;
 @use './preloader' as preloader;
 @use './shapeBg' as shapeBg;
-@use './modal' as modal;
 @use './variables' as var;
 @use './mixins' as mixins;
 @use './animation' as animation;
+@use './modal' as modal;
 @use './header' as header;  
 @use './buttonStatick' as buttonStatick;
 @use './introduction';

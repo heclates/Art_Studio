@@ -63,7 +63,7 @@ export const createLocationContent = (texts) => {
             textContent: texts.transportLabel ?? 'Как добраться' 
           }),
           ...texts.transport.map(item =>
-            el('p', {
+            el('div', {
               class: 'contacts__value contacts__transport-item',
               children: [
                 el('span', {
@@ -76,7 +76,7 @@ export const createLocationContent = (texts) => {
                 }),
                 el('span', {
                   class: 'contacts__transport-text',
-                  textContent: `${item.type} ${item.name}`
+                  textContent: `${item.name}`
                 }),
               ]
             })

@@ -99,7 +99,8 @@ export const createCourseCard = (course) => {
         el('button', {
             class: 'course-card__button',
             textContent: course.button || DEFAULT_BUTTON_TEXT,
-            type: 'button'
+            type: 'button',
+            'data-course-id': course.id || course.name
         })
     );
 

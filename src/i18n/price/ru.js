@@ -14,7 +14,10 @@ const getCategory = (num) => {
 export const priceRU = {
     title: 'Прайс-лист',
     text: 'Актуальные цены на наши курсы и абонементы',
-    filterLabels: { all: 'Все', kids: 'Дети', adults: 'Взрослые', extra: 'Доп. услуги' },
+    filterLabels: { 
+        kids: 'Дети', 
+        adults: 'Взрослые', 
+        extra: 'Доп. услуги' },
     slides: Array.from({ length: 20 }, (_, i) => {
         const num = i + 1;
         const ext = num >= 13 && num <= 19 ? 'PNG' : 'jpg';
