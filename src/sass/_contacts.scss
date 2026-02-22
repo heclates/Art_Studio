@@ -196,7 +196,10 @@
   &__transport-text {
     flex: 1;
   }
-
+  &__transport-time
+  {
+    font-size: 0.9rem;
+  }
   &__hours-list {
     display: grid;
     grid-template-columns: 1fr auto;

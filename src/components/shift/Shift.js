@@ -116,7 +116,7 @@ export const createShiftLesson = async ({
     }
 
     // Header
-    const header = el('header', {
+    const header = el('section', {
       class: 'shift-lesson__header',
       id: 'schedule',
       children: [
@@ -129,7 +129,7 @@ export const createShiftLesson = async ({
     const availableLocations = texts.location ? Object.keys(texts.location) : ['praha9'];
     
     // Locations
-    const locations = el('div', {
+    const locations = el('section', {
       class: 'shift-lesson__locations',
       children: availableLocations.map((key) => {
         const locData = getLocationData(lang, key);
@@ -141,7 +141,7 @@ export const createShiftLesson = async ({
     });
 
     // Filters (grouped)
-    const filtersContainer = el('div', {
+    const filtersContainer = el('section', {
       class: 'shift-lesson__filters',
       children: filterGroups.map(group =>
         createFilterGroup(group, state.filters, texts, handleFilterChange)

@@ -35,6 +35,7 @@ export const shiftFilters = [
              age.includes('7–12') ||
              age.includes('5–11') ||
              age.includes('5–12') ||
+             age.includes('12+') ||
              age.includes('4–14');
     }
   },
@@ -42,18 +43,13 @@ export const shiftFilters = [
     name: 'adults',
     filterType: 'age',
     filterFn: (lesson) => {
-      const cls = (lesson.class || '').toLowerCase();
       const age = (lesson.age || '').toLowerCase();
       
-      // Взрослые: "Все возраста" ИЛИ "12+"
-      return age.includes('все возраста') || 
-             age.includes('všechny věkové kategorie') ||
-             age.includes('all ages') ||
-             age.includes('12+') ||
-             cls.includes('junior') ||
-             cls.includes('creative') ||
-             cls.includes('ceramics') ||
-             cls.includes('mixed');
+      // Только для 18+ или взрослых
+      return age.includes('18+') || 
+             age.includes('взрослые') ||
+             age.includes('adult') ||
+             age.includes('dospělí');
     }
   }
 ];

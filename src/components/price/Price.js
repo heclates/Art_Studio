@@ -13,10 +13,10 @@ const priceDataMap = { ru: priceRU, en: priceEN, default: priceRU };
 export const createPrice = () => {
     let priceSwiperInstance = null;
     let currentFilter = 'all';
-    
+
     const { article, wrapper, swiperContainer, navPrev, navNext, pagination, filterContainer } = createPriceDOM();
     const titleEl = article.querySelector('.price__title');
-    const textEl = article.querySelector('.price__text');
+    const textEl  = article.querySelector('.price__text');
 
     const renderFilters = (texts) => {
         filterContainer.innerHTML = '';
@@ -33,16 +33,17 @@ export const createPrice = () => {
     };
 
     const updatePriceContent = () => {
-        const lang = getLanguage();
+        const lang  = getLanguage();
         const texts = priceDataMap[lang] || priceDataMap.default;
-        
+
         titleEl.textContent = texts.title;
-        textEl.textContent = texts.text;
+        textEl.textContent  = texts.text;
         renderFilters(texts);
 
-        const filteredSlides = currentFilter === 'all' 
-            ? texts.slides 
-            : texts.slides.filter(s => s.category === currentFilter);
+        // slide.categories — массив строк ['kids', 'extra'] и т.п.
+        const filteredSlides = currentFilter === 'all'
+            ? texts.slides
+            : texts.slides.filter(s => s.categories?.includes(currentFilter));
 
         wrapper.innerHTML = '';
         filteredSlides.forEach((item, idx) => {
@@ -74,7 +75,7 @@ export const createPrice = () => {
         const mNext = document.createElement('div');
         mPrev.className = 'swiper-button-prev';
         mNext.className = 'swiper-button-next';
-        
+
         modalContainer.append(modalWrapper, mPrev, mNext);
         openModal(modalContainer);
 

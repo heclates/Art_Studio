@@ -3,7 +3,7 @@ export const footerRU = {
     { href: '#introduction', text: 'Главная' },
     { href: '#courses', text: 'Направления' },
     { href: '#schedule', text: 'Расписание' },
-    { href: '#price-title', text: 'Цены' },
+    { href: '#price', text: 'Цены' },
     { href: '#gallery-title', text: 'Галерея' },
     { href: '#teams-title', text: 'Команда' },
     { href: '#contacts', text: 'Контакты' },

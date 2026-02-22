@@ -2,18 +2,26 @@ import { el } from '@/utils/createElement';
 import { createReservationForm } from '@/components/forms/ReservationForm';
 import { openModal } from '@/components/Modal';
 import { normalizeWeekday, getNextWeekdayDate } from '@/utils/dateUtils';
+import { text } from 'stream/consumers';
 
-export const lessonCard = (lesson, meta, submitHandler) =>
-  el('div', {
+export const lessonCard = (lesson, meta, submitHandler) => {
+  let formattedAge = lesson.age.replace(/,/g, '.');
+  if (formattedAge.includes('. ')) {
+    formattedAge = formattedAge.replace('. ', ' (') + ')';
+  }
+
+  return el('div', {
     class: 'shift-lesson__lesson-card',
     children: [
       el('p', { textContent: lesson.category }),
-      el('p', { textContent: lesson.age }),
-      el('p', { textContent: `${lesson.time}, ${lesson.teacher}` }),
+      el('p', { textContent: formattedAge }),
+      el('p', { textContent: lesson.time }),
+      el('p', { textContent: lesson.teacher }),
+      el('p', { textContent: lesson.language }),
       el('button', {
         textContent: lesson.btnText,
         onclick: (e) => {
-          e.stopPropagation(); // Предотвращаем всплытие к dayCard
+          e.stopPropagation();
           
           const weekday = normalizeWeekday(lesson.day);
           const date = getNextWeekdayDate(weekday);
@@ -34,6 +42,7 @@ export const lessonCard = (lesson, meta, submitHandler) =>
       })
     ]
   });
+};
 
 export const dayCard = (dayKey, title, lessons, submitHandler, meta) => {
   const weekday = normalizeWeekday(dayKey);
@@ -41,7 +50,7 @@ export const dayCard = (dayKey, title, lessons, submitHandler, meta) => {
   
   return el('article', {
     class: 'shift-lesson__day-card swiper-slide',
-    style: 'cursor: pointer;', // Показываем, что блок кликабельный
+    style: 'cursor: pointer;',
     onclick: () => {
       // Формируем данные для предзаполнения формы
       const payload = {

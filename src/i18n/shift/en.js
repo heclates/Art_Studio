@@ -9,74 +9,74 @@ export const shiftEN = {
             label: 'Praha 9',
             lessons: [
                 // PONDĚLÍ
-                { day: 'monday', time: '15:00–16:00', category: 'Keramika', age: '4–14 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'monday', time: '16:00–17:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'monday', time: '17:30–19:00', category: 'Tvůrčí dílna', age: '3,5–9 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
+                { day: 'monday', category: 'Keramika', age: '4–14 let', time: '15:00–16:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'monday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '16:00–17:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'monday', category: 'Tvůrčí dílna', age: '3,5–9 let', time: '17:30–19:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
                 
                 // ÚTERÝ
-                { day: 'tuesday', time: '14:30–15:30', category: 'Keramika', age: '4–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'tuesday', time: '15:30–17:00', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'tuesday', time: '15:30–17:30', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'tuesday', time: '17:00–19:00', category: 'Kreslení. Starší skupina', age: '12+ let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
-                { day: 'tuesday', time: '17:00–19:30', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'tuesday', category: 'Keramika', age: '4–14 let', time: '14:30–15:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'tuesday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '15:30–17:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'tuesday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '15:30–17:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'tuesday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '17:00–19:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'tuesday', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', time: '17:00–19:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
                 
                 // STŘEDA
-                { day: 'wednesday', time: '15:00–16:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'wednesday', time: '16:30–18:30', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'wednesday', time: '16:30–18:30', category: 'Kreslení. Starší skupina', age: '12+ let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
-                { day: 'wednesday', time: '16:30–19:00', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'wednesday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '15:00–16:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'wednesday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '16:30–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'wednesday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '16:30–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'wednesday', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', time: '16:30–19:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
                 
                 // PÁTEK
-                { day: 'friday', time: '15:00–16:00', category: 'Keramika', age: '4–14 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'friday', time: '16:00–17:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'friday', time: '17:30–19:00', category: 'Tvůrčí dílna', age: '3,5–9 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
+                { day: 'friday', category: 'Keramika', age: '4–14 let', time: '15:00–16:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'friday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '16:00–17:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'friday', category: 'Tvůrčí dílna', age: '3,5–9 let', time: '17:30–19:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
                 
                 // SOBOTA
-                { day: 'saturday', time: '11:00–13:00', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'saturday', time: '11:00–13:00', category: 'Kreslení. Starší skupina', age: '12+ let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
-                { day: 'saturday', time: '11:00–13:30', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
-                { day: 'saturday', time: '13:00–14:00', category: 'Keramika', age: '4–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'saturday', time: '14:00–15:30', category: 'Kreslení. Doplňkové lekce', age: '5–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-mixed' },
+                { day: 'saturday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '11:00–13:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'saturday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '11:00–13:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'saturday', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', time: '11:00–13:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'saturday', category: 'Keramika', age: '4–14 let', time: '13:00–14:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'saturday', category: 'Kreslení. Doplňkové lekce', age: '5–12 let', time: '14:00–15:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-mixed' },
                 
                 // NEDĚLE
-                { day: 'sunday', time: '12:00–13:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'sunday', time: '13:30–14:30', category: 'Keramika', age: '4–14 let', teacher: 'Kristina', btnText: 'Přihлásit se', class: 'shift__card-ceramics' },
-                { day: 'sunday', time: '14:30–16:00', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' }
+                { day: 'sunday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '12:00–13:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'sunday', category: 'Keramika', age: '4–14 let', time: '13:30–14:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'sunday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '14:30–16:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' }
             ]
         },
         praha2: {
             label: 'Praha 2',
             lessons: [
                 // PONDĚLÍ
-                { day: 'monday', time: '16:00–18:00', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'monday', time: '16:00–18:00', category: 'Kreslení. Starší skupina', age: '12+ let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
-                { day: 'monday', time: '16:00–18:30', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'monday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '16:00–18:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'monday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '16:00–18:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'monday', category: 'Kreslení. Příprava na uměleckou školu', age: '9–14 let', time: '16:00–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
                 
                 // ÚTERÝ
-                { day: 'tuesday', time: '15:00–16:00', category: 'Keramika', age: '4–14 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'tuesday', time: '16:00–17:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'tuesday', time: '17:30–19:00', category: 'Tvůrčí dílna', age: '3,5–9 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
+                { day: 'tuesday', category: 'Keramika', age: '4–14 let', time: '15:00–16:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'tuesday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '16:00–17:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'tuesday', category: 'Tvůrčí dílna', age: '3,5–9 let', time: '17:30–19:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
                 
                 // STŘEDA
-                { day: 'wednesday', time: '15:00–16:00', category: 'Keramika', age: '4–14 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'wednesday', time: '16:00–17:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'wednesday', time: '17:30–19:00', category: 'Tvůrčí dílna', age: '3,5–9 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
+                { day: 'wednesday', category: 'Keramika', age: '4–14 let', time: '15:00–16:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'wednesday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '16:00–17:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'wednesday', category: 'Tvůrčí dílna', age: '3,5–9 let', time: '17:30–19:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-creative' },
                 
                 // ČTVRTEK
-                { day: 'thursday', time: '15:00–16:30', category: 'Kreslení. Mladší skupina', age: '3,5–6 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'thursday', time: '16:30–18:30', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'thursday', time: '16:30–18:30', category: 'Kreslení. Starší skupina', age: '12+ let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'thursday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '15:00–16:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'thursday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '16:30–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'thursday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '16:30–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
                 
                 // PÁTEK
-                { day: 'friday', time: '15:00–16:00', category: 'Keramika', age: '4–14 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'friday', time: '16:00–17:30', category: 'Kreslení. Mладшая группа', age: '3,5–6 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'friday', time: '17:30–19:30', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'friday', time: '17:30–19:30', category: 'Kreslení. Starší skupina', age: '12+ let', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
+                { day: 'friday', category: 'Keramika', age: '4–14 let', time: '15:00–16:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'friday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '16:00–17:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
+                { day: 'friday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '17:30–19:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'friday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '17:30–19:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
                 
                 // SOBOTA
-                { day: 'saturday', time: '11:00–13:00', category: 'Kreslení. Střední skupina', age: '7–12 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'saturday', time: '13:00–14:00', category: 'Keramika', age: '4–14 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'saturday', time: '14:00–15:30', category: 'Kreslení. Doplňkové lekce', age: '5–12 let', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-mixed' }
+                { day: 'saturday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '11:00–13:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
+                { day: 'saturday', category: 'Keramika', age: '4–14 let', time: '13:00–14:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
+                { day: 'saturday', category: 'Kreslení. Doplňkové lekce', age: '5–12 let', time: '14:00–15:30', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-mixed' }
             ]
         }
     },

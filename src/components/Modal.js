@@ -58,14 +58,7 @@ function onTouchMove(e) {
   const absX = Math.abs(dx)
   const absY = Math.abs(dy)
 
-  // 👉 Если пользователь скроллит вертикально — ничего не делаем
   if (absY > absX) return
-
-  // 👉 Закрываем ТОЛЬКО при горизонтальном свайпе вправо
-  if (dx > SWIPE_THRESHOLD) {
-    isSwiping = false
-    closeModal()
-  }
 }
 
 function onTouchEnd() {

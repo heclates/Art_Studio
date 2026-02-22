@@ -7,7 +7,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 1200px;
-  max-height: 90vh; // Ограничиваем высоту, чтобы модалка не уходила за экран
+  max-height: 90vh;
   margin: 0 auto;
   border-radius: $radius-2xl;
   overflow: hidden;
@@ -20,7 +20,7 @@
 /* ================= IMAGE ================= */
 
 .course-modal__image {
-  flex-shrink: 0; // Запрещаем картинке сжиматься
+  flex-shrink: 0;
   width: 100%;
   height: 420px;
   position: relative;
@@ -57,11 +57,11 @@
 /* ================= CONTENT ================= */
 
 .course-modal__content {
-  flex: 1; // Занимает всё оставшееся пространство
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: $space-2xl $space-3xl;
-  overflow: hidden; // Важно, чтобы скроллился только внутренний блок
+  overflow: hidden;
   
   @include respond-below($breakpoint-md) {
     padding: $space-xl $space-lg;
@@ -72,11 +72,10 @@
 
 .course-modal__body {
   flex: 1;
-  overflow-y: auto; // Включаем скролл только для текста
+  overflow-y: auto;
   padding-right: $space-md;
   margin-bottom: $space-lg;
 
-  /* Кастомный скроллбар */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -103,11 +102,17 @@
 }
 
 .course-modal__description {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   font-size: $font-lg;
   color: $color-text-dark;
   line-height: $leading-relaxed;
   margin: 0;
-  // Скролл теперь на уровне __body, тут он не нужен
+
+  @media (max-width: 1025px) {
+    font-size: 1rem;
+  }
 }
 
 .course-modal__subtitle {

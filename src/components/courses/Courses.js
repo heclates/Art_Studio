@@ -101,21 +101,28 @@ export const createCourses = () => {
     return courses.filter(course => course.category === filter)
   }
 
-  /* 🔥 ГЛАВНАЯ ЧАСТЬ — ДЕЛЕГАЦИЯ */
-
+  /* 🔥 ДЕЛЕГАЦИЯ КЛИКОВ */
   article.addEventListener('click', (e) => {
-    const btn = e.target.closest('.course-card__button')
+    const btn = e.target.closest('[data-action]')
     if (!btn) return
 
-    const slide = btn.closest('.swiper-slide')
-    if (!slide) return
+    const action = btn.dataset.action
+    const courseId = btn.dataset.courseId
 
-    const index = [...slide.parentNode.children].indexOf(slide)
-    const course = currentCourses[index]
+    // Находим курс по id (приводим к одному типу для сравнения)
+    const course = currentCourses.find(c => String(c.id || c.name) === courseId)
     if (!course) return
 
-    const modalContent = createCourseDetailsModal(course)
-    openModal(modalContent, 'modal-title')
+    if (action === 'open-modal') {
+      // Открыть модалку с полной информацией
+      const modalContent = createCourseDetailsModal(course)
+      openModal(modalContent, 'modal-title')
+    } else if (action === 'enroll') {
+      // Здесь можно добавить логику записи (форма, ссылка и т.п.)
+      // Пример: открыть ту же модалку с фокусом на кнопку
+      const modalContent = createCourseDetailsModal(course)
+      openModal(modalContent, 'modal-title')
+    }
   })
 
   render(getLanguage())

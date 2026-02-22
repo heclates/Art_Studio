@@ -1,4 +1,3 @@
-// src/components/Shift/ShiftHelpers.js
 import { el } from '@/utils/createElement';
 import { openModal } from '@/components/Modal';
 import { createReservationForm } from '@/components/forms/ReservationForm';
@@ -92,6 +91,6 @@ const createLessonCard = (lesson, dayKey, dayLabel, metadata) => {
     openModal(form, 'reservation-form__title');
   });
 
-  card.append(time, category, age, teacher, btn);
+  card.append(category, age, time, teacher, btn);
   return card;
 };
