@@ -1,7 +1,7 @@
 @use './app' as app;
 @use './preloader' as preloader;
 @use './shapeBg' as shapeBg;
-@use './variables' as var;
+@use './variables';
 @use './mixins' as mixins;
 @use './animation' as animation;
 @use './modal' as modal;

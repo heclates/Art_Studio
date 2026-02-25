@@ -1,6 +1,7 @@
 import { el } from '@/utils/createElement.js';
 import { HeaderTop } from './HeaderTop.js';
 import { HeaderLogo, destroyHeaderLogo } from './HeaderLogo.js';
+import { createUserMenu } from './UserMenu.js';
 
 let headerInstance = null;
 
@@ -16,26 +17,34 @@ export const createHeader = () => {
         header
     );
 
+    const userMenu = createUserMenu();
+
+    const logoWrapper = headerLogoInstance.querySelector('.header__logo-wrapper');
+    const burger = headerLogoInstance.querySelector('.header__burger');
+
+    if (logoWrapper && burger && userMenu) {
+        logoWrapper.insertBefore(userMenu, burger);
+    }
+
     header.appendChild(headerTopInstance.element);
     header.appendChild(headerLogoInstance);
 
-    // Добавляем scroll handler для эффекта тени
     let lastScroll = 0;
+
     const handleScroll = () => {
         const currentScroll = window.pageYOffset;
-        
-        // Добавляем класс при скролле для тени
+
         if (currentScroll > 10) {
             header.classList.add('header--scrolled');
         } else {
             header.classList.remove('header--scrolled');
         }
-        
+
         lastScroll = currentScroll;
     };
 
-    // Throttle для производительности
     let ticking = false;
+
     const scrollHandler = () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
@@ -48,7 +57,6 @@ export const createHeader = () => {
 
     window.addEventListener('scroll', scrollHandler, { passive: true });
 
-    // Cleanup функция
     header.cleanup = () => {
         window.removeEventListener('scroll', scrollHandler);
         if (headerInstance?.logo) {

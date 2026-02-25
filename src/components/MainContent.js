@@ -16,7 +16,8 @@ const LANGUAGE_DEPENDENT_COMPONENTS = [
     createPrice,
     createTeams,
     createGallery,
-    createContacts
+    createContacts,
+    createReservationForm
 ];
 
 export const createMainContent = async () => {
@@ -80,8 +81,6 @@ export const createMainContent = async () => {
     // Первичный рендер динамического контента
     await renderDynamicContent();  // Await initial render
 
-    reservationForm = createReservationForm(); 
-    main.appendChild(reservationForm);
 
     // Cleanup для main
     main.cleanup = () => {

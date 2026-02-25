@@ -1,86 +1,98 @@
-// i18n/form/ru.js
-const today = new Date().toISOString().split('T')[0];
+export default {
+  formTitle: 'Бронирование занятия',
+  locationPlaceholder: 'Выберите филиал',
+  categoryPlaceholder: 'Выберите категорию',
+  directionPlaceholder: 'Выберите направление',
 
-export const formsRU = {
-    freeFields: [
-        {
-            label: 'Имя, Фамилия родителя:',
-            name: 'surname',
-            type: 'text',
-            pattern: '[A-Za-z\\s]{2,}',
-            title: 'Только буквы латиницей, минимум 2 символа',
-            placeholder: 'Ivanov Ivan (только латиница)'
-        },
-        {
-            label: 'Имя, Фамилия ребенка:',
-            name: 'name',
-            type: 'text',
-            pattern: '[A-Za-z\\s]{2,}',
-            title: 'Только буквы латиницей, минимум 2 символа',
-            placeholder: 'Anna Ivanova (только латиница)'
-        },
-        { 
-            label: 'Контактный телефон:', 
-            name: 'phone', 
-            type: 'tel', 
-            title: 'Введите ваш контактный телефон' 
-        },
-        { 
-            label: 'Дата рождения ребенка:', 
-            name: 'birthdate', 
-            type: 'date', 
-            min: '2000-01-01', 
-            max: today,
-            title: 'Выберите дату рождения'
-        },
+  categoryChildren: 'Дети',
+  categoryAdults: 'Взрослые',
+
+  directions: {
+    children: [
+      'Рисование', 'Керамика', 'Творческая мастерская', 'Комбо-занятия',
+      'Подготовка в художественную школу', 'Индивидуальные занятия',
+      'Онлайн-уроки', 'Мастер-классы', 'Пленэры', 'Арт-лагерь',
+      'Специальные мероприятия', 'Арт-боксы', 'Подарочные сертификаты'
     ],
-
-    // Поля для формы бронирования по расписанию (reservationForm.js)
-    // Эти поля не включают "day" и "time" в лейблах, так как они передаются скрытыми полями.
-    fields: [
-        {
-            label: 'Имя, Фамилия родителя:',
-            name: 'surname',
-            type: 'text',
-            pattern: '[A-Za-z\\s]{2,}',
-            title: 'Только буквы латиницей, минимум 2 символа',
-            placeholder: 'Ivanov Ivan (только латиница)'
-        },
-        {
-            label: 'Имя, Фамилия ребенка:',
-            name: 'name',
-            type: 'text',
-            pattern: '[A-Za-z\\s]{2,}',
-            title: 'Только буквы латиницей, минимум 2 символа',
-            placeholder: 'Anna Ivanova (только латиница)'
-        },
-        { 
-            label: 'Контактный телефон:', 
-            name: 'phone', 
-            type: 'tel', 
-            title: 'Введите ваш контактный телефон'
-        },
-        { 
-            label: 'Дата рождения ребенка:', 
-            name: 'birthdate', 
-            type: 'date', 
-            min: '2000-01-01', 
-            max: today,
-            title: 'Выберите дату рождения'
-        },
-        // Скрытые поля: day, time, category
-        { name: 'day', type: 'hidden' },
-        { name: 'time', type: 'hidden' },
-        { name: 'category', type: 'hidden' }
-    ],
-
-    // Названия курсов для <select> (используется в freeRezervationForm.js)
-    courseNames: [
-        { id: 'studio', name: 'Творческая мастерская' },
-        { id: 'prep', name: 'Подготовка к поступлению' },
-        { id: 'artcamp', name: 'Арт-лагерь' },
-        { id: 'artcamp_junior', name: 'Арт-лагерь (младшая группа)' },
-        { id: 'courses__card__ceramics', name: 'Курс по керамике' },
-        { id: 'drawing_kids', name: 'Рисование. Младшая группа' }
+    adults: [
+      'Индивидуальные занятия', 'Арт-вечеринки', 'Специальные мероприятия',
+      'Арт-боксы', 'Подарочные сертификаты'
     ]
+  },
+
+  groupDirections: [
+    'Рисование', 'Керамика', 'Творческая мастерская', 'Комбо-занятия',
+    'Подготовка в художественную школу'
+  ],
+  childEventDirections: ['Мастер-классы', 'Пленэры', 'Арт-лагерь'],
+
+  directionLabels: {
+    individual: 'Индивидуальные занятия',
+    specialEvents: 'Специальные мероприятия',
+    artBoxes: 'Арт-боксы',
+    giftCertificates: 'Подарочные сертификаты',
+    onlineLessons: 'Онлайн-уроки',
+    artParties: 'Арт-вечеринки'
+  },
+
+  visitTypeLabel: 'Тип посещения',
+  trial: 'Пробный урок',
+  existing: 'Я уже занимаюсь в студии',
+
+  loginPrompt: 'Если у вас есть аккаунт — войдите. Если нет — вы сможете зарегистрироваться сейчас.',
+  loginBtn: 'Войти в аккаунт',
+  noAccountBtn: 'У меня нет аккаунта / продолжить без входа',
+  loginAlert: 'Здесь открывается модальное окно логина (email + пароль). После успеха — показываем выбор дня/времени.',
+
+  fio: 'ФИО',
+  parentFio: 'ФИО родителя',
+  childFio: 'ФИО ребёнка',
+  childBirthdate: 'Дата рождения ребёнка',
+  phone: 'Телефон',
+  email: 'Email',
+  parentPhone: 'Телефон родителя',
+  parentEmail: 'Email родителя',
+
+  message: 'Сообщение',
+  messageWishes: 'Сообщение (пожелания по времени и формату)',
+  messageEvent: 'Сообщение (формат мероприятия и примерная дата)',
+
+  day: 'День занятия',
+  time: 'Время',
+
+  discuss: 'Обсудить',
+  learnDates: 'Узнать даты / Оставить заявку',
+  discussEvent: 'Обсудить мероприятие',
+  artBoxSubmit: 'Заказать арт-бокс',
+  buyCertificate: 'Купить сертификат',
+  getAccess: 'Получить доступ',
+  leaveRequest: 'Оставить заявку',
+  learnDatesShort: 'Узнать даты',
+  createAndConfirm: 'Создать аккаунт и подтвердить запись',
+  trialSubmit: 'Отправить заявку на пробный урок',
+
+  artBoxVariantLabel: 'Вариант арт-бокса',
+  artBoxMaterials: 'Арт-бокс (только материалы)',
+  artBoxMaterialsLesson: 'Арт-бокс (материалы + урок)',
+
+  deliveryLabel: 'Способ получения',
+  delivery: 'Доставка',
+  pickup: 'Самовывоз',
+
+  totalCostPrefix: 'Итоговая стоимость: ',
+
+  certVariantLabel: 'Вариант сертификата',
+  certMasterclass: 'Сертификат на мастер-класс',
+  certAmount: 'Сертификат на сумму',
+  certArtParty: 'Сертификат на арт-вечеринку',
+
+  selectThemes: 'Выберите тему(ы):',
+  accessEmail: 'Email для доступа',
+
+  pictureNumber: 'Номер картины',
+
+  submitDefault: 'Записаться',
+
+  success: 'Заявка успешно отправлена!',
+  error: 'Ошибка отправки. Проверьте поля.'
 };

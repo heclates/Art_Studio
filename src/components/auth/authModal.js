@@ -1,4 +1,3 @@
-// src/components/AuthModal/AuthModal.js
 import { el } from '@/utils/createElement';
 import { authManager } from '@/utils/authManager';
 import { getLanguage } from '@/utils/languageManager';
@@ -142,7 +141,6 @@ export const createAuthModal = () => {
             if (isLoginMode) {
                 await authManager.login(data.username, data.password);
             } else {
-                // Валидация
                 if (data.password !== data.confirmPassword) {
                     throw new Error(t.error.passwordMatch);
                 }
@@ -157,7 +155,7 @@ export const createAuthModal = () => {
             }
             
             closeModal();
-            window.location.reload(); // Перезагружаем страницу
+            window.location.reload();
             
         } catch (error) {
             errorMessage.textContent = error.message;
@@ -179,7 +177,6 @@ export const createAuthModal = () => {
     wrapper.append(closeBtn, title, errorMessage, form);
     modal.append(overlay, wrapper);
     
-    // Открываем модалку
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
     

@@ -1,4 +1,3 @@
-// src/components/Header/UserMenu.js
 import { el } from '@/utils/createElement';
 import { authManager } from '@/utils/authManager';
 import { createAuthModal } from '@/components/auth/authModal';
@@ -12,7 +11,7 @@ const TEXTS = {
         logout: 'Выйти'
     },
     en: {
-login: 'Přihlášení',
+        login: 'Přihlášení',
         profile: 'Profil',
         admin: 'Administrace',
         logout: 'Odhlásit se'
@@ -22,33 +21,30 @@ login: 'Přihlášení',
 export const createUserMenu = () => {
     const lang = getLanguage();
     const t = TEXTS[lang] || TEXTS.ru;
-    
+
     const user = authManager.getUser();
     const isAuth = authManager.isAuthenticated();
-    
+
     if (!isAuth) {
-        // Кнопка входа
         const loginBtn = el('button', {
             class: 'header__login-btn',
             textContent: t.login
         });
-        
+
         loginBtn.addEventListener('click', () => {
             createAuthModal();
         });
-        
+
         return loginBtn;
     }
-    
-    // Аватарка с выпадающим меню
+
     const userMenu = el('div', { class: 'header__user-menu' });
-    
+
     const avatar = el('button', {
         class: 'header__user-avatar',
         'aria-label': 'User menu'
     });
-    
-    // Инициалы или фото
+
     if (user.avatar_url) {
         const img = el('img', {
             src: user.avatar_url,
@@ -57,20 +53,19 @@ export const createUserMenu = () => {
         });
         avatar.appendChild(img);
     } else {
-        const initials = getInitials(user);
-        avatar.textContent = initials;
+        avatar.textContent = getInitials(user);
     }
-    
+
     const dropdown = el('div', { class: 'header__user-dropdown' });
-    
+
     const profileLink = el('a', {
         href: '/profile',
         class: 'header__user-dropdown-item',
         textContent: t.profile
     });
-    
+
     dropdown.appendChild(profileLink);
-    
+
     if (authManager.isAdmin()) {
         const adminLink = el('a', {
             href: '/admin-dashboard',
@@ -79,35 +74,35 @@ export const createUserMenu = () => {
         });
         dropdown.appendChild(adminLink);
     }
-    
+
     const logoutBtn = el('button', {
         class: 'header__user-dropdown-item',
         textContent: t.logout
     });
-    
+
     logoutBtn.addEventListener('click', () => {
         authManager.logout();
     });
-    
+
     dropdown.appendChild(logoutBtn);
-    
-    // Toggle dropdown
+
     let isOpen = false;
+
     avatar.addEventListener('click', (e) => {
         e.stopPropagation();
         isOpen = !isOpen;
         dropdown.classList.toggle('active', isOpen);
     });
-    
+
     document.addEventListener('click', () => {
         if (isOpen) {
             isOpen = false;
             dropdown.classList.remove('active');
         }
     });
-    
+
     userMenu.append(avatar, dropdown);
-    
+
     return userMenu;
 };
 

@@ -36,7 +36,6 @@
     color: $color-text-dark;
     margin-bottom: $space-lg;
     line-height: $leading-snug;
-    word-wrap: break-word;
   }
 
   &__form {
@@ -46,15 +45,16 @@
     width: 100%;
   }
 
-  &__field-group {
+  // ====================== ДИНАМИЧЕСКИЕ ПОЛЯ ======================
+  .field-group {
     display: flex;
     flex-direction: column;
     gap: $space-xs;
     width: 100%;
-    min-width: 0; // Критично для предотвращения overflow
+    min-width: 0;
   }
 
-  &__label {
+  label {
     font-size: $font-base;
     font-weight: $font-semibold;
     color: $color-text-dark;
@@ -63,11 +63,11 @@
     hyphens: auto;
   }
 
-  &__input,
-  &__select,
-  &__textarea {
+  input:not([type="radio"]),
+  select,
+  textarea {
     width: 100%;
-    min-width: 0; // Предотвращает overflow в flex контейнере
+    min-width: 0;
     max-width: 100%;
     padding: $space-sm $space-md;
     font-size: $font-base;
@@ -99,26 +99,81 @@
     }
   }
 
-  &__textarea {
+  input[type="radio"] {
+    accent-color: $color-primary;
+    margin-right: $space-xs;
+  }
+
+  textarea {
     min-height: 100px;
     resize: vertical;
   }
 
-  // Для телефонного input с библиотекой intl-tel-input
-  .iti {
-    width: 100%;
-    display: block;
+  // Радио-группы (Тип посещения, Арт-бокс, Доставка и т.д.)
+  .radio-options {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    margin-top: $space-xs;
 
-    &__container {
-      width: 100%;
-    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: $space-sm;
+      padding: $space-xs $space-sm;
+      border-radius: $radius-md;
+      cursor: pointer;
+      transition: background-color $transition-fast;
 
-    &__input {
-      width: 100% !important;
-      box-sizing: border-box;
+      &:hover {
+        background: $color-bg-main;
+      }
     }
   }
 
+  // Итоговая стоимость
+  .total-cost {
+    margin: $space-xs 0 $space-sm;
+    padding: $space-md;
+    background: linear-gradient(135deg, $color-accent-light, $color-bg-white);
+    border: 2px solid $color-accent-light;
+    border-radius: $radius-xl;
+    font-size: $font-lg;
+    font-weight: $font-semibold;
+    color: $color-text-dark;
+    text-align: center;
+    box-shadow: $shadow-sm;
+  }
+
+  // Кнопки «Войти» / «Продолжить без аккаунта»
+  .field-group:has(button.btn-secondary) {
+    flex-direction: row !important;
+    gap: 15px !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  button.btn-secondary {
+    flex: 1;
+    min-width: 220px;
+    padding: $space-sm $space-lg;
+    font-size: $font-base;
+    font-weight: $font-medium;
+    color: $color-primary;
+    background: $color-bg-white;
+    border: 2px solid $color-primary;
+    border-radius: $radius-full;
+    cursor: pointer;
+    @include transition-all;
+
+    &:hover {
+      background: $color-primary;
+      color: $color-text-light;
+      transform: translateY(-2px);
+    }
+  }
+
+  // Основная кнопка отправки
   &__button {
     margin-top: $space-sm;
     padding: $space-sm $space-lg;
@@ -147,7 +202,6 @@
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: none;
     }
 
     &:focus-visible {
@@ -156,10 +210,9 @@
     }
   }
 
-  &__error {
+  &__error,
+  &__success {
     font-size: $font-sm;
-    color: $color-error;
-    background: $color-error-bg;
     padding: $space-sm $space-md;
     border-radius: $radius-md;
     text-align: center;
@@ -169,43 +222,41 @@
     border: 1px solid rgba($color-error, 0.2);
   }
 
+  &__error {
+    color: $color-error;
+    background: $color-error-bg;
+  }
+
   &__success {
-    font-size: $font-base;
     color: $color-success;
     background: $color-success-bg;
-    padding: $space-sm $space-md;
-    border-radius: $radius-md;
-    text-align: center;
     font-weight: $font-semibold;
     animation: fade-in-up $transition-base $ease-out;
-    word-wrap: break-word;
-    border: 1px solid rgba($color-success, 0.2);
   }
 
   // ============================================================================
   // АДАПТИВНОСТЬ
   // ============================================================================
 
-  // Планшеты
   @include respond-below($breakpoint-md) {
     max-width: 540px;
     padding: $space-lg;
     border-radius: $radius-xl;
     margin: $space-lg auto;
 
-    &__input,
-    &__select,
-    &__textarea {
+    input:not([type="radio"]),
+    select,
+    textarea {
       font-size: $font-sm;
       padding: $space-sm $space-md;
     }
 
-    &__button {
+    &__button,
+    button.btn-secondary {
       font-size: $font-base;
     }
   }
 
-  // Мобильные устройства
   @include respond-below($breakpoint-sm) {
     margin: $space-md;
     padding: $space-md;
@@ -227,24 +278,22 @@
       gap: $space-sm;
     }
 
-    &__label {
+    label {
       font-size: $font-sm;
     }
 
-    &__input,
-    &__select,
-    &__textarea {
+    input:not([type="radio"]),
+    select,
+    textarea {
       padding: $space-xs $space-sm;
       font-size: $font-sm;
     }
 
-    &__button {
-      font-size: $font-base;
-      padding: $space-xs $space-md;
+    .radio-options label {
+      font-size: $font-sm;
     }
   }
 
-  // Маленькие телефоны
   @include respond-below($breakpoint-xs) {
     padding: $space-md;
     margin: $space-sm;
@@ -258,84 +307,22 @@
 
     &__title {
       font-size: 1.5rem;
-      font-weight: 300;
-      margin-bottom: $space-sm;}
+      margin-bottom: $space-sm;
+    }
 
-    &__input,
-    &__select,
-    &__textarea {
+    input:not([type="radio"]),
+    select,
+    textarea {
       padding: 0.6rem 0.75rem;
     }
   }
 
-  // Очень маленькие экраны
   @media (max-width: 360px) {
     padding: $space-sm;
     margin: $space-xs;
 
-    &__label {
+    label {
       font-size: $font-xs;
-    }
-  }
-
-  // ============================================================================
-  // ДОСТУПНОСТЬ
-  // ============================================================================
-
-  @include reduced-motion {
-    animation: none;
-
-    &::before {
-      animation: none;
-    }
-
-    &__button {
-      transition: background-color $transition-fast $ease-out;
-
-      &:hover:not(:disabled) {
-        transform: none;
-      }
-    }
-
-    &__error,
-    &__success {
-      animation: none;
-    }
-  }
-
-  @media (prefers-contrast: high) {
-    &__input,
-    &__select,
-    &__textarea {
-      border-width: 3px;
-    }
-
-    &__button {
-      border: 2px solid $color-primary;
-    }
-  }
-
-  // ============================================================================
-  // ПЕЧАТЬ
-  // ============================================================================
-
-  @include print-only {
-    box-shadow: none;
-    border: 1px solid $color-border-medium;
-
-    &::before {
-      display: none;
-    }
-
-    &__button {
-      display: none;
-    }
-
-    &__input,
-    &__select,
-    &__textarea {
-      border: 1px solid $color-border-medium;
-      background: transparent;
     }
   }
 }

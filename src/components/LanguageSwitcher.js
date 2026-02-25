@@ -1,13 +1,8 @@
 import { el } from '@/utils/createElement';
 import { getLanguage, setLanguage, subscribe } from '@/utils/languageManager';
 
-// Singleton instance to prevent multiple creations
 let instance = null;
 
-/**
- * Creates language switcher component with proper subscription management
- * @returns {HTMLElement} Language switcher container
- */
 export const createLanguageSwitcher = () => {
   if (instance) {
     console.warn('Language switcher already created');
