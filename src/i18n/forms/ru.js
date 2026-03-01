@@ -7,16 +7,39 @@ export default {
   categoryChildren: 'Дети',
   categoryAdults: 'Взрослые',
 
+  locations: [
+    { slug: 'main_studio', title: 'Main Studio' },
+    { slug: 'praha_2', title: 'Praha 2' },
+    { slug: 'praha_9', title: 'Praha 9' }
+  ],
+
+  categories: [
+    { slug: 'children', title: 'Дети' },
+    { slug: 'adults', title: 'Взрослые' }
+  ],
+
   directions: {
     children: [
-      'Рисование', 'Керамика', 'Творческая мастерская', 'Комбо-занятия',
-      'Подготовка в художественную школу', 'Индивидуальные занятия',
-      'Онлайн-уроки', 'Мастер-классы', 'Пленэры', 'Арт-лагерь',
-      'Специальные мероприятия', 'Арт-боксы', 'Подарочные сертификаты'
+      { slug: 'drawing', title: 'Рисование' },
+      { slug: 'ceramics', title: 'Керамика' },
+      { slug: 'creative', title: 'Творческая мастерская' },
+      { slug: 'combo', title: 'Комбо-занятия' },
+      { slug: 'prep_art_school', title: 'Подготовка в художественную школу' },
+      { slug: 'individual_child', title: 'Индивидуальные занятия' },
+      { slug: 'online_lessons', title: 'Онлайн-уроки' },
+      { slug: 'masterclasses', title: 'Мастер-классы' },
+      { slug: 'plein_air', title: 'Пленэры' },
+      { slug: 'art_camp', title: 'Арт-лагерь' },
+      { slug: 'special_events_child', title: 'Специальные мероприятия' },
+      { slug: 'art_boxes_child', title: 'Арт-боксы' },
+      { slug: 'gift_certificates_child', title: 'Подарочные сертификаты' }
     ],
     adults: [
-      'Индивидуальные занятия', 'Арт-вечеринки', 'Специальные мероприятия',
-      'Арт-боксы', 'Подарочные сертификаты'
+      { slug: 'individual_adult', title: 'Индивидуальные занятия' },
+      { slug: 'art_parties', title: 'Арт-вечеринки' },
+      { slug: 'special_events_adult', title: 'Специальные мероприятия' },
+      { slug: 'art_boxes_adult', title: 'Арт-боксы' },
+      { slug: 'gift_certificates_adult', title: 'Подарочные сертификаты' }
     ]
   },
 

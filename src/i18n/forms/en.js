@@ -7,16 +7,39 @@ export default {
   categoryChildren: 'Děti',
   categoryAdults: 'Dospělí',
 
+  locations: [
+    { slug: 'main_studio', title: 'Main Studio' },
+    { slug: 'praha_2', title: 'Praha 2' },
+    { slug: 'praha_9', title: 'Praha 9' }
+  ],
+
+  categories: [
+    { slug: 'children', title: 'Děti' },
+    { slug: 'adults', title: 'Dospělí' }
+  ],
+
   directions: {
     children: [
-      'Malování', 'Keramika', 'Tvořivá dílna', 'Kombinované lekce',
-      'Příprava na uměleckou školu', 'Individuální lekce',
-      'Online lekce', 'Mistrovské kurzy', 'Plein air', 'Art tábor',
-      'Speciální akce', 'Art boxy', 'Dárkové poukazy'
+      { slug: 'drawing', title: 'Malování' },
+      { slug: 'ceramics', title: 'Keramika' },
+      { slug: 'creative', title: 'Tvořivá dílna' },
+      { slug: 'combo', title: 'Kombinované lekce' },
+      { slug: 'prep_art_school', title: 'Příprava na uměleckou školu' },
+      { slug: 'individual_child', title: 'Individuální lekce' },
+      { slug: 'online_lessons', title: 'Online lekce' },
+      { slug: 'masterclasses', title: 'Mistrovské kurzy' },
+      { slug: 'plein_air', title: 'Plein air' },
+      { slug: 'art_camp', title: 'Art tábor' },
+      { slug: 'special_events_child', title: 'Speciální akce' },
+      { slug: 'art_boxes_child', title: 'Art boxy' },
+      { slug: 'gift_certificates_child', title: 'Dárkové poukazy' }
     ],
     adults: [
-      'Individuální lekce', 'Art večírky', 'Speciální akce',
-      'Art boxy', 'Dárkové poukazy'
+      { slug: 'individual_adult', title: 'Individuální lekce' },
+      { slug: 'art_parties', title: 'Art večírky' },
+      { slug: 'special_events_adult', title: 'Speciální akce' },
+      { slug: 'art_boxes_adult', title: 'Art boxy' },
+      { slug: 'gift_certificates_adult', title: 'Dárkové poukazy' }
     ]
   },
 
