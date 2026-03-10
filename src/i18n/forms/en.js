@@ -8,7 +8,6 @@ export default {
   categoryAdults: 'Dospělí',
 
   locations: [
-    { slug: 'main_studio', title: 'Main Studio' },
     { slug: 'praha_2', title: 'Praha 2' },
     { slug: 'praha_9', title: 'Praha 9' }
   ],
