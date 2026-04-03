@@ -116,5 +116,28 @@ export default {
   submitDefault: 'Rezervovat',
 
   success: 'Žádost byla úspěšně odeslána!',
-  error: 'Chyba při odesílání. Zkontrolujte pole.'
+  error: 'Chyba při odesílání. Zkontrolujte pole.',
+
+  // Schedule fields
+  day: 'Den lekce',
+  time: 'Čas lekce',
+  dayPlaceholder: 'Vyberte den',
+  timePlaceholder: 'Vyberte čas',
+
+  // Validation messages
+  locationRequired: 'Vyberte pobočku',
+  categoryRequired: 'Vyberte kategorii',
+  directionRequired: 'Vyberte obor',
+  dayRequired: 'Vyberte den lekce',
+  timeRequired: 'Vyberte čas lekce',
+  invalidScheduleSlot: 'Vybraný čas neodpovídá rozvrhu lekcí',
+  invalidEmail: 'Neplatný formát e-mailu',
+  invalidPhone: 'Neplatný formát telefonu',
+  fioTooShort: 'Jméno musí obsahovat alespoň 2 znaky',
+  invalidBirthdate: 'Neplatné datum narození dítěte',
+  invalidTime: 'Neplatný formát času',
+  unauthorized: 'Je nutné se přihlásit',
+  forbidden: 'Přístup odepřen',
+  tooManyRequests: 'Příliš mnoho požadavků. Zkuste to později.',
+  networkError: 'Chyba sítě. Zkontrolujte připojení k internetu.'
 };

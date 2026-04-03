@@ -1,0 +1,411 @@
+@use "sass:color";
+@use "variables" as *;
+@use "animation" as *;
+@use "mixins" as *;
+
+.profile-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: $space-4xl $space-lg;
+  background: linear-gradient(135deg, $color-bg-main 0%, $color-bg-gradient 100%);
+  font-family: 'Inter', -apple-system, sans-serif;
+  animation: fade-in 0.6s ease-out;
+
+  @media (max-width: 768px) {
+    padding: $space-xl $space-md;
+  }
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: $space-4xl;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-lg;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: $space-md;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, $color-primary, $color-secondary);
+    border-radius: 2px;
+  }
+}
+
+.profile-back-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: $color-primary;
+  color: white;
+  border: none;
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba($color-primary, 0.3);
+
+  &:hover {
+    background: darken($color-primary, 10%);
+    transform: translateY(-50%) translateX(-2px);
+    box-shadow: 0 4px 12px rgba($color-primary, 0.4);
+  }
+
+  &:active {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+    margin-bottom: $space-md;
+  }
+}
+
+.profile-book-lesson-btn {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: $space-xl auto 0;
+  padding: $space-md $space-lg;
+  background: linear-gradient(135deg, $color-primary, $color-secondary);
+  color: white;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba($color-primary, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($color-primary, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin: $space-lg auto 0;
+  }
+}
+
+.profile-title {
+  font-size: 3rem;
+  font-weight: 300;
+  color: $color-text-dark;
+  margin: 0;
+  letter-spacing: $tracking-tight;
+
+  strong {
+    font-weight: 700;
+    color: $color-primary;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.profile-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-3xl;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: $space-2xl;
+  }
+}
+
+.profile-section {
+  background: $color-glass-white;
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: $space-2xl;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    padding: $space-xl;
+  }
+}
+
+.profile-section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: $color-text-dark;
+  margin: 0 0 $space-xl 0;
+  padding-bottom: $space-md;
+  border-bottom: 2px solid $color-primary-light;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: $color-primary;
+    border-radius: 1px;
+  }
+}
+
+.profile-info {
+  animation: slide-in-left 0.6s ease-out;
+}
+
+.profile-reservations {
+  animation: slide-in-right 0.6s ease-out;
+}
+
+// Profile Form Styles
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.profile-field-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $color-text-dark;
+  margin-bottom: $space-xs;
+}
+
+.profile-field-input {
+  padding: $space-md;
+  border: 2px solid $color-accent-light;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: $color-text-dark;
+  background: $color-bg-white;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &:disabled {
+    background: $color-accent-lighter;
+    color: $color-text-medium;
+    cursor: not-allowed;
+  }
+
+  &.editing {
+    border-color: $color-primary;
+    background: $color-bg-white;
+  }
+
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+}
+
+.profile-buttons {
+  display: flex;
+  gap: $space-md;
+  margin-top: $space-lg;
+  justify-content: flex-start;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.profile-btn {
+  padding: $space-md $space-xl;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-width: 120px;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &-primary {
+    background: $color-primary;
+    color: $color-text-light;
+
+    &:hover {
+      background: $color-primary-dark;
+      box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+    }
+  }
+
+  &-secondary {
+    background: transparent;
+    color: $color-primary;
+    border-color: $color-primary;
+
+    &:hover {
+      background: $color-primary;
+      color: $color-text-light;
+    }
+  }
+}
+
+// Reservations Styles
+.reservations-container {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reservations-loading,
+.no-reservations {
+  text-align: center;
+  padding: $space-2xl;
+  color: $color-text-medium;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.reservation-card {
+  background: $color-bg-white;
+  border-radius: 12px;
+  padding: $space-lg;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid $color-accent-light;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.reservation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-md;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-sm;
+  }
+}
+
+.reservation-direction {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: $color-text-dark;
+  margin: 0;
+}
+
+.reservation-status {
+  padding: $space-xs $space-md;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reservation-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-md;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: $space-sm;
+  }
+}
+
+.reservation-datetime,
+.reservation-location {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.reservation-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reservation-date,
+.reservation-time,
+.reservation-location {
+  font-size: 1rem;
+  color: $color-text-dark;
+  font-weight: 500;
+}
+
+// Animations
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

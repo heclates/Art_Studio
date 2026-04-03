@@ -177,18 +177,20 @@ export const createAuthModal = () => {
 
         try {
             if (isLoginMode) {
-                // LOGIN flow
-                // authManager.login should set tokens and fetch profile
-                const profile = await authManager.login(data.username, data.password);
-                // store profile globally for immediate access
-                window.currentUser = profile;
-                successMessage.textContent = t.success.loggedIn;
-                successMessage.style.display = 'block';
-                // close and refresh to update UI (menu, etc.)
-                setTimeout(() => {
-                    closeModal();
-                    window.location.reload();
-                }, 300);
+    const profile = await authManager.login(data.username, data.password);
+
+    // сохраняем профиль глобально и в localStorage
+    window.currentUser = profile;
+    localStorage.setItem('current_user', JSON.stringify(profile));
+
+    successMessage.textContent = t.success.loggedIn;
+    successMessage.style.display = 'block';
+
+    setTimeout(() => {
+        closeModal();
+        window.location.reload();
+    }, 300);
+
             } else {
                 // REGISTER flow
                 await authManager.register({

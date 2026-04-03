@@ -116,5 +116,28 @@ export default {
   submitDefault: 'Записаться',
 
   success: 'Заявка успешно отправлена!',
-  error: 'Ошибка отправки. Проверьте поля.'
+  error: 'Ошибка отправки. Проверьте поля.',
+
+  // Schedule fields
+  day: 'День занятия',
+  time: 'Время занятия',
+  dayPlaceholder: 'Выберите день',
+  timePlaceholder: 'Выберите время',
+
+  // Validation messages
+  locationRequired: 'Выберите локацию',
+  categoryRequired: 'Выберите категорию',
+  directionRequired: 'Выберите направление',
+  dayRequired: 'Выберите день занятия',
+  timeRequired: 'Выберите время занятия',
+  invalidScheduleSlot: 'Выбранное время не соответствует расписанию занятий',
+  invalidEmail: 'Неверный формат email',
+  invalidPhone: 'Неверный формат телефона',
+  fioTooShort: 'ФИО должно содержать минимум 2 символа',
+  invalidBirthdate: 'Неверная дата рождения ребенка',
+  invalidTime: 'Неверный формат времени',
+  unauthorized: 'Необходимо авторизоваться',
+  forbidden: 'Доступ запрещен',
+  tooManyRequests: 'Слишком много запросов. Попробуйте позже.',
+  networkError: 'Ошибка сети. Проверьте подключение к интернету.'
 };

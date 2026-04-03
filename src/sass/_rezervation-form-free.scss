@@ -234,9 +234,59 @@
     animation: fade-in-up $transition-base $ease-out;
   }
 
+  // ====================== ПОЛЯ РАСПИСАНИЯ ======================
+  .schedule-fields {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    padding: $space-md;
+    background: rgba($color-accent-light, 0.1);
+    border: 2px solid $color-accent-light;
+    border-radius: $radius-lg;
+    animation: fade-in $transition-base $ease-out;
+
+    label {
+      color: $color-primary;
+      font-weight: $font-semibold;
+    }
+
+    select {
+      background: $color-bg-white;
+      border-color: $color-accent-light;
+
+      &:focus {
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+      }
+    }
+  }
+
   // ============================================================================
   // АДАПТИВНОСТЬ
   // ============================================================================
+
+  @media (max-width: $breakpoint-tablet) {
+    .schedule-fields {
+      padding: $space-sm;
+      gap: $space-sm;
+
+      select {
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    .schedule-fields {
+      flex-direction: column;
+      gap: $space-sm;
+      padding: $space-sm;
+
+      select {
+        font-size: 16px; // Предотвращает зум на iOS
+      }
+    }
+  }
 
   @include respond-below($breakpoint-md) {
     max-width: 540px;

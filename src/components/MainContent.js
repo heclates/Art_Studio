@@ -9,6 +9,7 @@ import { createContacts } from './contacts/Contacts.js';
 import { createReservationForm } from './forms/freeRezervationForm.js';
 import { subscribe } from '@/utils/languageManager';
 import { createStatickButton } from './StatickButton';
+import { createProfileContent } from './profile/Profile.js';
 
 const LANGUAGE_DEPENDENT_COMPONENTS = [
     createCourses,
@@ -31,10 +32,18 @@ export const createMainContent = async () => {
     const buttonStatick = createStatickButton();
     const introduction = createIntroduction();
 
-    main.append(shape1, shape2, buttonStatick, introduction);
+    // 2. Профиль секция (скрыта по умолчанию)
+    const profileSection = el('section', {
+        id: 'profile',
+        class: 'profile-section',
+        style: 'display: none;'
+    });
+
+    main.append(shape1, shape2, buttonStatick, introduction, profileSection);
 
     let currentDynamicElements = [];
     let reservationForm = null;
+    let currentProfileContent = null;
 
     const renderDynamicContent = async () => {  // Ensure async
         // Cleanup предыдущих элементов
@@ -81,6 +90,42 @@ export const createMainContent = async () => {
     // Первичный рендер динамического контента
     await renderDynamicContent();  // Await initial render
 
+    // Функции управления профилем
+    const showProfile = async () => {
+        // Скрываем все другие секции
+        document.querySelectorAll('main > section:not(.profile-section)').forEach(section => {
+            section.style.display = 'none';
+        });
+
+        // Показываем профиль
+        if (!currentProfileContent) {
+            currentProfileContent = await createProfileContent();
+            profileSection.innerHTML = '';
+            profileSection.appendChild(currentProfileContent);
+        }
+        profileSection.style.display = 'block';
+
+        // Скроллим к профилю
+        setTimeout(() => {
+            profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    const hideProfile = () => {
+        profileSection.style.display = 'none';
+        // Показываем все секции обратно
+        document.querySelectorAll('main > section:not(.profile-section)').forEach(section => {
+            section.style.display = 'block';
+        });
+    };
+
+    // Делаем функции доступными глобально для UserMenu
+    if (typeof window !== 'undefined') {
+        window.mainContentControls = {
+            showProfile,
+            hideProfile
+        };
+    }
 
     // Cleanup для main
     main.cleanup = () => {
@@ -94,6 +139,9 @@ export const createMainContent = async () => {
         });
         if (reservationForm && typeof reservationForm.cleanup === 'function') {
             reservationForm.cleanup();
+        }
+        if (currentProfileContent && typeof currentProfileContent.cleanup === 'function') {
+            currentProfileContent.cleanup();
         }
     };
 

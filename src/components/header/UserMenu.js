@@ -58,10 +58,18 @@ export const createUserMenu = () => {
 
     const dropdown = el('div', { class: 'header__user-dropdown' });
 
-    const profileLink = el('a', {
-        href: '/profile',
+    const profileLink = el('button', {
         class: 'header__user-dropdown-item',
         textContent: t.profile
+    });
+
+    profileLink.addEventListener('click', () => {
+        if (window.mainContentControls && window.mainContentControls.showProfile) {
+            window.mainContentControls.showProfile();
+        }
+        // Close dropdown
+        isOpen = false;
+        dropdown.classList.remove('active');
     });
 
     dropdown.appendChild(profileLink);

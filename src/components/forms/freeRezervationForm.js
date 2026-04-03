@@ -4,6 +4,7 @@ import axios from 'axios';
 import ru from '@/i18n/forms/ru.js';
 import en from '@/i18n/forms/en.js';
 import { getLanguage } from '@/utils/languageManager';
+import { getAvailableSlots, validateScheduleSlot, formatScheduleTime, getNextAvailableDate } from '@/utils/scheduleUtils.js';
 
 axios.defaults.baseURL = '/api/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -30,7 +31,9 @@ export const createReservationForm = () => {
     certType: null,
     certAmount: null,
     theme: null,
-    accessEmail: null
+    accessEmail: null,
+    day: null,
+    time: null
   };
 
   // use i18n lists as fallback / primary source
@@ -50,6 +53,13 @@ export const createReservationForm = () => {
   const categorySelect = el('select', { id: 'category', name: 'category', required: true });
   const directionSelect = el('select', { id: 'direction', name: 'direction', required: true });
 
+  // Поля для расписания
+  const daySelect = el('select', { id: 'day', name: 'day', required: true });
+  const timeSelect = el('select', { id: 'time', name: 'time', required: true });
+  const scheduleContainer = el('div', { class: 'schedule-fields', style: 'display: none;' });
+  const dayLabel = el('label', { for: 'day', textContent: t.day || 'День занятия' });
+  const timeLabel = el('label', { for: 'time', textContent: t.time || 'Время занятия' });
+
   // render selects from i18n first; if API available, you can merge later
   const populateFromI18n = () => {
     locationSelect.innerHTML = `<option value="">${t.locationPlaceholder}</option>`;
@@ -63,6 +73,74 @@ export const createReservationForm = () => {
 
   populateFromI18n();
 
+  // Функция для обновления полей расписания
+  const updateScheduleFields = () => {
+    if (!selected.location || !selected.direction || !selected.category) {
+      scheduleContainer.style.display = 'none';
+      return;
+    }
+
+    const locationSlug = selected.location.slug;
+    const directionSlug = selected.direction.slug;
+    const categorySlug = selected.category.slug;
+
+    const availableSlots = getAvailableSlots(locationSlug, directionSlug, categorySlug);
+
+    if (availableSlots.length === 0) {
+      scheduleContainer.style.display = 'none';
+      return;
+    }
+
+    // Заполняем селект дней
+    daySelect.innerHTML = `<option value="">${t.dayPlaceholder || 'Выберите день'}</option>`;
+    const uniqueDays = [...new Set(availableSlots.map(slot => slot.day))];
+
+    uniqueDays.forEach(day => {
+      const dayLabel = availableSlots.find(slot => slot.day === day)?.dayLabel || day;
+      const nextDate = getNextAvailableDate(day);
+      const option = el('option', {
+        value: nextDate || day,
+        textContent: `${dayLabel}${nextDate ? ` (${nextDate})` : ''}`
+      });
+      daySelect.appendChild(option);
+    });
+
+    // Очищаем время
+    timeSelect.innerHTML = `<option value="">${t.timePlaceholder || 'Сначала выберите день'}</option>`;
+
+    scheduleContainer.style.display = 'block';
+    selected.day = null;
+    selected.time = null;
+  };
+
+  // Функция для обновления времени при выборе дня
+  const updateTimeField = () => {
+    if (!selected.day || !selected.location || !selected.direction || !selected.category) {
+      timeSelect.innerHTML = `<option value="">${t.timePlaceholder || 'Сначала выберите день'}</option>`;
+      return;
+    }
+
+    const locationSlug = selected.location.slug;
+    const directionSlug = selected.direction.slug;
+    const categorySlug = selected.category.slug;
+
+    const availableSlots = getAvailableSlots(locationSlug, directionSlug, categorySlug);
+    const daySlots = availableSlots.filter(slot => {
+      const nextDate = getNextAvailableDate(slot.day);
+      return (nextDate === selected.day) || (slot.day === selected.day);
+    });
+
+    timeSelect.innerHTML = `<option value="">${t.timePlaceholder || 'Выберите время'}</option>`;
+
+    daySlots.forEach(slot => {
+      const option = el('option', {
+        value: slot.time,
+        textContent: formatScheduleTime(slot.time)
+      });
+      timeSelect.appendChild(option);
+    });
+  };
+
   // when category changes, populate directions from i18n for that category
   categorySelect.addEventListener('change', e => {
     const slug = e.target.value;
@@ -73,11 +151,13 @@ export const createReservationForm = () => {
     (list || []).forEach(d => directionSelect.append(el('option', { value: d.slug, textContent: d.title })));
     selected.direction = null;
     clearDynamicFields();
+    updateScheduleFields();
   });
 
   locationSelect.addEventListener('change', e => {
     const slug = e.target.value;
     selected.location = locationsI18n.find(l => l.slug === slug) || { slug, title: e.target.selectedOptions[0]?.textContent || slug };
+    updateScheduleFields();
   });
 
   directionSelect.addEventListener('change', e => {
@@ -85,6 +165,17 @@ export const createReservationForm = () => {
     const list = (selected.category && selected.category.slug === 'children') ? directionsI18n.children : directionsI18n.adults;
     selected.direction = (list || []).find(d => d.slug === slug) || { slug, title: e.target.selectedOptions[0]?.textContent || slug };
     showBranchingFields();
+    updateScheduleFields();
+  });
+
+  // Обработчики для полей расписания
+  daySelect.addEventListener('change', e => {
+    selected.day = e.target.value;
+    updateTimeField();
+  });
+
+  timeSelect.addEventListener('change', e => {
+    selected.time = e.target.value;
   });
 
   // dynamic fields helpers
@@ -204,6 +295,91 @@ export const createReservationForm = () => {
     return val;
   };
 
+  const validateReservationData = (data) => {
+    const errors = [];
+
+    // Проверка обязательных полей
+    if (!data.location_slug) {
+      errors.push(t.locationRequired || 'Выберите локацию');
+    }
+    if (!data.category_slug) {
+      errors.push(t.categoryRequired || 'Выберите категорию');
+    }
+    if (!data.direction_slug) {
+      errors.push(t.directionRequired || 'Выберите направление');
+    }
+
+    // Проверка расписания для групповых занятий
+    if (selected.category && selected.location && selected.direction) {
+      const isGroupLesson = !['individual_child', 'individual_adult', 'art_parties', 'online_lessons', 'art_boxes_child', 'art_boxes_adult', 'gift_certificates_child', 'gift_certificates_adult'].includes(selected.direction.slug);
+
+      if (isGroupLesson) {
+        if (!data.day) {
+          errors.push(t.dayRequired || 'Выберите день занятия');
+        }
+        if (!data.time) {
+          errors.push(t.timeRequired || 'Выберите время занятия');
+        }
+
+        // Валидация соответствия расписанию
+        if (data.day && data.time) {
+          const isValidSlot = validateScheduleSlot(
+            selected.location.slug,
+            selected.direction.slug,
+            selected.category.slug,
+            data.day,
+            data.time
+          );
+
+          if (!isValidSlot) {
+            errors.push(t.invalidScheduleSlot || 'Выбранное время не соответствует расписанию занятий');
+          }
+        }
+      }
+    }
+
+    // Валидация email
+    const emailFields = ['email', 'parent_email', 'access_email'];
+    emailFields.forEach(field => {
+      if (data[field] && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[field])) {
+        errors.push(`${field}: ${t.invalidEmail || 'Неверный формат email'}`);
+      }
+    });
+
+    // Валидация телефона
+    const phoneFields = ['phone', 'parent_phone'];
+    phoneFields.forEach(field => {
+      if (data[field] && !/^[\+]?[0-9\s\-\(\)]{7,}$/.test(data[field])) {
+        errors.push(`${field}: ${t.invalidPhone || 'Неверный формат телефона'}`);
+      }
+    });
+
+    // Валидация ФИО
+    const fioFields = ['fio', 'parent_fio', 'child_fio'];
+    fioFields.forEach(field => {
+      if (data[field] && data[field].trim().length < 2) {
+        errors.push(`${field}: ${t.fioTooShort || 'ФИО должно содержать минимум 2 символа'}`);
+      }
+    });
+
+    // Валидация даты рождения ребенка
+    if (data.child_birthdate) {
+      const birthDate = new Date(data.child_birthdate);
+      const now = new Date();
+      const age = now.getFullYear() - birthDate.getFullYear();
+      if (age < 0 || age > 18) {
+        errors.push(t.invalidBirthdate || 'Неверная дата рождения ребенка');
+      }
+    }
+
+    // Валидация времени
+    if (data.time && !/^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/.test(data.time)) {
+      errors.push(t.invalidTime || 'Неверный формат времени');
+    }
+
+    return errors;
+  };
+
   // submit handler: build payload with slugs and titles
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -244,29 +420,122 @@ export const createReservationForm = () => {
       message: fd.get('message') || null
     };
 
+    // Валидация данных перед отправкой
+    const validationErrors = validateReservationData(payload);
+    if (validationErrors.length > 0) {
+      errorMessage.textContent = validationErrors.join('\n');
+      errorMessage.style.display = 'block';
+      submitButton.disabled = false;
+      return;
+    }
+
     try {
       const res = await axios.post('reservations/', payload);
       successMessage.textContent = t.success;
       successMessage.style.display = 'block';
       form.reset();
       clearDynamicFields();
-      selected = { location: null, category: null, direction: null, visitType: null, artBoxType: null, deliveryType: null, certType: null, certAmount: null, theme: null, accessEmail: null };
+      selected = { location: null, category: null, direction: null, visitType: null, artBoxType: null, deliveryType: null, certType: null, certAmount: null, theme: null, accessEmail: null, day: null, time: null };
+      scheduleContainer.style.display = 'none';
     } catch (err) {
-      const apiErr = err.response?.data;
+      console.error('Reservation submission error:', err);
       errorMessage.style.display = 'block';
-      if (apiErr && typeof apiErr === 'object') {
-        const firstKey = Object.keys(apiErr)[0];
-        errorMessage.textContent = Array.isArray(apiErr[firstKey]) ? apiErr[firstKey][0] : JSON.stringify(apiErr);
-      } else {
-        errorMessage.textContent = err.message || t.error;
+
+      let errorMsg = t.error || 'Произошла ошибка при отправке формы';
+
+      if (err.response) {
+        const status = err.response.status;
+        const data = err.response.data;
+
+        if (status === 400 && data) {
+          // Валидационные ошибки от сервера
+          const errors = [];
+          Object.keys(data).forEach(key => {
+            if (Array.isArray(data[key])) {
+              errors.push(`${key}: ${data[key].join(', ')}`);
+            } else if (typeof data[key] === 'string') {
+              errors.push(`${key}: ${data[key]}`);
+            } else {
+              errors.push(`${key}: ${JSON.stringify(data[key])}`);
+            }
+          });
+          errorMsg = errors.join('\n');
+        } else if (status === 401) {
+          errorMsg = t.unauthorized || 'Необходимо авторизоваться';
+        } else if (status === 403) {
+          errorMsg = t.forbidden || 'Доступ запрещен';
+        } else if (status >= 500) {
+          errorMsg = t.serverError || 'Ошибка сервера. Попробуйте позже.';
+        } else if (status === 429) {
+          errorMsg = t.tooManyRequests || 'Слишком много запросов. Попробуйте позже.';
+        }
+      } else if (err.request) {
+        errorMsg = t.networkError || 'Ошибка сети. Проверьте подключение к интернету.';
       }
+
+      errorMessage.textContent = errorMsg;
     } finally {
       submitButton.disabled = false;
     }
   });
 
+  // Функция для автозаполнения формы данными из профиля
+  const autoFillFromProfile = () => {
+    try {
+      // Получаем данные пользователя из профиля
+      const user = (typeof window !== 'undefined' && window.currentUser) ||
+                   (typeof localStorage !== 'undefined' && JSON.parse(localStorage.getItem('current_user') || '{}')) ||
+                   {};
+
+      if (!user || Object.keys(user).length === 0) {
+        console.warn('No user data available for auto-fill');
+        return;
+      }
+
+      // Валидируем данные профиля перед автозаполнением
+      if (!user.first_name && !user.last_name && !user.email && !user.phone) {
+        console.warn('User profile data is incomplete for auto-fill');
+        return;
+      }
+
+      // Задержка для того, чтобы поля формы успели создаться
+      setTimeout(() => {
+        // Заполняем поля, если они существуют
+        const fieldsToFill = [
+          { name: 'parent_fio', value: `${user.first_name || ''} ${user.last_name || ''}`.trim() },
+          { name: 'child_fio', value: '' }, // Для ребенка оставляем пустым
+          { name: 'fio', value: `${user.first_name || ''} ${user.last_name || ''}`.trim() },
+          { name: 'phone', value: user.phone || '' },
+          { name: 'email', value: user.email || '' }
+        ];
+
+        let filledCount = 0;
+        fieldsToFill.forEach(({ name, value }) => {
+          const input = form.querySelector(`[name="${name}"]`);
+          if (input && value && !input.value) { // Заполняем только если поле пустое
+            input.value = value;
+            filledCount++;
+          }
+        });
+
+        if (filledCount > 0) {
+          console.log(`Auto-filled ${filledCount} fields from profile`);
+        }
+      }, 100);
+    } catch (error) {
+      console.error('Error auto-filling form from profile:', error);
+    }
+  };
+
+  // Делаем функцию доступной глобально
+  if (typeof window !== 'undefined') {
+    window.reservationFormAutoFill = autoFillFromProfile;
+  }
+
+  scheduleContainer.append(dayLabel, daySelect, timeLabel, timeSelect);
+
   // initial render
-  form.append(locationSelect, categorySelect, directionSelect, errorMessage, successMessage, submitButton);
+  form.append(locationSelect, categorySelect, directionSelect, scheduleContainer, errorMessage, successMessage, submitButton);
   section.append(h2, form);
   section.cleanup = () => clearDynamicFields();
   return section;

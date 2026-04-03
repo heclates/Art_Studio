@@ -7,10 +7,65 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const ACCESS_KEY = 'access_token';
 const REFRESH_KEY = 'refresh_token';
 
+// Флаг для предотвращения множественных попыток обновления токена
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 export const authManager = {
   init() {
     const token = localStorage.getItem(ACCESS_KEY);
     if (token) axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    // Добавляем interceptor для автоматического обновления токенов
+    axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          if (isRefreshing) {
+            return new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
+            }).then(token => {
+              originalRequest.headers['Authorization'] = `Bearer ${token}`;
+              return axios(originalRequest);
+            }).catch(err => Promise.reject(err));
+          }
+
+          originalRequest._retry = true;
+          isRefreshing = true;
+
+          try {
+            const newToken = await this.refreshToken();
+            if (newToken) {
+              processQueue(null, newToken);
+              originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+              return axios(originalRequest);
+            }
+          } catch (refreshError) {
+            processQueue(refreshError, null);
+            this.logout();
+            return Promise.reject(refreshError);
+          } finally {
+            isRefreshing = false;
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
   },
 
   async register(payload) {
@@ -56,9 +111,27 @@ export const authManager = {
   },
 
   async fetchProfile() {
-    const res = await axios.get('auth/profile/');
-    localStorage.setItem('current_user', JSON.stringify(res.data));
-    return res.data;
+    try {
+      const res = await axios.get('auth/profile/');
+      localStorage.setItem('current_user', JSON.stringify(res.data));
+      return res.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        // Попытка обновить токен
+        const newToken = await this.refreshToken();
+        if (newToken) {
+          // Повторная попытка с новым токеном
+          try {
+            const res = await axios.get('auth/profile/');
+            localStorage.setItem('current_user', JSON.stringify(res.data));
+            return res.data;
+          } catch (retryError) {
+            throw retryError;
+          }
+        }
+      }
+      throw error;
+    }
   },
 
   async verifyEmail(token) {

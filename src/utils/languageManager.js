@@ -1,7 +1,21 @@
-let currentLanguage = localStorage.getItem('language') || 'ru';  // Инициализация из localStorage для сохранения выбора после перезагрузки
+let currentLanguage = null; // Will be initialized lazily
 const subscribers = new Set(); // Use Set to prevent duplicate subscriptions
 
-export const getLanguage = () => currentLanguage;
+const initializeLanguage = () => {
+  if (currentLanguage === null) {
+    // Check if we're in browser environment
+    if (typeof localStorage !== 'undefined') {
+      currentLanguage = localStorage.getItem('language') || 'ru';
+    } else {
+      currentLanguage = 'ru'; // Default for server-side
+    }
+  }
+  return currentLanguage;
+};
+
+export const getLanguage = () => {
+  return initializeLanguage();
+};
 
 export const setLanguage = (lang) => {
   // Валидация языка (опционально: только поддерживаемые языки)
@@ -12,7 +26,10 @@ export const setLanguage = (lang) => {
 
   if (currentLanguage !== lang) {
     currentLanguage = lang;
-    localStorage.setItem('language', lang);
+    // Check if we're in browser environment
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('language', lang);
+    }
     
     // Notify all subscribers
     subscribers.forEach(callback => {

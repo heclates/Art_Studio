@@ -5,7 +5,7 @@ export const headerEN = {
     { href: '#schedule', text: 'Rozvrh' },
     { href: '#price', text: 'Ceník' },
     { href: '#gallery-title', text: 'Galerie' },
-    { href: '#teams-title', text: 'Náš tým' },
+    { href: '#teams', text: 'Náš tým' },
     { href: '#contacts', text: 'Naše kontakty' },
         { href: '#reservation-form-free', text: 'Rezervace' }
     ],

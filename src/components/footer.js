@@ -128,6 +128,13 @@ const createContacts = () => {
     const prague2Link = createAddressLink(CONTACTS.addressPrague2, 'Prague 2');
     if (prague2Link) wrapper.appendChild(prague2Link);
 
+        const sidloElement = el('span', { class: 'footer__sidlo', textContent: `Sidlo: ${CONTACTS.sidlo}` });
+    wrapper.appendChild(el('span', { class: 'footer__address-separator', textContent: ' | ' }));
+    wrapper.appendChild(sidloElement);
+
+    const icoElement = el('span', { class: 'footer__ico', textContent: `IČO: ${CONTACTS.ico}` });
+    wrapper.appendChild(el('span', { class: 'footer__address-separator', textContent: ' | ' }));
+    wrapper.appendChild(icoElement);
     return wrapper;
 };
 
