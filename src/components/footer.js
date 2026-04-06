@@ -3,9 +3,9 @@ import { CONTACTS } from '@/constants/contacts.js';
 import { SOCIALS } from '@/constants/social.js';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 import { footerRU } from '@/i18n/footer/ru.js';
-import { footerEN } from '@/i18n/footer/en.js';
+import { footerEN as footerCS } from '@/i18n/footer/en.js';
 
-const FOOTER_TRANSLATIONS = { ru: footerRU, en: footerEN, default: footerRU };
+const FOOTER_TRANSLATIONS = { ru: footerRU, cs: footerCS, default: footerRU };
 
 const createNavMenu = (texts) => {
     const navList = el('ul', { 

@@ -1,11 +1,23 @@
 let currentLanguage = null; // Will be initialized lazily
 const subscribers = new Set(); // Use Set to prevent duplicate subscriptions
+const SUPPORTED_LANGUAGES = ['ru', 'cs'];
+
+const normalizeLanguage = (lang) => {
+  if (lang === 'en') return 'cs';
+  if (SUPPORTED_LANGUAGES.includes(lang)) return lang;
+  return 'ru';
+};
 
 const initializeLanguage = () => {
   if (currentLanguage === null) {
     // Check if we're in browser environment
     if (typeof localStorage !== 'undefined') {
-      currentLanguage = localStorage.getItem('language') || 'ru';
+      const storedLanguage = localStorage.getItem('language') || 'ru';
+      const normalizedLanguage = normalizeLanguage(storedLanguage);
+      currentLanguage = normalizedLanguage;
+      if (storedLanguage !== normalizedLanguage) {
+        localStorage.setItem('language', normalizedLanguage);
+      }
     } else {
       currentLanguage = 'ru'; // Default for server-side
     }
@@ -18,8 +30,9 @@ export const getLanguage = () => {
 };
 
 export const setLanguage = (lang) => {
-  // Валидация языка (опционально: только поддерживаемые языки)
-  if (!['ru', 'en'].includes(lang)) {
+  lang = normalizeLanguage(lang);
+
+  if (!SUPPORTED_LANGUAGES.includes(lang)) {
     console.warn(`Unsupported language: ${lang}. Falling back to 'ru'.`);
     lang = 'ru';
   }

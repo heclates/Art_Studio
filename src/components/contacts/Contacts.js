@@ -2,11 +2,11 @@ import { el } from '@/utils/createElement.js';
 import { createLocationContent } from './ContactsDOM.js';
 import { getLanguage } from '@/utils/languageManager';
 import { contactsRU } from '@/i18n/contacts/ru.js';
-import { contactsEN } from '@/i18n/contacts/en.js';
+import { contactsEN as contactsCS } from '@/i18n/contacts/en.js';
 
 const languageMap = {
     ru: contactsRU,
-    en: contactsEN,
+    cs: contactsCS,
     default: contactsRU
 };
 

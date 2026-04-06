@@ -140,8 +140,13 @@ export const createMainContent = async () => {
         if (reservationForm && typeof reservationForm.cleanup === 'function') {
             reservationForm.cleanup();
         }
-        if (currentProfileContent && typeof currentProfileContent.cleanup === 'function') {
-            currentProfileContent.cleanup();
+        if (currentProfileContent) {
+            if (typeof currentProfileContent.cleanup === 'function') {
+                currentProfileContent.cleanup();
+            }
+            if (typeof currentProfileContent._unsubscribe === 'function') {
+                currentProfileContent._unsubscribe();
+            }
         }
     };
 

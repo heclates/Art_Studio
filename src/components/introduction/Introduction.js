@@ -3,9 +3,8 @@ import { createAbout } from './IntroductionAbout.js';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 
 import { introductionRU } from '@/i18n/introduction/ru.js';
-import { introductionEN } from '@/i18n/introduction/en.js';
-import { signTextRU, signTextEN } from '@/i18n/signText.js';
-
+import { introductionEN as introductionCS } from '@/i18n/introduction/en.js';
+import { signTextRU, signTextEN as signTextCS } from '@/i18n/signText.js';
 
 const normalizeLang = (lang) => {
   return lang;
@@ -13,7 +12,7 @@ const normalizeLang = (lang) => {
 
 const INTRO_TRANSLATIONS = {
   ru: introductionRU,
-  en: introductionEN
+  cs: introductionCS
 };
 
 const getTexts = (lang) => {
@@ -28,10 +27,10 @@ const updateIntroductionContent = (lang, aboutWrapper, buttonRezervation, button
   aboutWrapper.replaceChildren(createAbout(texts));
 
   buttonRezervation.textContent =
-    normalized === 'ru' ? signTextRU.rezervation : signTextEN.rezervation;
+    normalized === 'ru' ? signTextRU.rezervation : signTextCS.rezervation;
 
   buttonShift.textContent =
-    normalized === 'ru' ? signTextRU.schedule : signTextEN.schedule;
+    normalized === 'ru' ? signTextRU.schedule : signTextCS.schedule;
 };
 
 

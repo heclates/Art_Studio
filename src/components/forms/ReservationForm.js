@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios from '@/utils/apiClient.js'
 import DOMPurify from 'dompurify'
 import { closeModal } from '@/components/Modal'
-
-const API = '/api/'
+import { getLanguage } from '@/utils/languageManager'
+import ru from '@/i18n/forms/ru.js'
+import cs from '@/i18n/forms/en.js'
 
 export const createReservationForm = ({
   courseTitle,
@@ -34,7 +35,27 @@ export const createReservationForm = ({
   const error = form.querySelector('.error')
   const success = form.querySelector('.success')
 
-  axios.get(`${API}timeslots/`, {
+  const parseApiErrorMessage = (err) => {
+    if (!err || !err.response) return 'Ошибка отправки. Попробуйте снова.'
+    const data = err.response.data || {}
+    const rawMessage = (
+      data.non_field_errors?.[0] ||
+      data.detail ||
+      data.message ||
+      data.error ||
+      'Повторная запись невозможна. У вас уже есть активная бронь на это время.'
+    )
+    
+    // Translate known error keys
+    if (rawMessage === 'duplicate_booking') {
+      const t = getLanguage() === 'ru' ? ru : cs
+      return t.duplicateBooking || 'Повторная запись невозможна. У вас уже есть активная бронь на это время.'
+    }
+    
+    return rawMessage
+  }
+
+  axios.get('timeslots/', {
     params: {
       course_title: courseTitle,
       day_of_week: dayOfWeek
@@ -64,14 +85,14 @@ export const createReservationForm = ({
 
     try {
       const token = localStorage.getItem('access_token')
-      await axios.post(`${API}reservations/`, payload, {
+      await axios.post('reservations/', payload, {
         headers: token ? { Authorization: `Bearer ${token}` } : {}
       })
 
       success.style.display = 'block'
       setTimeout(closeModal, 2000)
     } catch (e) {
-      error.textContent = 'Ошибка отправки'
+      error.textContent = parseApiErrorMessage(e)
       error.style.display = 'block'
     }
   })

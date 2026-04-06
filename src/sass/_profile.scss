@@ -1,8 +1,169 @@
-@use "sass:color";
-@use "variables" as *;
-@use "animation" as *;
-@use "mixins" as *;
+@use "./variables" as *;
+@use "./animation" as *;
 
+.reservation-cancel-btn {
+  background: linear-gradient(90deg, $color-danger, $color-danger-light);
+  color: $color-text-light;
+  border: none;
+  border-radius: 8px;
+  padding: $space-sm $space-lg;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: $shadow-sm;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  &:hover {
+    background: linear-gradient(90deg, darken($color-danger, 10%), darken($color-danger-light, 10%));
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.profile-reservations {
+  background: $color-glass-white;
+  border-radius: 16px;
+  box-shadow: $shadow-glass;
+  padding: $space-2xl;
+  margin-bottom: $space-2xl;
+  transition: box-shadow 0.3s, background 0.3s;
+  @media (max-width: 768px) {
+    padding: $space-xl;
+  }
+}
+
+.profile-filters {
+  display: flex;
+  gap: $space-md;
+  margin-bottom: $space-xl;
+  flex-wrap: wrap;
+  align-items: center;
+  background: $color-bg-white;
+  border-radius: 12px;
+  box-shadow: $shadow-xs;
+  padding: $space-md $space-lg;
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: $space-sm;
+    padding: $space-sm $space-md;
+  }
+}
+
+.profile-filter {
+  padding: $space-sm $space-md;
+  border-radius: 8px;
+  border: 1.5px solid $color-accent-light;
+  background: $color-bg-white;
+  color: $color-text-dark;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 160px;
+  cursor: pointer;
+  box-shadow: $shadow-xs;
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
+  }
+}
+
+.profile-distribution-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: $color-primary-dark;
+  margin-bottom: $space-md;
+  margin-top: $space-lg;
+  letter-spacing: 0.02em;
+}
+
+.profile-distribution {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-md;
+  margin-bottom: $space-xl;
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.reservation-actions {
+  display: flex;
+  gap: $space-md;
+  margin-top: $space-md;
+  flex-wrap: wrap;
+}
+
+.reservation-confirm-btn {
+  background: linear-gradient(90deg, $color-primary, $color-secondary);
+  color: $color-text-light;
+  border: none;
+  border-radius: 8px;
+  padding: $space-sm $space-lg;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: $shadow-sm;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  &:hover {
+    background: linear-gradient(90deg, $color-primary-dark, $color-secondary-dark);
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.profile-filters {
+  display: flex;
+  gap: $space-md;
+  margin-bottom: $space-lg;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.profile-filter {
+  padding: $space-sm $space-md;
+  border-radius: 8px;
+  border: 1.5px solid $color-accent-light;
+  background: $color-bg-white;
+  color: $color-text-dark;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: border-color 0.2s;
+  min-width: 160px;
+  cursor: pointer;
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+  }
+}
+
+.profile-pagination {
+  display: flex;
+  gap: $space-xs;
+  justify-content: center;
+  margin: $space-lg 0 0 0;
+}
+
+.profile-page-btn {
+  background: $color-bg-white;
+  color: $color-primary;
+  border: 1.5px solid $color-primary;
+  border-radius: 8px;
+  padding: $space-xs $space-md;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  &.active, &:hover {
+    background: $color-primary;
+    color: $color-text-light;
+  }
+}
 .profile-page {
   width: 100%;
   min-height: 100vh;
@@ -244,6 +405,129 @@
 
   @media (max-width: 480px) {
     flex-direction: column;
+  }
+}
+
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: $space-lg;
+  margin-bottom: $space-lg;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $color-primary, $color-secondary);
+  color: $color-text-light;
+  font-size: 2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.profile-summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.profile-summary-name {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.profile-summary-role {
+  margin: 0;
+  color: $color-primary;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-summary-text {
+  margin: 0;
+  color: $color-text-medium;
+  max-width: 560px;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $space-md;
+  margin-bottom: $space-xl;
+}
+
+.profile-stat-card {
+  background: $color-bg-white;
+  border-radius: 16px;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.profile-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $color-text-dark;
+}
+
+.profile-stat-label {
+  font-size: 0.95rem;
+  color: $color-text-medium;
+}
+
+.profile-distribution {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-md;
+  margin-bottom: $space-xl;
+}
+
+.profile-distribution-item {
+  background: $color-bg-white;
+  border-radius: 14px;
+  padding: $space-md;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.profile-distribution-name {
+  font-weight: 600;
+  color: $color-text-dark;
+}
+
+.profile-distribution-value {
+  font-weight: 700;
+  color: $color-primary;
+}
+
+@media (max-width: 1024px) {
+  .profile-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-distribution {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-stat-card {
+    padding: $space-md;
   }
 }
 

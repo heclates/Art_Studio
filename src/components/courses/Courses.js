@@ -2,14 +2,14 @@ import { initSwiper } from '@/components/shift/ShiftSwiper'
 import { el } from '@/utils/createElement'
 import { getLanguage, subscribe } from '@/utils/languageManager'
 import { coursesRU } from '@/i18n/courses/ru'
-import { coursesEN } from '@/i18n/courses/en'
+import { coursesEN as coursesCS } from '@/i18n/courses/en'
 import { createCourseCard } from './CoursesCard'
 import { createCourseDetailsModal } from './CoursesModal'
 import { openModal } from '@/components/Modal'
 
 const COURSES_MAP = {
   ru: coursesRU,
-  en: coursesEN
+  cs: coursesCS
 }
 
 const getCourseContent = (lang) => COURSES_MAP[lang] || COURSES_MAP.ru
@@ -53,7 +53,7 @@ export const createCourses = () => {
     currentCourses.forEach((course, i) => {
       const slide = el('div', { class: 'swiper-slide' })
       slide.style.setProperty('--slide-index', i)
-      slide.append(createCourseCard(course))
+      slide.append(createCourseCard(course, content.moreText))
       wrapper.appendChild(slide)
     })
 
@@ -159,7 +159,7 @@ const animateCoursesTransition = (wrapper, courses, done) => {
     courses.forEach((course, index) => {
       const slide = el('div', { class: 'swiper-slide' })
       slide.style.setProperty('--slide-index', index)
-      slide.append(createCourseCard(course))
+      slide.append(createCourseCard(course, getCourseContent(getLanguage()).moreText))
       wrapper.appendChild(slide)
     })
 

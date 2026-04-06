@@ -1,7 +1,7 @@
 import { el } from '@/utils/createElement';
 import { authManager } from '@/utils/authManager';
 import { createAuthModal } from '@/components/auth/authModal';
-import { getLanguage } from '@/utils/languageManager';
+import { getLanguage, subscribe } from '@/utils/languageManager';
 
 const TEXTS = {
     ru: {
@@ -10,7 +10,7 @@ const TEXTS = {
         admin: 'Админ-панель',
         logout: 'Выйти'
     },
-    en: {
+    cs: {
         login: 'Přihlášení',
         profile: 'Profil',
         admin: 'Administrace',
@@ -19,21 +19,26 @@ const TEXTS = {
 };
 
 export const createUserMenu = () => {
-    const lang = getLanguage();
-    const t = TEXTS[lang] || TEXTS.ru;
-
     const user = authManager.getUser();
     const isAuth = authManager.isAuthenticated();
 
     if (!isAuth) {
         const loginBtn = el('button', {
             class: 'header__login-btn',
-            textContent: t.login
+            textContent: TEXTS[getLanguage()].login
         });
 
         loginBtn.addEventListener('click', () => {
             createAuthModal();
         });
+
+        // Subscribe to language changes
+        const unsubscribe = subscribe((newLang) => {
+            loginBtn.textContent = TEXTS[newLang].login;
+        });
+
+        // Store unsubscribe for cleanup if needed
+        loginBtn._unsubscribe = unsubscribe;
 
         return loginBtn;
     }
@@ -60,7 +65,7 @@ export const createUserMenu = () => {
 
     const profileLink = el('button', {
         class: 'header__user-dropdown-item',
-        textContent: t.profile
+        textContent: TEXTS[getLanguage()].profile
     });
 
     profileLink.addEventListener('click', () => {
@@ -78,14 +83,14 @@ export const createUserMenu = () => {
         const adminLink = el('a', {
             href: '/admin-dashboard',
             class: 'header__user-dropdown-item',
-            textContent: t.admin
+            textContent: TEXTS[getLanguage()].admin
         });
         dropdown.appendChild(adminLink);
     }
 
     const logoutBtn = el('button', {
         class: 'header__user-dropdown-item',
-        textContent: t.logout
+        textContent: TEXTS[getLanguage()].logout
     });
 
     logoutBtn.addEventListener('click', () => {
@@ -93,6 +98,19 @@ export const createUserMenu = () => {
     });
 
     dropdown.appendChild(logoutBtn);
+
+    // Subscribe to language changes
+    const unsubscribe = subscribe((newLang) => {
+        const t = TEXTS[newLang];
+        profileLink.textContent = t.profile;
+        logoutBtn.textContent = t.logout;
+        if (adminLink) {
+            adminLink.textContent = t.admin;
+        }
+    });
+
+    // Store unsubscribe for cleanup if needed
+    userMenu._unsubscribe = unsubscribe;
 
     let isOpen = false;
 

@@ -8,12 +8,12 @@ import { setupLazyLoad, setupHoverEffects } from './GalleryEffect';
 import { createGalleryDOM } from './GalleryDOM';
 
 import { galleryRU } from '@/i18n/gallery/ru';
-import { galleryEN } from '@/i18n/gallery/en';
+import { galleryEN as galleryCS } from '@/i18n/gallery/en';
 import { openModal } from '../Modal';
 
 const TRANSLATIONS = {
   ru: galleryRU,
-  en: galleryEN,
+  cs: galleryCS,
   default: galleryRU
 };
 

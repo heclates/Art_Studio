@@ -17,11 +17,11 @@ export const createLanguageSwitcher = () => {
   });
 
   // Create buttons
-  const btnRu = createLanguageButton('ru', 'RU');
-  const btnEn = createLanguageButton('en', 'CZ');
+  const btnRu = createLanguageButton('ru', 'Ру');
+  const btnCs = createLanguageButton('cs', 'Cz');
 
   container.appendChild(btnRu);
-  container.appendChild(btnEn);
+  container.appendChild(btnCs);
 
   // Set initial active state
   updateActiveButton(container, currentLang);

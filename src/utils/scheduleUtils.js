@@ -1,6 +1,6 @@
 // src/utils/scheduleUtils.js
 import { shiftRU } from '@/i18n/shift/ru.js';
-import { shiftEN } from '@/i18n/shift/en.js';
+import { shiftEN as shiftCS } from '@/i18n/shift/en.js';
 import { getLanguage } from '@/utils/languageManager.js';
 
 const DAYS_OF_WEEK = {
@@ -13,7 +13,7 @@ const DAYS_OF_WEEK = {
     saturday: 'Суббота',
     sunday: 'Воскресенье'
   },
-  en: {
+  cs: {
     monday: 'Pondělí',
     tuesday: 'Úterý',
     wednesday: 'Středa',
@@ -26,7 +26,7 @@ const DAYS_OF_WEEK = {
 
 export const getScheduleData = () => {
   const lang = getLanguage();
-  return lang === 'ru' ? shiftRU : shiftEN;
+  return lang === 'ru' ? shiftRU : shiftCS;
 };
 
 export const getAvailableSlots = (locationSlug, directionSlug, categorySlug) => {
@@ -60,9 +60,11 @@ export const getAvailableSlots = (locationSlug, directionSlug, categorySlug) => 
     const key = `${lesson.day}-${lesson.time}`;
     if (!seen.has(key)) {
       seen.add(key);
+      const startTime = getScheduleStartTime(lesson.time);
       slots.push({
         day: lesson.day,
         time: lesson.time,
+        startTime,
         category: lesson.category,
         age: lesson.age,
         teacher: lesson.teacher,
@@ -77,14 +79,27 @@ export const getAvailableSlots = (locationSlug, directionSlug, categorySlug) => 
 export const validateScheduleSlot = (locationSlug, directionSlug, categorySlug, selectedDay, selectedTime) => {
   const availableSlots = getAvailableSlots(locationSlug, directionSlug, categorySlug);
 
-  return availableSlots.some(slot =>
-    slot.day === selectedDay && slot.time === selectedTime
-  );
+  return availableSlots.some(slot => {
+    const slotDate = getNextAvailableDate(slot.day);
+    return (slot.day === selectedDay || slotDate === selectedDay) && slot.startTime === selectedTime;
+  });
 };
 
 export const formatScheduleTime = (timeString) => {
   // Преобразуем "15:00–16:00" в "15:00 - 16:00"
   return timeString.replace('–', ' - ');
+};
+
+export const getScheduleStartTime = (timeString) => {
+  if (!timeString || typeof timeString !== 'string') return null;
+  const raw = timeString.split('–')[0].split('-')[0].trim();
+  if (/^\d{1,2}:[0-5][0-9]$/.test(raw)) {
+    return raw;
+  }
+  if (/^\d{1,2}:[0-5][0-9]:[0-5][0-9]$/.test(raw)) {
+    return raw.slice(0, 5);
+  }
+  return raw;
 };
 
 export const getNextAvailableDate = (dayOfWeek) => {

@@ -31,6 +31,7 @@ assets/img/
 assets/price_img/
 credentials.json
 .env
+.env*
 
 # Python
 __pycache__/

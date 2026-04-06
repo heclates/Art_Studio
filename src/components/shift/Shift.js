@@ -1,12 +1,12 @@
 import { el } from '@/utils/createElement';
 import { shiftRU } from '@/i18n/shift/ru';
-import { shiftEN } from '@/i18n/shift/en';
+import { shiftEN as shiftCS } from '@/i18n/shift/en';
 import { shiftFilters, filterGroups } from '@/constants/shiftFilters';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 import { buildSlides } from './ShiftHelpers';
 import { initSwiper } from './ShiftSwiper';
 
-const SHIFT_MAP = { ru: shiftRU, en: shiftEN };
+const SHIFT_MAP = { ru: shiftRU, cs: shiftCS };
 
 // === УТИЛИТЫ ===
 const combineFilters = (ageFilter, dayFilter) => {
@@ -173,6 +173,7 @@ export const createShiftLesson = async ({
       texts.days,
       {
         location: locationData.label,
+        locationKey: state.location,
         filterAge: activeAgeFilter,
         filterDay: activeDayFilter
       }

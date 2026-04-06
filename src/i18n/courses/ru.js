@@ -6,6 +6,7 @@ export const coursesRU = {
         adults: 'Взрослые', 
         extra: 'Доп. услуги' 
     },
+    moreText: 'Узнать больше',
     list: [
     {
         id: 1,

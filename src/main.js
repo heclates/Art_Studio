@@ -6,6 +6,7 @@ import { createAuthModal } from '@/components/auth/authModal.js';
 import { createMainContent } from '@/components/MainContent.js';
 import '@/sass/styles.scss';
 import '@/utils/scrollNavigationTracker.js';
+import { API_BASE_URL } from '@/utils/apiClient.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // --- preloader ---
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const modal = createAuthModal();
 
       try {
-        const res = await fetch('http://localhost:8000/api/auth/verify-email/', {
+        const res = await fetch(`${API_BASE_URL}auth/verify-email/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token }),

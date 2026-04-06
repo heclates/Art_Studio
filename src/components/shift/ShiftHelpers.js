@@ -1,11 +1,13 @@
 import { el } from '@/utils/createElement';
 import { openModal } from '@/components/Modal';
-import { createReservationForm } from '@/components/forms/ReservationForm';
+import { openConfirmationModal } from '@/utils/confirmationModal.js';
+import { createAuthModal } from '@/components/auth/authModal.js';
 import { authManager } from '@/utils/authManager';
-import axios from 'axios';
+import axios from '@/utils/apiClient.js';
 import { getLanguage } from '@/utils/languageManager';
+import { getScheduleStartTime } from '@/utils/scheduleUtils.js';
 import ru from '@/i18n/forms/ru.js';
-import en from '@/i18n/forms/en.js';
+import cs from '@/i18n/forms/en.js';
 
 const DAY_TO_WEEKDAY = {
   monday: 1, tuesday: 2, wednesday: 3,
@@ -22,7 +24,7 @@ const quickBookLesson = async (lesson, dayKey, dayLabel, metadata) => {
     }
 
     // Получаем переводы для сообщений
-    const t = getLanguage() === 'ru' ? ru : en;
+    const t = getLanguage() === 'ru' ? ru : cs;
 
     // Определяем категорию на основе возраста урока
     let categorySlug = 'children';
@@ -55,24 +57,26 @@ const quickBookLesson = async (lesson, dayKey, dayLabel, metadata) => {
     // Получаем следующую доступную дату для этого дня недели
     const nextDate = getNextAvailableDate(dayKey);
 
+    const normalizedTime = getScheduleStartTime(lesson.time);
+    const reservationTime = normalizedTime ? `${normalizedTime}:00` : lesson.time;
+
     // Формируем данные для резервации
     const reservationData = {
-      location_slug: metadata.location || 'praha9',
+      location_slug: metadata.locationKey || metadata.location || 'praha9',
       location_title: metadata.location || 'Praha 9',
       category_slug: categorySlug,
       category_title: categorySlug === 'children' ? 'Дети' : 'Взрослые',
       direction_slug: directionSlug,
       direction_title: lesson.category || 'Занятие',
       day: nextDate,
-      time: lesson.time,
+      time: reservationTime,
       fio: user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : user.username,
       phone: user.phone || '',
       email: user.email,
-      message: `Быстрая запись на ${lesson.category} ${dayLabel} ${lesson.time}`
+      message: `Быстрая запись на ${lesson.category} ${dayLabel} ${reservationTime}`
     };
 
     // Отправляем резервацию
-    axios.defaults.baseURL = '/api/';
     const response = await axios.post('reservations/', reservationData);
 
     // Показываем успех
@@ -83,12 +87,7 @@ const quickBookLesson = async (lesson, dayKey, dayLabel, metadata) => {
   } catch (error) {
     console.error('Ошибка быстрого бронирования:', error);
 
-    const t = getLanguage() === 'ru' ? ru : en;
-    const errorMessage = error.response?.data?.detail ||
-                        error.response?.data?.message ||
-                        error.message ||
-                        (t.error || 'Произошла ошибка при записи');
-
+      const errorMessage = parseApiErrorMessage(error);
     showNotification(errorMessage, 'error');
     throw error;
   }
@@ -109,6 +108,26 @@ const getNextAvailableDate = (dayKey) => {
   nextDate.setDate(today.getDate() + daysToAdd);
 
   return nextDate.toISOString().split('T')[0]; // YYYY-MM-DD
+};
+
+const parseApiErrorMessage = (error) => {
+  if (!error || !error.response) return 'Произошла ошибка. Попробуйте позже.'
+  const data = error.response.data || {}
+  const rawMessage = (
+    data.non_field_errors?.[0] ||
+    data.detail ||
+    data.message ||
+    data.error ||
+    'Произошла ошибка при записи'
+  )
+  
+  // Translate known error keys
+  if (rawMessage === 'duplicate_booking') {
+    const t = getLanguage() === 'ru' ? ru : cs
+    return t.duplicateBooking || 'Повторная запись невозможна. У вас уже есть активная бронь на это время.'
+  }
+  
+  return rawMessage
 };
 
 // Функция для показа уведомлений
@@ -219,41 +238,51 @@ const createLessonCard = (lesson, dayKey, dayLabel, metadata) => {
 
     // Проверяем авторизацию пользователя
     if (authManager.isAuthenticated()) {
-      // Показываем подтверждение быстрого бронирования
-      const confirmBooking = confirm(`Записаться на ${lesson.category} ${dayLabel} в ${lesson.time}?`);
+      const t = getLanguage() === 'ru' ? ru : cs;
       
-      if (confirmBooking) {
-        btn.disabled = true;
-        btn.textContent = 'Запись...';
-        
-        try {
-          await quickBookLesson(lesson, dayKey, dayLabel, metadata);
-          btn.textContent = '✓ Записан!';
-          btn.style.background = '#4CAF50';
+      // Показываем модальное подтверждение быстрого бронирования
+      openConfirmationModal({
+        title: t.bookLesson || 'Book a Lesson',
+        message: t.confirm || 'Confirm booking for',
+        details: {
+          [t.direction || 'Direction']: lesson.category,
+          [t.age || 'Age']: lesson.age,
+          [t.teacher || 'Teacher']: lesson.teacher,
+          [t.date || 'Date']: dayLabel,
+          [t.time || 'Time']: lesson.time,
+          [t.location || 'Location']: metadata.location || metadata.location_title || 'N/A'
+        },
+        confirmText: lesson.btnText || t.book || 'Book',
+        cancelText: t.cancel || 'Cancel',
+        onConfirm: async () => {
+          btn.disabled = true;
+          btn.textContent = t.booking || 'Booking...';
           
-          // Возвращаем кнопку в исходное состояние через 3 секунды
-          setTimeout(() => {
+          try {
+            await quickBookLesson(lesson, dayKey, dayLabel, metadata);
+            btn.textContent = '✓ ' + (t.booked || 'Booked!');
+            btn.style.background = '#4CAF50';
+            
+            // Возвращаем кнопку в исходное состояние через 3 секунды
+            setTimeout(() => {
+              btn.disabled = false;
+              btn.textContent = lesson.btnText;
+              btn.style.background = '';
+            }, 3000);
+            
+          } catch (error) {
             btn.disabled = false;
             btn.textContent = lesson.btnText;
-            btn.style.background = '';
-          }, 3000);
-          
-        } catch (error) {
-          btn.disabled = false;
-          btn.textContent = lesson.btnText;
+          }
+        },
+        onCancel: () => {
+          // Do nothing, user clicked cancel
         }
-      }
-    } else {
-      // Открываем модалку для неавторизованных пользователей
-      const form = createReservationForm({
-        courseTitle: lesson.category,
-        dayOfWeek: DAY_TO_WEEKDAY[dayKey],  // 0=Sun, 1=Mon ... 6=Sat
-        dayLabel,
-        location: metadata.location,
-        time: lesson.time
       });
-
-      openModal(form, 'reservation-form__title');
+    } else {
+      // Открываем модалку авторизации для неавторизованных пользователей
+      const authModal = createAuthModal();
+      authModal.querySelector('.auth-modal__close')?.focus();
     }
   });
 

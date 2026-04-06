@@ -2,10 +2,10 @@ import { el } from '@/utils/createElement.js';
 import { createLanguageSwitcher, destroyLanguageSwitcher } from '../LanguageSwitcher';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 import { headerRU } from '@/i18n/header/ru.js';
-import { headerEN } from '@/i18n/header/en.js';
+import { headerEN as headerCS } from '@/i18n/header/en.js';
 import { createUserMenu } from './UserMenu';
 
-const HEADER_TRANSLATIONS = { ru: headerRU, en: headerEN, default: headerRU };
+const HEADER_TRANSLATIONS = { ru: headerRU, cs: headerCS, default: headerRU };
 
 const createNavMenu = (texts) => {
     const navList = el('ul', { 

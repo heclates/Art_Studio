@@ -1,10 +1,10 @@
 import { el } from '@/utils/createElement.js';
 import { getLanguage, subscribe } from '@/utils/languageManager.js';
-import { signTextRU, signTextEN } from '@/i18n/signText.js';
+import { signTextRU, signTextEN as signTextCS } from '@/i18n/signText.js';
 
 const SIGN = {
   ru: signTextRU,
-  en: signTextEN
+  cs: signTextCS
 };
 
 const updateButtonText = (lang, span) => {

@@ -1,8 +1,5 @@
 // src/utils/authManager.js
-import axios from 'axios';
-
-axios.defaults.baseURL = '/api/'; // если фронт и бэк на одном домене, иначе полный URL
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+import axios from '@/utils/apiClient.js';
 
 const ACCESS_KEY = 'access_token';
 const REFRESH_KEY = 'refresh_token';

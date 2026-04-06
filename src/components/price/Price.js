@@ -5,10 +5,10 @@ import { createPriceDOM } from './PriceDOM';
 import { initPriceSwiper } from './PriceEffect';
 import { subscribe, getLanguage } from '@/utils/languageManager';
 import { priceRU } from '@/i18n/price/ru.js';
-import { priceEN } from '@/i18n/price/en.js';
+import { priceEN as priceCS } from '@/i18n/price/en.js';
 import { openModal } from '../Modal';
 
-const priceDataMap = { ru: priceRU, en: priceEN, default: priceRU };
+const priceDataMap = { ru: priceRU, cs: priceCS, default: priceRU };
 
 export const createPrice = () => {
     let priceSwiperInstance = null;

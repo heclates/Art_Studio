@@ -123,6 +123,19 @@ export default {
   time: 'Время занятия',
   dayPlaceholder: 'Выберите день',
   timePlaceholder: 'Выберите время',
+  
+  // Confirmation modal
+  confirmationTitle: 'Подтверждение',
+  confirm: 'Подтвердить запись на:',
+  booking: 'Оформление...',
+  booked: 'Записаны!',
+  book: 'Записаться',
+  cancel: 'Отмена',
+  teacher: 'Преподаватель',
+  age: 'Возраст',
+  date: 'Дата',
+  location: 'Локация',
+  direction: 'Направление',
 
   // Validation messages
   locationRequired: 'Выберите локацию',
@@ -136,6 +149,7 @@ export default {
   fioTooShort: 'ФИО должно содержать минимум 2 символа',
   invalidBirthdate: 'Неверная дата рождения ребенка',
   invalidTime: 'Неверный формат времени',
+  duplicateBooking: 'Повторная запись невозможна. У вас уже есть активная бронь на это время.',
   unauthorized: 'Необходимо авторизоваться',
   forbidden: 'Доступ запрещен',
   tooManyRequests: 'Слишком много запросов. Попробуйте позже.',

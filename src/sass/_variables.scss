@@ -47,6 +47,10 @@ $color-accent-peach: #FFCCB3;
 
 // ============================================================================
 // COLORS - SEMANTIC (для статусов, форм, уведомлений)
+$color-danger: #E74C3C;
+$color-danger-light: #FFB3B3;
+// Градиент для danger
+$gradient-danger: linear-gradient(90deg, darken($color-danger, 10%), darken($color-danger-light, 10%));
 // ============================================================================
 $color-success: #4CAF50;
 $color-success-light: #81C784;

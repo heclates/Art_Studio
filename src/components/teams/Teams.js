@@ -2,11 +2,11 @@ import { el } from '@/utils/createElement';
 import { getLanguage, subscribe } from '@/utils/languageManager';
 
 import { teamsRU } from '@/i18n/teams/ru';
-import { teamsEN } from '@/i18n/teams/en';
+import { teamsEN as teamsCS } from '@/i18n/teams/en';
 
 const TRANSLATIONS = {
   ru: teamsRU,
-  en: teamsEN,
+  cs: teamsCS,
   default: teamsRU
 };
 

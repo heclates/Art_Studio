@@ -4,6 +4,7 @@ let modal = null
 let previouslyFocusedElement = null
 let isOpen = false
 let closingFromPopState = false
+let modalQueue = []
 
 /* ================= POPSTATE ================= */
 
@@ -103,7 +104,10 @@ function trapFocus(event) {
 /* ================= OPEN ================= */
 
 export function openModal(contentNode, titleId = 'modal-title') {
-  if (isOpen) return
+  if (isOpen) {
+    modalQueue.push({ contentNode, titleId })
+    return
+  }
 
   previouslyFocusedElement = document.activeElement
 
@@ -174,8 +178,13 @@ export function closeModal() {
   previouslyFocusedElement?.focus()
   previouslyFocusedElement = null
 
+  const nextModal = modalQueue.shift()
   if (!closingFromPopState && history.state?.modal) {
     history.back()
+  }
+
+  if (nextModal) {
+    setTimeout(() => openModal(nextModal.contentNode, nextModal.titleId), 150)
   }
 }
 

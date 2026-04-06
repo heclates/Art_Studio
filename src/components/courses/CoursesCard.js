@@ -69,7 +69,7 @@ const createExpandableInfo = (timeArray) => {
    COMPONENT
 ======================= */
 
-export const createCourseCard = (course) => {
+export const createCourseCard = (course, moreText) => {
     if (!course?.name) {
         return el('div', {
             class: 'course-card course-card--error',
@@ -113,7 +113,7 @@ export const createCourseCard = (course) => {
         footer.append(
             el('button', {
                 class: 'course-card__btn-more',
-                textContent: 'Узнать больше',
+                textContent: course.moreText || moreText || 'Узнать больше',
                 type: 'button',
                 'data-action': 'open-modal',
                 'data-course-id': String(course.id || course.name)

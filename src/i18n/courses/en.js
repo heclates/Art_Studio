@@ -6,6 +6,7 @@ export const coursesEN = {
         adults: 'Dospělí', 
         extra: 'Doplňkové služby' 
     },
+    moreText: 'Zjistit více',
     list: [
         // DĚTI
         {

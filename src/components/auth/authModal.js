@@ -27,7 +27,7 @@ const TEXTS = {
             minLength: 'Минимум 3 символа'
         }
     },
-    en: {
+    cs: {
         login: 'Login',
         register: 'Sign Up',
         username: 'Username',

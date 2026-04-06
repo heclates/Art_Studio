@@ -123,6 +123,19 @@ export default {
   time: 'Čas lekce',
   dayPlaceholder: 'Vyberte den',
   timePlaceholder: 'Vyberte čas',
+  
+  // Confirmation modal
+  confirmationTitle: 'Potvrzení',
+  confirm: 'Potvrdit rezervaci na:',
+  booking: 'Odesílání...',
+  booked: 'Rezervováno!',
+  book: 'Rezervovat',
+  cancel: 'Zrušit',
+  teacher: 'Učitel',
+  age: 'Věk',
+  date: 'Datum',
+  location: 'Pobočka',
+  direction: 'Obor',
 
   // Validation messages
   locationRequired: 'Vyberte pobočku',
@@ -136,6 +149,7 @@ export default {
   fioTooShort: 'Jméno musí obsahovat alespoň 2 znaky',
   invalidBirthdate: 'Neplatné datum narození dítěte',
   invalidTime: 'Neplatný formát času',
+  duplicateBooking: 'Duplikátní rezervace není možná. Už máte aktivní rezervaci na tento čas.',
   unauthorized: 'Je nutné se přihlásit',
   forbidden: 'Přístup odepřen',
   tooManyRequests: 'Příliš mnoho požadavků. Zkuste to později.',
