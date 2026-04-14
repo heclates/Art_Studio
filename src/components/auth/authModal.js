@@ -198,7 +198,8 @@ export const createAuthModal = () => {
                     email: data.email,
                     password: data.password,
                     first_name: data.firstName || '',
-                    last_name: data.lastName || ''
+                    last_name: data.lastName || '',
+                    language: getLanguage()
                 });
                 // show success message about verification email
                 successMessage.textContent = t.success.registered;
