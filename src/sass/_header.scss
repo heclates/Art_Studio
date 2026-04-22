@@ -41,32 +41,88 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2.5rem;
-      @media (max-width: 1024px) {
+    gap: 1rem;
 
-    .header__logo-link {
-      order: 1;
+    
+    @media (max-width: 1024px) {
+      // Логотип слева
+      .header__logo-link {
+        order: 1;
+        margin-right: auto; 
+      }
+
+      // Аватар справа перед бургером
+      .header__user-menu {
+        display: flex !important;
+        order: 2;
+        margin: 0 0.5rem 0 0 !important; // Убираем 2rem!
+        position: relative;
+        z-index: 2001; 
+      }
+
+      // Бургер самый крайний справа
+      .header__burger {
+        order: 3;
+        margin-left: 0;
+      }
     }
-
-    .header__login-btn,
-    .header__user-menu {
-      margin: 2rem 0;
-      order: 2;
-      margin-left: auto;
-    }
-
-    .header__burger {
-      order: 3;
-      margin-left: 0.75rem;
-    }
-
   }
+
+  // Стили самого аватара (если их еще нет)
+  &__user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $color-primary;
+    color: white;
+    border: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
 
     @media (max-width: 768px) {
-      padding: 0 1rem;
+      width: 36px;
+      height: 36px;
+      font-size: 0.85rem;
     }
   }
 
+  // Стили для выпадающего списка
+  &__user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    padding: 0.5rem;
+    min-width: 160px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: none; // Показывайте через JS (добавляя класс .active)
+    z-index: 2500;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  &__user-dropdown-item {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    &:hover {
+      background: #fdf2f0;
+      color: $color-primary;
+    }
+  }
   &__menu {
     width: 100%;
     padding: 0.5rem 0;

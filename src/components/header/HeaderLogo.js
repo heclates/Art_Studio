@@ -68,7 +68,6 @@ const createBurgerController = (headerRef, burgerButton, navControls, bentoConta
     };
     
     const handleOutsideClick = (e) => {
-        // Закрываем меню при клике вне nav-controls и бургера
         if (!navControls.contains(e.target) && !burgerButton.contains(e.target)) {
             closeMenu();
         }
@@ -111,9 +110,7 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
         children: [el('span', { class: 'header__burger-icon' })]
     });
 
-
     const navControls = el('div', { class: 'header__nav-controls' });
-    
     const bentoContainer = el('div', { class: 'header__bento-grid' });
     
     const burgerController = createBurgerController(headerRef, burgerButton, navControls, bentoContainer);
@@ -128,7 +125,6 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
             topChildren.forEach(child => {
                 bentoContainer.appendChild(child);
             });
-            // Вставляем bento-grid в начало navControls
             if (navControls.firstChild) {
                 navControls.insertBefore(bentoContainer, navControls.firstChild);
             } else {
@@ -138,7 +134,6 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
             requestAnimationFrame(() => {
                 const langSwitcher = navControls.querySelector('.lang-switcher');
                 if (langSwitcher) {
-                    // Убедимся, что элемент фокусируемый
                     if (!langSwitcher.hasAttribute('tabindex')) {
                         langSwitcher.setAttribute('tabindex', '0');
                     }
@@ -147,7 +142,6 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
             });
 
         } else {
-            // При закрытии возвращаем элементы обратно
             const bentoChildren = Array.from(bentoContainer.children);
             bentoChildren.forEach(child => {
                 headerTopContainerElement.appendChild(child);
@@ -155,11 +149,9 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
         }
     });
     
-    // Закрываем меню при клике на ссылку навигации
     navControls.addEventListener('click', (e) => {
         if (e.target.closest('.header__nav-link')) {
             burgerController.close();
-            // Возвращаем элементы обратно
             const bentoChildren = Array.from(bentoContainer.children);
             bentoChildren.forEach(child => {
                 headerTopContainerElement.appendChild(child);
@@ -167,7 +159,6 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
         }
     });
     
-    // Закрываем меню при нажатии Escape
     const handleEscape = (e) => {
         if (e.key === 'Escape' && burgerController.isOpen()) {
             burgerController.close();
@@ -179,19 +170,19 @@ export const HeaderLogo = (headerTopContainerElement, headerRef) => {
     };
     document.addEventListener('keydown', handleEscape);
 
-    container.appendChild(logoLink);
-    container.appendChild(burgerButton);
-    container.appendChild(navControls);
-    menuWrapper.appendChild(container);
-
     const languageSwitcher = createLanguageSwitcher();
     const userMenu = createUserMenu();
 
+    // Собираем контейнер: Лого -> Аватар -> Бургер
+    container.appendChild(logoLink);
+    container.appendChild(navControls); 
+    container.appendChild(userMenu);
+    container.appendChild(burgerButton);
+    menuWrapper.appendChild(container);
+
     updateNavigation(getLanguage(), navControls);
     
-    // Добавляем переключатель языка ПОСЛЕ навигации
     navControls.appendChild(languageSwitcher);
-    navControls.appendChild(userMenu);
 
     const unsubscribe = subscribe((lang) => updateNavigation(lang, navControls));
     

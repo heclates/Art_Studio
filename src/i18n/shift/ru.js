@@ -67,12 +67,6 @@ export const shiftRU = {
                 { day: 'thursday', category: 'Рисование', age: '7–12 лет. Средняя группа', time: '16:30–18:30', teacher: 'Екатерина', btnText: 'Записаться', class: 'shift__card-middle' },
                 { day: 'thursday', category: 'Рисование', age: '12+ лет. Старшая группа', time: '16:30–18:30', teacher: 'Екатерина', btnText: 'Записаться', class: 'shift__card-junior' },
                 
-                // ПЯТНИЦА
-                { day: 'friday', category: 'Керамика', age: '4–14 лет', time: '15:00–16:00', teacher: 'Екатерина', btnText: 'Записаться', class: 'shift__card-ceramics' },
-                { day: 'friday', category: 'Рисование', age: '3,5–6 лет. Младшая группа', time: '16:00–17:30', teacher: 'Екатерина', btnText: 'Записаться', class: 'shift__card-child' },
-                { day: 'friday', category: 'Рисование', age: '7–12 лет. Средняя группа', time: '17:30–19:30', teacher: 'Екатерина', btnText: 'Записаться', class: 'shift__card-middle' },
-                { day: 'friday', category: 'Рисование', age: '12+ лет. Старшая группа', time: '17:30–19:30', teacher: 'Екатерина', btnText: 'Записаться', class: 'shift__card-junior' },
-                
                 // СУББОТА
                 { day: 'saturday', category: 'Рисование', age: '7–12 лет. Средняя группа', time: '11:00–13:00', teacher: 'Кристина', btnText: 'Записаться', class: 'shift__card-middle' },
                 { day: 'saturday', category: 'Керамика', age: '4–14 лет', time: '13:00–14:00', teacher: 'Кристина', btnText: 'Записаться', class: 'shift__card-ceramics' },

@@ -67,12 +67,6 @@ export const shiftEN = {
                 { day: 'thursday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '16:30–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
                 { day: 'thursday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '16:30–18:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
                 
-                // PÁTEK
-                { day: 'friday', category: 'Keramika', age: '4–14 let', time: '15:00–16:00', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },
-                { day: 'friday', category: 'Kreslení', age: '3,5–6 let. Mladší skupina', time: '16:00–17:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-child' },
-                { day: 'friday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '17:30–19:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
-                { day: 'friday', category: 'Kreslení', age: '12+ let. Starší skupina', time: '17:30–19:30', teacher: 'Ekaterina', btnText: 'Přihlásit se', class: 'shift__card-junior' },
-                
                 // SOBOTA
                 { day: 'saturday', category: 'Kreslení', age: '7–12 let. Střední skupina', time: '11:00–13:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-middle' },
                 { day: 'saturday', category: 'Keramika', age: '4–14 let', time: '13:00–14:00', teacher: 'Kristina', btnText: 'Přihlásit se', class: 'shift__card-ceramics' },

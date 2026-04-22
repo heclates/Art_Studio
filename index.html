@@ -16,10 +16,53 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
-    
+    <style>
+    /* Эти стили загрузятся мгновенно */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFF7F0;
+      z-index: 9999;
+      transition: opacity 2s ease, visibility 2s ease;
+    }
+    #preloader.preloader-hiding {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  </style>
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
+    <div id="preloader">
+      <div class="loader-content">
+        <div class="blobs">
+          <div class="blob"></div>
+          <div class="blob"></div>
+          <div class="blob"></div>
+        </div>
+        <span class="loader-text">Loading...</span>
+      </div>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+
     <div id="app"></div>
   </body>
 </html>
