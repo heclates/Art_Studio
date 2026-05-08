@@ -236,49 +236,45 @@ const createLessonCard = (lesson, dayKey, dayLabel, metadata) => {
   btn.addEventListener('click', async (e) => {
     e.stopPropagation();
 
-    // Проверяем авторизацию пользователя
     if (authManager.isAuthenticated()) {
       const t = getLanguage() === 'ru' ? ru : cs;
-      
-      // Показываем модальное подтверждение быстрого бронирования
+
       openConfirmationModal({
-        title: t.bookLesson || 'Book a Lesson',
-        message: t.confirm || 'Confirm booking for',
+        title: t.formTitle,
+        message: t.confirm,
         details: {
-          [t.direction || 'Direction']: lesson.category,
-          [t.age || 'Age']: lesson.age,
-          [t.teacher || 'Teacher']: lesson.teacher,
-          [t.date || 'Date']: dayLabel,
-          [t.time || 'Time']: lesson.time,
-          [t.location || 'Location']: metadata.location || metadata.location_title || 'N/A'
+          [t.direction]: lesson.category,
+          [t.age]:       lesson.age,
+          [t.teacher]:   lesson.teacher,
+          [t.date]:      dayLabel,
+          [t.time]:      lesson.time,
+          [t.location]:  metadata.location || metadata.location_title || 'N/A'
         },
-        confirmText: lesson.btnText || t.book || 'Book',
-        cancelText: t.cancel || 'Cancel',
+        confirmText: lesson.btnText || t.book,
+        cancelText:  t.cancel,
         onConfirm: async () => {
           btn.disabled = true;
-          btn.textContent = t.booking || 'Booking...';
-          
+          btn.textContent = t.booking;
+
           try {
             await quickBookLesson(lesson, dayKey, dayLabel, metadata);
-            btn.textContent = '✓ ' + (t.booked || 'Booked!');
+            btn.textContent = '✓ ' + t.booked;
             btn.style.background = '#4CAF50';
-            
-            // Возвращаем кнопку в исходное состояние через 3 секунды
+
             setTimeout(() => {
               btn.disabled = false;
               btn.textContent = lesson.btnText;
               btn.style.background = '';
             }, 3000);
-            
+
           } catch (error) {
             btn.disabled = false;
             btn.textContent = lesson.btnText;
           }
         },
-        onCancel: () => {
-          // Do nothing, user clicked cancel
-        }
+        onCancel: () => {}
       });
+
     } else {
       // Открываем модалку авторизации для неавторизованных пользователей
       const authModal = createAuthModal();

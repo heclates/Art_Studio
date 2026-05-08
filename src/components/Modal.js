@@ -34,15 +34,15 @@ if (typeof document !== 'undefined') {
     }
   })
 }
+
 let touchStartX = 0
 let touchStartY = 0
 let isSwiping = false
 
-const SWIPE_THRESHOLD = 80 // px
+const SWIPE_THRESHOLD = 80
 
 function onTouchStart(e) {
   if (!isOpen) return
-
   const touch = e.touches[0]
   touchStartX = touch.clientX
   touchStartY = touch.clientY
@@ -51,15 +51,10 @@ function onTouchStart(e) {
 
 function onTouchMove(e) {
   if (!isOpen || !isSwiping) return
-
   const touch = e.touches[0]
   const dx = touch.clientX - touchStartX
   const dy = touch.clientY - touchStartY
-
-  const absX = Math.abs(dx)
-  const absY = Math.abs(dy)
-
-  if (absY > absX) return
+  if (Math.abs(dy) > Math.abs(dx)) return
 }
 
 function onTouchEnd() {
@@ -71,6 +66,7 @@ if (typeof document !== 'undefined') {
   document.addEventListener('touchmove', onTouchMove, { passive: true })
   document.addEventListener('touchend', onTouchEnd)
 }
+
 /* ================= FOCUS ================= */
 
 function getFocusableElements(container) {
@@ -101,6 +97,36 @@ function trapFocus(event) {
   }
 }
 
+/* ================= BUILD ================= */
+
+function buildModal(titleId) {
+  const root = document.createElement('div')
+  root.className = 'confirmation-modal'
+  root.setAttribute('role', 'dialog')
+  root.setAttribute('aria-modal', 'true')
+  root.setAttribute('tabindex', '-1')
+  root.setAttribute('aria-labelledby', titleId)
+
+  const overlay = document.createElement('div')
+  overlay.className = 'confirmation-modal__overlay'
+  overlay.addEventListener('click', closeModal)
+
+  const wrapper = document.createElement('div')
+  wrapper.className = 'confirmation-modal__wrapper'
+
+  const closeBtn = document.createElement('button')
+  closeBtn.className = 'modal__close'
+  closeBtn.setAttribute('aria-label', 'Закрыть')
+  closeBtn.textContent = '×'
+  closeBtn.addEventListener('click', closeModal)
+
+  wrapper.appendChild(closeBtn)
+  root.append(overlay, wrapper)
+  document.body.appendChild(root)
+
+  return root
+}
+
 /* ================= OPEN ================= */
 
 export function openModal(contentNode, titleId = 'modal-title') {
@@ -112,47 +138,32 @@ export function openModal(contentNode, titleId = 'modal-title') {
   previouslyFocusedElement = document.activeElement
 
   if (!modal) {
-    modal = document.createElement('div')
-    modal.className = 'modal'
-    modal.setAttribute('role', 'dialog')
-    modal.setAttribute('aria-modal', 'true')
-    modal.setAttribute('tabindex', '-1')
+    modal = buildModal(titleId)
+  } else {
+    // обновляем aria-labelledby если изменился
     modal.setAttribute('aria-labelledby', titleId)
-
-    const overlay = document.createElement('div')
-    overlay.className = 'modal__overlay'
-    overlay.addEventListener('click', closeModal)
-
-    const content = document.createElement('div')
-    content.className = 'modal__content'
-
-    const closeBtn = document.createElement('button')
-    closeBtn.className = 'modal__close'
-    closeBtn.setAttribute('aria-label', 'Закрыть')
-    closeBtn.textContent = '×'
-    closeBtn.addEventListener('click', closeModal)
-
-    content.appendChild(closeBtn)
-    modal.append(overlay, content)
-    document.body.appendChild(modal)
   }
 
-  const contentContainer = modal.querySelector('.modal__content')
+  const wrapper = modal.querySelector('.confirmation-modal__wrapper')
 
-  Array.from(contentContainer.children).forEach(el => {
+  // очищаем предыдущий контент, оставляем кнопку закрытия
+  Array.from(wrapper.children).forEach(el => {
     if (!el.classList.contains('modal__close')) el.remove()
   })
 
-  // 🔴 ВАЖНО: БЕЗ cloneNode
-  contentContainer.appendChild(contentNode)
+  wrapper.appendChild(contentNode)
 
-  modal.style.display = 'flex'
+  document.body.appendChild(modal)
   isOpen = true
-
   document.body.style.overflow = 'hidden'
 
-  document.querySelectorAll('body > *:not(.modal)').forEach(el => {
+  document.querySelectorAll('body > *:not(.confirmation-modal)').forEach(el => {
     el.setAttribute('aria-hidden', 'true')
+  })
+
+  // запускаем CSS-переход через .active
+  requestAnimationFrame(() => {
+    modal.classList.add('active')
   })
 
   const focusTarget = getFocusableElements(modal)[0] || modal
@@ -166,7 +177,7 @@ export function openModal(contentNode, titleId = 'modal-title') {
 export function closeModal() {
   if (!isOpen || !modal) return
 
-  modal.style.display = 'none'
+  modal.classList.remove('active')
   isOpen = false
 
   document.body.style.overflow = ''
@@ -178,14 +189,18 @@ export function closeModal() {
   previouslyFocusedElement?.focus()
   previouslyFocusedElement = null
 
-  const nextModal = modalQueue.shift()
   if (!closingFromPopState && history.state?.modal) {
     history.back()
   }
 
-  if (nextModal) {
-    setTimeout(() => openModal(nextModal.contentNode, nextModal.titleId), 150)
-  }
+  const nextModal = modalQueue.shift()
+
+  // ждём завершения CSS-перехода (0.3s) перед открытием следующего
+  setTimeout(() => {
+    if (nextModal) {
+      openModal(nextModal.contentNode, nextModal.titleId)
+    }
+  }, 300)
 }
 
 /* ================= GLOBAL ================= */

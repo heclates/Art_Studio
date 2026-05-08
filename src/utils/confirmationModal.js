@@ -33,9 +33,8 @@ export const openConfirmationModal = (options) => {
   const confirmTextLabel = confirmText || t.book || 'Подтвердить';
   const cancelTextLabel = cancelText || t.cancel || 'Отмена';
 
-  const container = el('div', { class: 'confirmation-modal' });
-  
-  // Title
+  const container = document.createDocumentFragment();
+
   const titleEl = el('h2', {
     class: 'confirmation-modal__title',
     textContent: titleText,
@@ -43,14 +42,12 @@ export const openConfirmationModal = (options) => {
   });
   container.appendChild(titleEl);
 
-  // Message
   const messageEl = el('p', {
     class: 'confirmation-modal__message',
     textContent: messageText
   });
   container.appendChild(messageEl);
 
-  // Details section (if provided)
   if (details && Object.keys(details).length > 0) {
     const detailsSection = el('div', { class: 'confirmation-modal__details' });
 
@@ -58,12 +55,12 @@ export const openConfirmationModal = (options) => {
       if (value === null || value === undefined || value === '') return;
 
       const detailRow = el('div', { class: 'confirmation-modal__detail-row' });
-      
+
       const label = el('span', {
         class: 'confirmation-modal__detail-label',
         textContent: key
       });
-      
+
       const valueEl = el('span', {
         class: 'confirmation-modal__detail-value',
         textContent: value
@@ -76,7 +73,6 @@ export const openConfirmationModal = (options) => {
     container.appendChild(detailsSection);
   }
 
-  // Actions
   const actions = el('div', { class: 'confirmation-modal__actions' });
 
   const confirmBtn = el('button', {
