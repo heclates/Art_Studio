@@ -1,2 +1,7 @@
 User-agent: *
+Disallow: /admin/
+Disallow: /api/
+
 Allow: /
+
+Sitemap: https://feathure.d374ersqg5p6cr.amplifyapp.com/sitemap.xml

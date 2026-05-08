@@ -82,105 +82,124 @@ export const createReservationForm = () => {
   const showBranchingFields = () => {
     clearDynamicFields();
 
-    if (!selected.category || !selected.direction) {
-      return;
-    }
+    if (!selected.category || !selected.direction) return;
 
     const dirSlug = selected.direction.slug;
+    const catSlug = selected.category.slug;
 
-    if (dirSlug === 'individual_child') {
-      addInput('parent_fio', 'text', t.parentFio || 'ФИО родителя', '', true);
-      addInput('child_fio', 'text', t.childFio || 'ФИО ребёнка', '', true);
-      addInput('child_birthdate', 'date', t.childBirthdate || 'Дата рождения ребёнка');
-      addInput('phone', 'tel', t.phone || 'Телефон', '', true);
-      addInput('email', 'email', t.email || 'Email', '', true);
-      addTextarea('message', t.messageWishes || t.message, false);
-      submitButton.textContent = t.learnDates || t.submitDefault;
-      return;
-    }
-
-    if (dirSlug === 'individual_adult') {
-      addInput('fio', 'text', t.fio || 'ФИО', '', true);
-      addInput('phone', 'tel', t.phone || 'Телефон', '', true);
-      addInput('email', 'email', t.email || 'Email', '', true);
-      addTextarea('message', t.messageWishes || t.message, false);
-      submitButton.textContent = t.leaveRequest || t.submitDefault;
-      return;
-    }
-
-    if (dirSlug === 'art_boxes_child' || dirSlug === 'art_boxes_adult') {
-      addInput('theme', 'text', t.artBoxVariantLabel || t.selectThemes, '', true);
-      addInput('access_email', 'email', t.accessEmail || 'Email для доступа', '', true);
-      submitButton.textContent = t.artBoxSubmit || t.submitDefault;
-      return;
-    }
-
-    if (dirSlug === 'gift_certificates_child' || dirSlug === 'gift_certificates_adult') {
-      addInput('cert_amount', 'number', t.certAmount || 'Сертификат на сумму', '', true);
-      addInput('access_email', 'email', t.accessEmail || 'Email для доступа', '', true);
-      submitButton.textContent = t.buyCertificate || t.submitDefault;
-      return;
-    }
-
-    if (['online_lessons', 'art_parties', 'masterclasses', 'plein_air', 'art_camp'].includes(dirSlug) || dirSlug.startsWith('special_events')) {
-      addInput('phone', 'tel', t.phone || 'Телефон', '', true);
-      addInput('email', 'email', t.email || 'Email', '', true);
-      addTextarea('message', t.messageEvent || t.message, false);
-      submitButton.textContent = t.leaveRequest || t.submitDefault;
-      return;
-    }
-
-    addInput('fio', 'text', t.fio || 'ФИО', '', true);
-    addInput('phone', 'tel', t.phone || 'Телефон', '', true);
-    addInput('email', 'email', t.email || 'Email', '', true);
-    addTextarea('message', t.messageWishes || t.message, false);
-    submitButton.textContent = t.learnDates || t.submitDefault;
-  };
-
-  const validateReservationData = (data) => {
-    const errors = [];
-
-    if (!data.location_slug) {
-      errors.push(t.locationRequired || 'Выберите локацию');
-    }
-    if (!data.category_slug) {
-      errors.push(t.categoryRequired || 'Выберите категорию');
-    }
-    if (!data.direction_slug) {
-      errors.push(t.directionRequired || 'Выберите направление');
-    }
-
-    const emailFields = ['email', 'parent_email', 'access_email'];
-    emailFields.forEach(field => {
-      if (data[field] && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[field])) {
-        errors.push(`${field}: ${t.invalidEmail || 'Неверный формат email'}`);
-      }
+    // --- БЛОК КАРТИНКИ (ИНФОРМАЦИОННЫЙ) ---
+    // Сюда ты вставишь изображение через CSS: .form-image-block { background-image: url(...) }
+    // Или через i18n: t.directionImages[dirSlug]
+    const imageBlock = el('div', { 
+      class: `reservation-form-free__image-block reservation-form-free__image--${dirSlug}`,
+      innerHTML: `<!-- Блок для img из i18n/forms/ru.js -->` 
     });
+    addGroup(imageBlock);
 
-    const phoneFields = ['phone', 'parent_phone'];
-    phoneFields.forEach(field => {
-      if (data[field] && !/^[\+]?[0-9\s\-\(\)]{7,}$/.test(data[field])) {
-        errors.push(`${field}: ${t.invalidPhone || 'Неверный формат телефона'}`);
-      }
-    });
+    // --- ЛОГИКА ВЕТВЛЕНИЯ ПО ТЗ ---
 
-    const fioFields = ['fio', 'parent_fio', 'child_fio'];
-    fioFields.forEach(field => {
-      if (data[field] && data[field].trim().length < 2) {
-        errors.push(`${field}: ${t.fioTooShort || 'ФИО должно содержать минимум 2 символа'}`);
-      }
-    });
+    // 1. Сценарий A: Групповые занятия (Дети)
+    if (t.groupDirections.includes(selected.direction.title) && catSlug === 'children') {
+      const visitTypeGroup = el('div', { class: 'form-field' });
+      const vtLabel = el('label', { textContent: t.visitTypeLabel });
+      const vtSelect = el('select', { name: 'visit_type', required: true });
+      vtSelect.append(createOption('trial', t.trial), createOption('existing', t.existing));
+      
+      visitTypeGroup.append(vtLabel, vtSelect);
+      addGroup(visitTypeGroup);
 
-    if (data.child_birthdate) {
-      const birthDate = new Date(data.child_birthdate);
-      const now = new Date();
-      const age = now.getFullYear() - birthDate.getFullYear();
-      if (age < 0 || age > 18) {
-        errors.push(t.invalidBirthdate || 'Неверная дата рождения ребенка');
-      }
+      addInput('parent_fio', 'text', t.parentFio, '', true);
+      addInput('child_fio', 'text', t.childFio, '', true);
+      addInput('child_birthdate', 'date', t.childBirthdate, '', true);
+      addInput('phone', 'tel', t.phone, '', true);
+      addInput('email', 'email', t.email, '', true);
+      
+      submitButton.textContent = t.trialSubmit;
+      return;
     }
 
-    return errors;
+    // 2. Сценарий E, K: Арт-боксы
+    if (dirSlug.startsWith('art_boxes')) {
+      const variantGroup = el('div', { class: 'form-field' });
+      const vLabel = el('label', { textContent: t.artBoxVariantLabel });
+      const vSelect = el('select', { name: 'art_box_variant', required: true });
+      vSelect.append(createOption('materials', t.artBoxMaterials), createOption('materials_lesson', t.artBoxMaterialsLesson));
+      variantGroup.append(vLabel, vSelect);
+      addGroup(variantGroup);
+
+      addInput('theme', 'text', t.pictureNumber, 'Например: №5 "Звездная ночь"', true);
+      
+      const deliveryGroup = el('div', { class: 'form-field' });
+      const dLabel = el('label', { textContent: t.deliveryLabel });
+      const dSelect = el('select', { name: 'delivery_type', required: true });
+      dSelect.append(createOption('pickup', t.pickup), createOption('delivery', t.delivery));
+      deliveryGroup.append(dLabel, dSelect);
+      addGroup(deliveryGroup);
+
+      addInput('fio', 'text', t.fio, '', true);
+      addInput('phone', 'tel', t.phone, '', true);
+      addInput('access_email', 'email', t.accessEmail, '', true);
+      
+      submitButton.textContent = t.artBoxSubmit;
+      return;
+    }
+
+    // 3. Сценарий F, L: Подарочные сертификаты
+    if (dirSlug.startsWith('gift_certificates')) {
+      const certGroup = el('div', { class: 'form-field' });
+      const cLabel = el('label', { textContent: t.certVariantLabel });
+      const cSelect = el('select', { name: 'cert_type', required: true });
+      cSelect.append(
+        createOption('masterclass', t.certMasterclass),
+        createOption('amount', t.certAmount),
+        createOption('art_party', t.certArtParty)
+      );
+      certGroup.append(cLabel, cSelect);
+      addGroup(certGroup);
+
+      addInput('cert_amount', 'number', t.totalCostPrefix, 'Сумма в CZK', true);
+      addInput('fio', 'text', t.fio, '', true);
+      addInput('phone', 'tel', t.phone, '', true);
+      addInput('access_email', 'email', t.accessEmail, '', true);
+
+      submitButton.textContent = t.buyCertificate;
+      return;
+    }
+
+    // 4. Сценарий G: Онлайн-уроки
+    if (dirSlug === 'online_lessons') {
+      addInput('fio', 'text', t.fio, '', true);
+      addInput('phone', 'tel', t.phone, '', true);
+      addInput('access_email', 'email', t.accessEmail, '', true);
+      addTextarea('message', t.message, false);
+      
+      submitButton.textContent = t.getAccess;
+      return;
+    }
+
+    // 5. Сценарий B, C, D: Индивидуальные занятия и спец. мероприятия
+    if (dirSlug.includes('individual') || dirSlug.includes('special_events') || dirSlug === 'art_parties') {
+      if (catSlug === 'children') {
+        addInput('parent_fio', 'text', t.parentFio, '', true);
+        addInput('child_fio', 'text', t.childFio, '', true);
+      } else {
+        addInput('fio', 'text', t.fio, '', true);
+      }
+      
+      addInput('phone', 'tel', t.phone, '', true);
+      addInput('email', 'email', t.email, '', true);
+      addTextarea('message', t.messageWishes, false);
+      
+      submitButton.textContent = t.discuss;
+      return;
+    }
+
+    // 6. По умолчанию (Мастер-классы, Пленэры и т.д.)
+    addInput('fio', 'text', t.fio, '', true);
+    addInput('phone', 'tel', t.phone, '', true);
+    addInput('email', 'email', t.email, '', true);
+    addTextarea('message', t.message, false);
+    submitButton.textContent = t.learnDates;
   };
 
   const autoFillFromProfile = () => {
